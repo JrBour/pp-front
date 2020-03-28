@@ -1,6 +1,6 @@
 FROM node:13.7.0
 
-RUN mkdir -p /app
+
 COPY . /app
 WORKDIR /app
 
