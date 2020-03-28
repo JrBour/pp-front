@@ -1,5 +1,5 @@
 <template>
-  <h1>Nique ta grand mere comment ?</h1>
+  <div />
 </template>
 
 <script>
