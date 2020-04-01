@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <nuxt />
   </div>
 </template>
@@ -45,6 +45,10 @@ html {
   font-family: 'Rubik';
   font-weight: 900;
   src: url('/fonts/Rubik/Rubik-Black.ttf') format('truetype');
+}
+
+.container {
+  padding: 0 35px;
 }
 
 *,

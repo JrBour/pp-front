@@ -6,30 +6,30 @@
         id="mail"
         type="text"
         text="Email"
+        name="email"
         :on-change="handleChangeField"
       />
-      <div class="login__password">
-        <label for="password">Mot de passe</label>
-        <input :value="password" type="password" name="password" />
-      </div>
+      <Password :on-change="handleChangeField" />
     </div>
   </div>
 </template>
 
 <script>
-import Input from '../../components/input'
+import Input from '../../components/fields/input'
+import Password from '../../components/fields/password'
 
 export default {
   components: {
-    Input
+    Input,
+    Password
   },
   data: () => ({
     email: '',
     password: ''
   }),
   methods: {
-    handleChangeField(value) {
-      this.email = value
+    handleChangeField(name, value) {
+      this[name] = value
     }
   }
 }

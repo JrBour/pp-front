@@ -1,25 +1,20 @@
 <template>
   <div>
-    <input :id="id" v-model="inputValue" :type="type" />
-    <label :for="id">{{ text }}</label>
+    <input id="password" v-model="inputValue" :type="type" />
+    <label for="password" :class="{ active: inputValue.length > 0 }"
+      >Mot de passe</label
+    >
+    <img
+      :src="`img/icons/eye${type === 'text' ? '-close' : ''}.svg`"
+      alt="Eye icon"
+      @click="changeType"
+    />
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    text: {
-      type: String,
-      required: true
-    },
-    id: {
-      type: String,
-      required: true
-    },
-    type: {
-      type: String,
-      required: true
-    },
     onChange: {
       type: Function,
       required: true
@@ -27,12 +22,18 @@ export default {
   },
   data() {
     return {
-      inputValue: ''
+      inputValue: '',
+      type: 'password'
     }
   },
   watch: {
     inputValue(value) {
       this.onChange(value)
+    }
+  },
+  methods: {
+    changeType() {
+      this.type = this.type === 'password' ? 'text' : 'password'
     }
   }
 }
@@ -54,11 +55,18 @@ input {
 label {
   padding: 0 0 0 1vw;
   z-index: 1;
-  top: 1.3vh;
+  top: 1vh;
   font-family: 'Rubik';
   font-size: 1.3em;
   transition: top 0.2s ease;
   color: rgba(0, 0, 0, 0.6);
+}
+
+img {
+  position: absolute;
+  right: 5vw;
+  top: 50%;
+  transform: translate(0, -50%);
 }
 
 input {
@@ -70,7 +78,9 @@ input {
   width: 100%;
 }
 
-input:focus + label {
+input:focus + label,
+.active {
   top: -3vh;
+  font-size: 1em;
 }
 </style>
