@@ -17,6 +17,36 @@ html {
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: 'Rubik';
+  font-weight: 300;
+  src: url('/fonts/Rubik/Rubik-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Rubik';
+  font-weight: 400;
+  src: url('/fonts/Rubik/Rubik-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Rubik';
+  font-weight: 500;
+  src: url('/fonts/Rubik/Rubik-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Rubik';
+  font-weight: 700;
+  src: url('/fonts/Rubik/Rubik-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Rubik';
+  font-weight: 900;
+  src: url('/fonts/Rubik/Rubik-Black.ttf') format('truetype');
+}
+
 *,
 *:before,
 *:after {
