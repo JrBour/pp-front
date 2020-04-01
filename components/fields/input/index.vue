@@ -78,6 +78,7 @@ input {
 
 input:focus + label,
 .active {
+  left: -2vw;
   top: -3vh;
   font-size: 1em;
 }

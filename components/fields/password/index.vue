@@ -38,7 +38,7 @@ export default {
   }
 }
 </script>
-<style lang="css" scoped>
+<style lang="scss" scoped>
 div {
   position: relative;
   height: 5vh;
@@ -81,6 +81,7 @@ input {
 input:focus + label,
 .active {
   top: -3vh;
+  left: -2vw;
   font-size: 1em;
 }
 </style>

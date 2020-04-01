@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Connexion</h1>
-    <div>
+    <div class="login__form">
       <Input
         id="mail"
         type="text"
@@ -11,17 +11,25 @@
       />
       <Password :on-change="handleChangeField" />
     </div>
+    <Button
+      text="S'inscrire"
+      :disabled="!!(email.length && password.length)"
+      @handle-click="$router.push('events')"
+    />
+    <p class="login__link"><n-link to="/register">Inscription</n-link></p>
   </div>
 </template>
 
 <script>
+import Button from '../../components/button'
 import Input from '../../components/fields/input'
 import Password from '../../components/fields/password'
 
 export default {
   components: {
     Input,
-    Password
+    Password,
+    Button
   },
   data: () => ({
     email: '',
@@ -36,9 +44,11 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.login__password {
+.login__form {
   position: relative;
-  margin-top: 5vh;
-  height: 5vh;
+  margin-top: 50vh;
+}
+.login__link {
+  text-align: center;
 }
 </style>

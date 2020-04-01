@@ -5,18 +5,6 @@
 </template>
 
 <style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
-
 @font-face {
   font-family: 'Rubik';
   font-weight: 300;
@@ -47,8 +35,29 @@ html {
   src: url('/fonts/Rubik/Rubik-Black.ttf') format('truetype');
 }
 
+html {
+  font-family: 'Rubik', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
 .container {
   padding: 0 35px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+* {
+  font-family: 'Rubik';
 }
 
 *,
