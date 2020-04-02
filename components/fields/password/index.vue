@@ -28,7 +28,7 @@ export default {
   },
   watch: {
     inputValue(value) {
-      this.onChange(value)
+      this.onChange('password', value)
     }
   },
   methods: {

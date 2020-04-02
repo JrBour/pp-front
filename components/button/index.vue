@@ -33,5 +33,8 @@ button {
   font-weight: 500;
   font-size: 1.2em;
   margin: 4vh 0;
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 </style>

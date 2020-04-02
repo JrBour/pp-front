@@ -38,7 +38,7 @@ export default {
   },
   watch: {
     inputValue(value) {
-      this.onChange(value)
+      this.onChange(this.name, value)
     }
   }
 }
