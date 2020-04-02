@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Connexion</h1>
-    <div class="login__form">
+    <form class="login__form" @submit="submitForm">
       <Input
         id="mail"
         type="text"
@@ -11,12 +11,12 @@
       />
       <Password :on-change="handleChangeField" />
       <p v-if="error" class="login__error">{{ error }}</p>
-    </div>
-    <Button
-      text="Se connecter"
-      :disabled="!!(email.length === 0 || password.length === 0)"
-      @handle-click="submitForm"
-    />
+      <Button
+        type="submit"
+        text="Se connecter"
+        :disabled="!!(email.length === 0 || password.length === 0)"
+      />
+    </form>
     <p class="login__link"><n-link to="/register">Inscription</n-link></p>
   </div>
 </template>
@@ -39,11 +39,17 @@ export default {
     password: '',
     error: null
   }),
+  beforeCreate() {
+    if (Cookies.get('token') !== undefined) {
+      this.$router.push('events')
+    }
+  },
   methods: {
     handleChangeField(name, value) {
       this[name] = value
     },
-    async submitForm() {
+    async submitForm(e) {
+      e.preventDefault()
       try {
         const {
           data: { token }

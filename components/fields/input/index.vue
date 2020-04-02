@@ -69,6 +69,7 @@ label {
 
 input {
   z-index: 0;
+  background: transparent;
   border: none;
   height: 5vh;
   padding-left: 10px;
@@ -81,5 +82,6 @@ input:focus + label,
   left: -2vw;
   top: -3vh;
   font-size: 1em;
+  font-weight: 500;
 }
 </style>

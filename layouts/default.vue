@@ -1,9 +1,10 @@
 <template>
   <div class="container">
-    <nuxt />
+    <div class="container__wrapper">
+      <nuxt />
+    </div>
   </div>
 </template>
-
 <style>
 @font-face {
   font-family: 'Rubik';
@@ -54,8 +55,18 @@ html {
   box-sizing: border-box;
 }
 
-.container {
+.container__wrapper {
   padding: 0 35px;
+}
+
+.container {
+  background-image: url('/img/icons/bg-template.svg');
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: rgba(248, 248, 248, 0.6);
+  min-height: 100vh;
+  width: 100%;
 }
 
 a {

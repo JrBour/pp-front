@@ -73,6 +73,7 @@ input {
   z-index: 0;
   border: none;
   height: 5vh;
+  background: transparent;
   padding-left: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   width: 100%;
@@ -83,5 +84,6 @@ input:focus + label,
   top: -3vh;
   left: -2vw;
   font-size: 1em;
+  font-weight: 500;
 }
 </style>
