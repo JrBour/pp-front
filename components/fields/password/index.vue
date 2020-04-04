@@ -1,14 +1,17 @@
 <template>
-  <div>
-    <input id="password" v-model="inputValue" :type="type" />
-    <label for="password" :class="{ active: inputValue.length > 0 }"
-      >Mot de passe</label
-    >
-    <img
-      :src="`img/icons/eye${type === 'text' ? '-close' : ''}.svg`"
-      alt="Eye icon"
-      @click="changeType"
-    />
+  <div class="input__wrapper">
+    <div class="input__container">
+      <input id="password" v-model="inputValue" :type="type" />
+      <label for="password" :class="{ active: inputValue.length > 0 }"
+        >Mot de passe</label
+      >
+      <img
+        :src="`img/icons/eye${type === 'text' ? '-close' : ''}.svg`"
+        alt="Eye icon"
+        @click="changeType"
+      />
+    </div>
+    <p>{{ error }}</p>
   </div>
 </template>
 
@@ -17,6 +20,10 @@ export default {
   props: {
     onChange: {
       type: Function,
+      required: true
+    },
+    error: {
+      type: String,
       required: true
     }
   },
@@ -39,6 +46,21 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.input__container {
+  position: relative;
+  height: 4.5vh;
+}
+.input__wrapper {
+  margin-bottom: 2vh;
+}
+
+p {
+  color: red;
+  font-size: 0.8em;
+  font-style: italic;
+  padding-top: 1vh;
+}
+
 div {
   position: relative;
   height: 5vh;

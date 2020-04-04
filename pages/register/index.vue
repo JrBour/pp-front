@@ -8,7 +8,15 @@
         name="profile"
         @change="processFile($event)"
       />
-      <label for="profile">+</label>
+      <label v-if="image === ''" class="register__profile_add" for="profile">
+        +
+      </label>
+      <div v-else class="register__profile">
+        <img :src="image" />
+        <label class="register__profile_pencil" for="profile"
+          ><img src="img/icons/pencil.svg" alt="pencil"
+        /></label>
+      </div>
       <Input
         id="firstName"
         type="text"
@@ -41,19 +49,12 @@
         :error="errors.email"
         :on-change="handleChangeField"
       />
-      <Password :on-change="handleChangeField" />
-      <p v-if="error">{{ errors.general }}</p>
+      <Password :on-change="handleChangeField" :error="errors.password" />
+      <p v-if="errors.general">{{ errors.general }}</p>
       <Button
         type="submit"
         text="S'inscrire"
-        :disabled="
-          !!(
-            firstname.length === 0 ||
-            lastname.length === 0 ||
-            email.length === 0 ||
-            password.length === 0
-          )
-        "
+        :disabled="disabledSubmitButton"
       />
     </form>
     <p class="register__link"><n-link to="/login">Deja inscrit ?</n-link></p>
@@ -80,6 +81,7 @@ export default {
     phone: '',
     password: '',
     profile: '',
+    image: '',
     errors: {
       lastname: '',
       firstname: '',
@@ -89,6 +91,26 @@ export default {
       general: ''
     }
   }),
+  computed: {
+    disabledSubmitButton() {
+      if (
+        this.firstname.length === 0 ||
+        this.lastname.length === 0 ||
+        this.email.length === 0 ||
+        this.password.length === 0 ||
+        this.phone.length === 0
+      ) {
+        return true
+      }
+      const checkError = Object.values(this.errors).some(
+        (value) => value !== ''
+      )
+      if (checkError) {
+        return true
+      }
+      return false
+    }
+  },
   methods: {
     handleChangeField(name, value) {
       this[name] = value
@@ -96,6 +118,7 @@ export default {
     },
     processFile(event) {
       this.profile = event.target.files[0]
+      this.image = URL.createObjectURL(this.profile)
     },
     async submitForm(e) {
       e.preventDefault()
@@ -113,7 +136,8 @@ export default {
         })
         this.$router.push('login')
       } catch (e) {
-        this.error = 'Une erreur est survenue, veuillez reesayer plus tard'
+        this.errors.general =
+          'Une erreur est survenue, veuillez reesayer plus tard'
       }
     }
   }
@@ -128,7 +152,19 @@ export default {
 input[type='file'] {
   display: none;
 }
-label[for='profile'] {
+.register__profile {
+  display: flex;
+  align-items: center;
+  height: 75px;
+  width: 75px;
+  margin: 3vh auto;
+  & > img {
+    border-radius: 50%;
+    height: 75px;
+    width: 75px;
+  }
+}
+.register__profile_add {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -140,5 +176,8 @@ label[for='profile'] {
   box-sizing: border-box;
   font-weight: 700;
   font-size: 2em;
+}
+.register__profile_pencil {
+  margin-left: 10px;
 }
 </style>
