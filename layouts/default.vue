@@ -67,6 +67,12 @@ html {
   background-color: rgba(248, 248, 248, 0.6);
   min-height: 100vh;
   width: 100%;
+  overflow: scroll;
+}
+
+h1 {
+  padding-top: 7vh;
+  font-size: 2.5em;
 }
 
 a {
@@ -74,13 +80,10 @@ a {
   color: black;
 }
 
-* {
-  font-family: 'Rubik';
-}
-
 *,
 *:before,
 *:after {
+  font-family: Rubik;
   box-sizing: border-box;
   margin: 0;
 }

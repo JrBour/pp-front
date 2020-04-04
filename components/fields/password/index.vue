@@ -42,7 +42,7 @@ export default {
 div {
   position: relative;
   height: 5vh;
-  margin-top: 5vh;
+  margin-top: 4vh;
 }
 
 label,
@@ -55,7 +55,7 @@ input {
 label {
   padding: 0 0 0 1vw;
   z-index: 1;
-  top: 1vh;
+  top: 0.5vh;
   font-family: 'Rubik';
   font-size: 1.3em;
   transition: top 0.2s ease;
@@ -70,18 +70,22 @@ img {
 }
 
 input {
+  font-size: 1.2em;
   z-index: 0;
   border: none;
-  height: 5vh;
+  height: 4.5vh;
   background: transparent;
   padding-left: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   width: 100%;
+  &:focus {
+    outline: none;
+  }
 }
 
 input:focus + label,
 .active {
-  top: -3vh;
+  top: -2vh;
   left: -2vw;
   font-size: 1em;
   font-weight: 500;

@@ -1,5 +1,5 @@
-export default ({ res, req }) => {
+export default ({ redirect, req }) => {
   if (!req.headers.cookie.includes('token')) {
-    return res.redirect('/')
+    return redirect('/login')
   }
 }

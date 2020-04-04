@@ -38,7 +38,8 @@ button {
   padding: 1em 0;
   font-weight: 500;
   font-size: 1.2em;
-  margin: 4vh 0;
+  margin: 4vh 0 2vh 0;
+
   &:disabled {
     opacity: 0.5;
   }

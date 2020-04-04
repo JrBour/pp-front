@@ -1,9 +1,18 @@
 <template>
-  <div>
-    <input :id="id" v-model="inputValue" :name="name" :type="type" />
-    <label :for="id" :class="{ active: inputValue.length > 0 }">
-      {{ text }}
-    </label>
+  <div class="input__wrapper">
+    <div class="input__container">
+      <input
+        :id="id"
+        v-model="inputValue"
+        :name="name"
+        :type="type"
+        :class="{ error: error !== '' }"
+      />
+      <label :for="id" :class="{ active: inputValue.length > 0 }">
+        {{ text }}
+      </label>
+    </div>
+    <p>{{ error }}</p>
   </div>
 </template>
 
@@ -19,6 +28,10 @@ export default {
       required: true
     },
     name: {
+      type: String,
+      required: true
+    },
+    error: {
       type: String,
       required: true
     },
@@ -43,11 +56,20 @@ export default {
   }
 }
 </script>
-<style lang="css" scoped>
-div {
+<style lang="scss" scoped>
+.input__container {
   position: relative;
-  height: 5vh;
-  margin-top: 5vh;
+  height: 4.5vh;
+}
+.input__wrapper {
+  margin-bottom: 5vh;
+}
+
+p {
+  color: red;
+  font-size: 0.8em;
+  font-style: italic;
+  padding-top: 1vh;
 }
 
 label,
@@ -60,7 +82,7 @@ input {
 label {
   padding: 0 0 0 1vw;
   z-index: 1;
-  top: 1vh;
+  top: 0.5vh;
   font-family: 'Rubik';
   font-size: 1.3em;
   transition: top 0.2s ease;
@@ -68,6 +90,7 @@ label {
 }
 
 input {
+  font-size: 1.2em;
   z-index: 0;
   background: transparent;
   border: none;
@@ -75,12 +98,19 @@ input {
   padding-left: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   width: 100%;
+  &:focus {
+    outline: none;
+  }
+}
+
+.error {
+  border-bottom: 1px solid #fd5c63;
 }
 
 input:focus + label,
 .active {
   left: -2vw;
-  top: -3vh;
+  top: -2vh;
   font-size: 1em;
   font-weight: 500;
 }
