@@ -122,16 +122,21 @@ export default {
     },
     async submitForm(e) {
       e.preventDefault()
+      const formdata = new FormData()
+      formdata.append('image', this.profile)
+      formdata.append('firstname', this.firstname)
+      formdata.append('lastname', this.lastname)
+      formdata.append('email', this.email)
+      formdata.append('phone', this.phone)
+      formdata.append('password', this.password)
+
       try {
         await axiosHelper({
           method: 'post',
           url: 'api/register',
-          data: {
-            givenName: this.firstname,
-            lastName: this.lastname,
-            email: this.email,
-            phone: this.phone,
-            password: this.password
+          data: formdata,
+          headers: {
+            'Content-Type': 'multipart/form-data'
           }
         })
         this.$router.push('login')

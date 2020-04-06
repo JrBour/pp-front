@@ -7,14 +7,15 @@
         type="text"
         text="Email"
         name="email"
+        :error="errors.email"
         :on-change="handleChangeField"
       />
-      <Password :on-change="handleChangeField" />
-      <p v-if="error" class="login__error">{{ error }}</p>
+      <Password :on-change="handleChangeField" :error="errors.general" />
+      <p v-if="errors.general" class="login__error">{{ errors.general }}</p>
       <Button
         type="submit"
         text="Se connecter"
-        :disabled="!!(email.length === 0 || password.length === 0)"
+        :disabled="disabledSubmitButton"
       />
     </form>
     <p class="login__link"><n-link to="/register">Inscription</n-link></p>
@@ -27,6 +28,7 @@ import Button from '../../components/button'
 import Input from '../../components/fields/input'
 import Password from '../../components/fields/password'
 import axiosHelper from '../../lib/axiosHelper'
+import { validateLoginField } from './validator'
 
 export default {
   components: {
@@ -37,8 +39,26 @@ export default {
   data: () => ({
     email: '',
     password: '',
-    error: null
+    errors: {
+      email: '',
+      password: '',
+      general: ''
+    }
   }),
+  computed: {
+    disabledSubmitButton() {
+      if (this.email.length === 0 || this.password.length === 0) {
+        return true
+      }
+      const checkError = Object.values(this.errors).some(
+        (value) => value !== ''
+      )
+      if (checkError) {
+        return true
+      }
+      return false
+    }
+  },
   beforeCreate() {
     if (Cookies.get('token') !== undefined) {
       this.$router.push('events')
@@ -47,6 +67,7 @@ export default {
   methods: {
     handleChangeField(name, value) {
       this[name] = value
+      this.errors[name] = validateLoginField(name, value)
     },
     async submitForm(e) {
       e.preventDefault()
@@ -66,7 +87,8 @@ export default {
         this.$router.push('events')
       } catch (e) {
         if (e.response.status === 401) {
-          this.error = "L'email et le mot de passe ne correspondent pas"
+          this.errors.general =
+            "L'email et le mot de passe ne correspondent pas"
         }
       }
     }

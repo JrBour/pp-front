@@ -1,8 +1,7 @@
+import { regexAlpha, regexPhoneNumber, regexEmail } from '../../constants/regex'
+
 const requiredFields = ['firstname', 'lastname', 'email', 'phone', 'password']
 const regexAlphaFields = ['firstname', 'lastname']
-const regexAlpha = /^([a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ']+([ ]{0,1}|[-]{0,1}))*[a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ']+$/
-const regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-const regexPhoneNumber = /^(0[1-9]\d{8})?$/
 
 export const validateRegisterField = (name, value) => {
   if (requiredFields.includes(name) && value === '') {
