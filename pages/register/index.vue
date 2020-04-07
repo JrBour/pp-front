@@ -127,21 +127,33 @@ export default {
     },
     async submitForm(e) {
       e.preventDefault()
-      const formdata = new FormData()
-      formdata.append('image', this.profile)
-      formdata.append('firstname', this.firstname)
-      formdata.append('lastname', this.lastname)
-      formdata.append('email', this.email)
-      formdata.append('phone', this.phone)
-      formdata.append('password', this.password)
+
+      if (this.profile) {
+        const formData = new FormData()
+        formData.append('file', this.image)
+        try {
+          await axiosHelper({
+            method: 'post',
+            url: 'api/media_objects',
+            data: formData
+          })
+          this.$router.push('login')
+        } catch (e) {
+          this.errors.general =
+            'Une erreur est survenue, veuillez reesayer plus tard'
+        }
+      }
 
       try {
         await axiosHelper({
           method: 'post',
           url: 'api/register',
-          data: formdata,
-          headers: {
-            'Content-Type': 'multipart/form-data'
+          data: {
+            givenName: this.firstname,
+            lastName: this.lastname,
+            phone: this.phone,
+            email: this.email,
+            password: this.password
           }
         })
         this.$router.push('login')
