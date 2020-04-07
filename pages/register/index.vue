@@ -16,6 +16,7 @@
         <label class="register__profile_pencil" for="profile"
           ><img src="img/icons/pencil.svg" alt="pencil"
         /></label>
+        <button @click="removeProfilePicture">x</button>
       </div>
       <Input
         id="firstName"
@@ -112,6 +113,10 @@ export default {
     }
   },
   methods: {
+    removeProfilePicture() {
+      this.profile = ''
+      this.image = ''
+    },
     handleChangeField(name, value) {
       this[name] = value
       this.errors[name] = validateRegisterField(name, value)
