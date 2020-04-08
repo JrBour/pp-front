@@ -6,10 +6,10 @@
         v-model="inputValue"
         :name="name"
         :type="type"
-        :class="{ error: error !== '' }"
+        :class="{ inputError: error !== '' }"
       />
       <label :for="id" :class="{ active: inputValue.length > 0 }">
-        {{ text }}
+        {{ text }} <span>*</span>
       </label>
     </div>
     <p>{{ error }}</p>
@@ -103,7 +103,7 @@ input {
   }
 }
 
-.error {
+.inputError {
   border-bottom: 1px solid #fd5c63;
 }
 
@@ -113,5 +113,8 @@ input:focus + label,
   top: -2vh;
   font-size: 1em;
   font-weight: 500;
+  & span {
+    color: red;
+  }
 }
 </style>

@@ -10,8 +10,8 @@
         :error="errors.email"
         :on-change="handleChangeField"
       />
-      <Password :on-change="handleChangeField" :error="errors.general" />
-      <p v-if="errors.general" class="login__error">{{ errors.general }}</p>
+      <Password :on-change="handleChangeField" :error="errors.password" />
+      <p v-if="errors.general" class="error">{{ errors.general }}</p>
       <Button
         type="submit"
         text="Se connecter"
@@ -50,7 +50,10 @@ export default {
       if (this.email.length === 0 || this.password.length === 0) {
         return true
       }
-      const checkError = Object.values(this.errors).some(
+
+      const errorsToCheck = { ...this.errors }
+      delete errorsToCheck.general
+      const checkError = Object.values(errorsToCheck).some(
         (value) => value !== ''
       )
       if (checkError) {
@@ -60,7 +63,7 @@ export default {
     }
   },
   beforeCreate() {
-    if (Cookies.get('token') !== undefined) {
+    if (Cookies.get('token') !== '') {
       this.$router.push('events')
     }
   },
@@ -84,6 +87,7 @@ export default {
         })
 
         Cookies.set('token', token)
+        this.$store.commit('addJwt', token)
         this.$router.push('events')
       } catch (e) {
         if (e.response.status === 401) {
@@ -103,11 +107,6 @@ export default {
 }
 .login__link {
   text-align: center;
-}
-.login__error {
-  color: red;
-  font-style: italic;
-  font-size: 0.8em;
-  margin-top: 1vh;
+  margin-bottom: 5vh;
 }
 </style>

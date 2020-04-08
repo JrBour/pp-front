@@ -8,16 +8,27 @@
         name="profile"
         @change="processFile($event)"
       />
-      <label v-if="image === ''" class="register__profile_add" for="profile">
-        +
-      </label>
-      <div v-else class="register__profile">
-        <img :src="image" />
-        <label class="register__profile_pencil" for="profile"
-          ><img src="img/icons/pencil.svg" alt="pencil"
-        /></label>
-        <button @click="removeProfilePicture">x</button>
+      <div class="register__profile">
+        <p>Photo <br />de profil</p>
+        <label v-if="image === ''" class="register__profile_add" for="profile">
+          +
+        </label>
+        <div v-else class="register__profile_pictureAdd">
+          <img :src="image" />
+          <div class="register__profile_action">
+            <label class="register__profile_pencil" for="profile"
+              ><img src="img/icons/pencil.svg" alt="pencil"
+            /></label>
+            <button
+              class="register__button_remove"
+              @click="removeProfilePicture"
+            >
+              x
+            </button>
+          </div>
+        </div>
       </div>
+      <p v-if="errors.picture" class="error">{{ errors.picture }}</p>
       <Input
         id="firstName"
         type="text"
@@ -51,7 +62,7 @@
         :on-change="handleChangeField"
       />
       <Password :on-change="handleChangeField" :error="errors.password" />
-      <p v-if="errors.general">{{ errors.general }}</p>
+      <p v-if="errors.general" class="error">{{ errors.general }}</p>
       <Button
         type="submit"
         text="S'inscrire"
@@ -84,6 +95,7 @@ export default {
     profile: '',
     image: '',
     errors: {
+      picture: '',
       lastname: '',
       firstname: '',
       phone: '',
@@ -103,7 +115,9 @@ export default {
       ) {
         return true
       }
-      const checkError = Object.values(this.errors).some(
+      const errorsToCheck = { ...this.errors }
+      delete errorsToCheck.general
+      const checkError = Object.values(errorsToCheck).some(
         (value) => value !== ''
       )
       if (checkError) {
@@ -122,22 +136,32 @@ export default {
       this.errors[name] = validateRegisterField(name, value)
     },
     processFile(event) {
-      this.profile = event.target.files[0]
-      this.image = URL.createObjectURL(this.profile)
+      const extensionsAllowed = ['jpeg', 'jpeg', 'png']
+      const fileName = event.target.files[0].name.split('.')
+      const extension = fileName[fileName.length - 1]
+
+      if (extensionsAllowed.includes(extension)) {
+        this.errors.picture = ''
+        this.profile = event.target.files[0]
+        this.image = URL.createObjectURL(this.profile)
+      } else {
+        this.errors.picture =
+          'Veuillez choisir un fichier avec le bon format (jpeg, jpg ou png)'
+      }
     },
     async submitForm(e) {
       e.preventDefault()
+      let profileId = null
 
       if (this.profile) {
         const formData = new FormData()
-        formData.append('file', this.image)
+        formData.append('file', this.profile)
         try {
-          await axiosHelper({
+          profileId = await axiosHelper({
             method: 'post',
             url: 'api/media_objects',
             data: formData
           })
-          this.$router.push('login')
         } catch (e) {
           this.errors.general =
             'Une erreur est survenue, veuillez reesayer plus tard'
@@ -153,6 +177,7 @@ export default {
             lastName: this.lastname,
             phone: this.phone,
             email: this.email,
+            image: profileId?.data?.id.toString(),
             password: this.password
           }
         })
@@ -167,6 +192,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.register__profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 65%;
+  & p {
+    padding-left: 10vw;
+    font-weight: 500;
+  }
+}
+.register__profile_action {
+  margin-left: 2vw;
+}
+.register__button_remove {
+  border: none;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  background: red;
+  height: 40px;
+  width: 40px;
+}
 .register__link {
   text-align: center;
   margin-bottom: 2vh;
@@ -174,12 +221,12 @@ export default {
 input[type='file'] {
   display: none;
 }
-.register__profile {
+.register__profile_pictureAdd {
   display: flex;
   align-items: center;
   height: 75px;
   width: 75px;
-  margin: 3vh auto;
+  margin: 3.5vh auto;
   & > img {
     border-radius: 50%;
     height: 75px;

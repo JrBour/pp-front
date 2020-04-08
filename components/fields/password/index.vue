@@ -1,9 +1,14 @@
 <template>
   <div class="input__wrapper">
     <div class="input__container">
-      <input id="password" v-model="inputValue" :type="type" />
+      <input
+        id="password"
+        v-model="inputValue"
+        :type="type"
+        :class="{ inputError: error !== '' }"
+      />
       <label for="password" :class="{ active: inputValue.length > 0 }"
-        >Mot de passe</label
+        >Mot de passe <span>*</span></label
       >
       <img
         :src="`img/icons/eye${type === 'text' ? '-close' : ''}.svg`"
@@ -61,6 +66,10 @@ p {
   padding-top: 1vh;
 }
 
+.inputError {
+  border-bottom: 1px solid #fd5c63;
+}
+
 div {
   position: relative;
   height: 5vh;
@@ -111,5 +120,8 @@ input:focus + label,
   left: -2vw;
   font-size: 1em;
   font-weight: 500;
+  & span {
+    color: red;
+  }
 }
 </style>

@@ -55,6 +55,13 @@ html {
   box-sizing: border-box;
 }
 
+.error {
+  color: red;
+  font-style: italic;
+  font-size: 0.8em;
+  margin-top: 1vh;
+}
+
 .container__wrapper {
   padding: 0 35px;
 }
