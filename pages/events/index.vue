@@ -3,6 +3,7 @@
 </template>
 <script>
 export default {
+  layout: 'navbar',
   middleware: 'authenticated'
 }
 </script>
