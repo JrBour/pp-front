@@ -4,9 +4,9 @@
       <li @click="$router.push('events')">
         <img
           :src="
-            `img/icons/home-${
-              currentRoute.includes('events') ? 'enable' : 'disable'
-            }.svg`
+            require(`~/static/img/icons/home-${
+              currentRoute.includes('event') ? 'enable' : 'disable'
+            }.svg`)
           "
           alt="home"
         />
@@ -14,9 +14,9 @@
       <li @click="$router.push('album')">
         <img
           :src="
-            `img/icons/album-${
+            require(`~/static/img/icons/album-${
               currentRoute.includes('album') ? 'enable' : 'disable'
-            }.svg`
+            }.svg`)
           "
           alt="album"
         />
@@ -24,9 +24,9 @@
       <li @click="$router.push('notifications')">
         <img
           :src="
-            `img/icons/bell-${
+            require(`~/static/img/icons/bell-${
               currentRoute.includes('notifications') ? 'enable' : 'disable'
-            }.svg`
+            }.svg`)
           "
           class="navbar__item_bell"
           alt="notifications"
@@ -35,9 +35,9 @@
       <li @click="$router.push('profile')">
         <img
           :src="
-            `img/icons/user-${
+            require(`~/static/img/icons/user-${
               currentRoute.includes('profile') ? 'enable' : 'disable'
-            }.svg`
+            }.svg`)
           "
           alt="profile"
         />
@@ -64,6 +64,7 @@ export default {
 <style lang="scss" scoped>
 .navbar {
   position: fixed;
+  z-index: 10;
   bottom: 0;
   background: white;
   width: 100%;

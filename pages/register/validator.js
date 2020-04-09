@@ -1,4 +1,4 @@
-import { regexAlpha, regexPhoneNumber, regexEmail } from '../../constants/regex'
+import { regexAlpha, regexPhoneNumber, regexEmail } from '~/constants/regex'
 
 const requiredFields = ['firstname', 'lastname', 'email', 'phone', 'password']
 const regexAlphaFields = ['firstname', 'lastname']

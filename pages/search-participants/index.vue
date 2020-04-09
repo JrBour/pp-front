@@ -3,6 +3,6 @@
 </template>
 <script>
 export default {
-  name: 'Profile'
+  middleware: 'authenticated'
 }
 </script>

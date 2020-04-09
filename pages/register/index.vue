@@ -136,7 +136,7 @@ export default {
       this.errors[name] = validateRegisterField(name, value)
     },
     processFile(event) {
-      const extensionsAllowed = ['jpeg', 'jpeg', 'png']
+      const extensionsAllowed = ['jpg', 'jpeg', 'png']
       const fileName = event.target.files[0].name.split('.')
       const extension = fileName[fileName.length - 1]
 

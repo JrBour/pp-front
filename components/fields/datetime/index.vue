@@ -3,12 +3,17 @@
     <div class="input__container">
       <input
         :id="id"
+        ref="dateInput"
         v-model="inputValue"
         :name="name"
         :type="type"
         :class="{ inputError: error !== '' }"
+        @focus="changeType"
       />
-      <label :for="id" :class="{ active: inputValue.length > 0 }">
+      <label
+        :for="id"
+        :class="{ active: inputValue.length > 0 || type === 'datetime-local' }"
+      >
         {{ text }} <span>*</span>
       </label>
     </div>
@@ -35,10 +40,6 @@ export default {
       type: String,
       required: true
     },
-    type: {
-      type: String,
-      default: 'text'
-    },
     onChange: {
       type: Function,
       required: true
@@ -46,12 +47,19 @@ export default {
   },
   data() {
     return {
-      inputValue: ''
+      inputValue: '',
+      type: 'text'
     }
   },
   watch: {
     inputValue(value) {
       this.onChange(this.name, value)
+    }
+  },
+  methods: {
+    changeType() {
+      this.type = 'datetime-local'
+      this.$nextTick(() => this.$refs.dateInput.focus())
     }
   }
 }
