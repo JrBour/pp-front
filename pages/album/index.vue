@@ -4,5 +4,7 @@
   </div>
 </template>
 <script>
-export default {}
+export default {
+  layout: 'navbar'
+}
 </script>

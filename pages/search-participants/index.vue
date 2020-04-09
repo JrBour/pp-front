@@ -2,5 +2,7 @@
   <h1>Search participants</h1>
 </template>
 <script>
-export default {}
+export default {
+  name: 'Profile'
+}
 </script>

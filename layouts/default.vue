@@ -3,8 +3,18 @@
     <div class="container__wrapper">
       <nuxt />
     </div>
+    <Navbar v-if="$store.state.jwt !== null" />
   </div>
 </template>
+<script>
+import Navbar from '../components/navbar'
+
+export default {
+  components: {
+    Navbar
+  }
+}
+</script>
 <style>
 @font-face {
   font-family: 'Rubik';
