@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="event__wrapper">
     <h1>Nouvel <br />évènement</h1>
     <div class="events__cover">
       <h2>Image de couverture</h2>
@@ -66,20 +66,21 @@
       id="end"
       text="Fin"
       name="end"
-      :error="errors.start"
+      :error="errors.end"
       :on-change="handleChangeField"
     />
     <div>
       <p>Souhaitez-vous affichez les depenses des participants ?</p>
-      <input type="radio" name="no" value="false" />
+      <input v-model="showExpense" type="radio" name="no" value="false" />
       <label for="no">Non</label>
-      <input type="radio" name="yes" value="true" />
+      <input v-model="showExpense" type="radio" name="yes" value="true" />
       <label for="yes">Oui</label>
     </div>
     <Button text="Valider" />
   </div>
 </template>
 <script>
+import { validateEventFields } from './validator'
 import Button from '~/components/button'
 import Input from '~/components/fields/input'
 import Datetime from '~/components/fields/datetime'
@@ -96,8 +97,8 @@ export default {
     address: '',
     zipcode: '',
     city: '',
-    start: '',
-    end: '',
+    start: new Date().toLocaleString(),
+    end: new Date().toLocaleString(),
     cover: '',
     image: '',
     showExpense: 'no',
@@ -117,6 +118,7 @@ export default {
   methods: {
     handleChangeField(name, value) {
       this[name] = value
+      this.errors[name] = validateEventFields(name, value)
     },
     removeCoverPicture() {
       this.cover = ''
@@ -140,6 +142,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.event__wrapper {
+  margin-bottom: 10vh;
+}
 h2 {
   font-weight: 500;
   font-size: 1.3em;
@@ -169,7 +174,7 @@ input[id='cover'] {
 }
 .events__cover {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   & label {
     display: flex;
@@ -180,7 +185,7 @@ input[id='cover'] {
     & img {
       box-sizing: content-box;
       height: 1.8em;
-      padding: 0.6em 2em;
+      padding: 0.4em 1.5em;
     }
   }
 }

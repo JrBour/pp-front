@@ -60,6 +60,7 @@ export default {
     changeType() {
       this.type = 'datetime-local'
       this.$nextTick(() => this.$refs.dateInput.focus())
+      // this.inputValue = new Date().toLocaleString()
     }
   }
 }
