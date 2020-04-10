@@ -151,25 +151,10 @@ export default {
     },
     async submitForm(e) {
       e.preventDefault()
-      let profileId = null
-
-      if (this.profile) {
-        const formData = new FormData()
-        formData.append('file', this.profile)
-        try {
-          profileId = await axiosHelper({
-            method: 'post',
-            url: 'api/media_objects',
-            data: formData
-          })
-        } catch (e) {
-          this.errors.general =
-            'Une erreur est survenue, veuillez reesayer plus tard'
-        }
-      }
+      let userId = null
 
       try {
-        await axiosHelper({
+        userId = await axiosHelper({
           method: 'post',
           url: 'api/register',
           data: {
@@ -177,15 +162,29 @@ export default {
             lastName: this.lastname,
             phone: this.phone,
             email: this.email,
-            image: profileId?.data?.id.toString(),
             password: this.password
           }
         })
-        this.$router.push('login')
       } catch (e) {
         this.errors.general =
           'Une erreur est survenue, veuillez reesayer plus tard'
       }
+
+      if (this.profile) {
+        const formData = new FormData()
+        formData.append('file', this.profile)
+        try {
+          await axiosHelper({
+            method: 'post',
+            url: `api/users/${userId.data.id}/profile`,
+            data: formData
+          })
+        } catch (e) {
+          this.errors.general =
+            'Une erreur est survenue, veuillez reesayer plus tard'
+        }
+      }
+      this.$router.push('login')
     }
   }
 }

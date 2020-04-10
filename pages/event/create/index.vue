@@ -69,15 +69,25 @@
       :error="errors.start"
       :on-change="handleChangeField"
     />
+    <div>
+      <p>Souhaitez-vous affichez les depenses des participants ?</p>
+      <input type="radio" name="no" value="false" />
+      <label for="no">Non</label>
+      <input type="radio" name="yes" value="true" />
+      <label for="yes">Oui</label>
+    </div>
+    <Button text="Valider" />
   </div>
 </template>
 <script>
+import Button from '~/components/button'
 import Input from '~/components/fields/input'
 import Datetime from '~/components/fields/datetime'
 
 export default {
   components: {
     Input,
+    Button,
     Datetime
   },
   data: () => ({
