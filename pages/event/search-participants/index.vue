@@ -10,7 +10,7 @@
       <Input
         id="search"
         type="search"
-        text="Rechercher par nom ou/et prenom"
+        text="Rechercher par prenom et nom"
         name="search"
         :error="errors.search"
         :on-change="handleChangeField"
@@ -31,6 +31,7 @@
 <script>
 import Input from '~/components/fields/input'
 import SegmentedControl from '~/components/segmentedControl'
+import axiosHelper from '~/lib/axiosHelper'
 
 export default {
   components: {
@@ -47,11 +48,30 @@ export default {
   middleware: 'authenticated',
   methods: {
     changeStatus(status) {
-      console.log(status)
       this.status = status
     },
-    handleChangeField(name, value) {
+    async handleChangeField(name, value) {
       this[name] = value
+      const valueHasSpace = value.split(' ')
+      if (value.length > 3 && valueHasSpace.length > 1) {
+        try {
+          await axiosHelper({
+            path: `users?givenName=${valueHasSpace[0]}&lastName=${valueHasSpace[1]}`
+          })
+        } catch (e) {
+          this.errors.general =
+            'Une erreur est survenur, veuillez reessayer plus tard'
+        }
+      } else if (value.length > 3) {
+        try {
+          await axiosHelper({
+            path: `users?givenName=${value}`
+          })
+        } catch (e) {
+          this.errors.general =
+            'Une erreur est survenur, veuillez reessayer plus tard'
+        }
+      }
     }
   }
 }
