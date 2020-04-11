@@ -1,5 +1,10 @@
 <template>
-  <button :type="type" :disabled="disabled" @click="handleClick">
+  <button
+    :type="type"
+    :disabled="disabled"
+    :class="{ reduce: small }"
+    @click="handleClick"
+  >
     {{ text }}
   </button>
 </template>
@@ -14,6 +19,10 @@ export default {
     type: {
       type: String,
       default: 'button'
+    },
+    small: {
+      type: Boolean,
+      default: false
     },
     text: {
       type: String,
@@ -43,5 +52,11 @@ button {
   &:disabled {
     opacity: 0.5;
   }
+}
+.reduce {
+  display: block;
+  width: 80%;
+  margin: 3vh auto;
+  font-size: 1em;
 }
 </style>

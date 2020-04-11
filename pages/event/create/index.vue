@@ -69,12 +69,32 @@
       :error="errors.end"
       :on-change="handleChangeField"
     />
+    <h2>Participants</h2>
+    <Button
+      text="Ajouter des participants"
+      :small="true"
+      @handle-click="$router.push('search-participants')"
+    />
     <div>
-      <p>Souhaitez-vous affichez les depenses des participants ?</p>
-      <input v-model="showExpense" type="radio" name="no" value="false" />
-      <label for="no">Non</label>
-      <input v-model="showExpense" type="radio" name="yes" value="true" />
-      <label for="yes">Oui</label>
+      <p class="events__expense_question">
+        Souhaitez-vous affichez les depenses des participants ?
+      </p>
+      <div class="events__expense">
+        <div>
+          <label for="no" class="events__expense_label"
+            >Non
+            <input id="no" v-model="showExpense" type="radio" value="no" />
+            <span></span>
+          </label>
+        </div>
+        <div>
+          <label for="yes" class="events__expense_label"
+            >Oui
+            <input id="yes" v-model="showExpense" type="radio" value="yes" />
+            <span></span>
+          </label>
+        </div>
+      </div>
     </div>
     <Button text="Valider" />
   </div>
@@ -115,6 +135,18 @@ export default {
     }
   }),
   middleware: 'authenticated',
+  watch: {
+    end(val) {
+      if (
+        this.end !== '' &&
+        this.start !== '' &&
+        new Date(this.start).getTime() > new Date(this.end).getTime()
+      ) {
+        this.errors.end =
+          "La date de fin doit etre superieur a la date de debut de l'evenement"
+      }
+    }
+  },
   methods: {
     handleChangeField(name, value) {
       this[name] = value
@@ -169,6 +201,94 @@ input[id='cover'] {
     background: #ff7374;
   }
 }
+.events__expense {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: auto;
+  margin-top: 3vh;
+  width: 60%;
+  & div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & label {
+      margin-right: 1vh;
+    }
+  }
+}
+
+.events__expense_question {
+  font-size: 1.2em;
+}
+
+.events__expense_label {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  font-size: 1.1em;
+  user-select: none;
+
+  &:hover input ~ span {
+    background-color: #ccc;
+  }
+
+  & input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    &:checked ~ span {
+      background-color: #3750b2;
+    }
+
+    &:checked ~ span:after {
+      display: block;
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+}
+
+.events__expense_label span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  background-color: #eee;
+  border-radius: 50%;
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: none;
+    top: 7px;
+    left: 7px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
 .events__image_display {
   width: 100%;
 }

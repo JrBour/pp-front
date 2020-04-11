@@ -8,8 +8,11 @@
         :type="type"
         :class="{ inputError: error !== '' }"
       />
-      <label :for="id" :class="{ active: inputValue.length > 0 }">
-        {{ text }} <span>*</span>
+      <label
+        :for="id"
+        :class="{ active: inputValue.length > 0, reduce: small }"
+      >
+        {{ text }} <span v-if="required">*</span>
       </label>
     </div>
     <p>{{ error }}</p>
@@ -38,6 +41,14 @@ export default {
     type: {
       type: String,
       default: 'text'
+    },
+    required: {
+      type: Boolean,
+      default: true
+    },
+    small: {
+      type: Boolean,
+      default: false
     },
     onChange: {
       type: Function,
@@ -116,5 +127,9 @@ input:focus + label,
   & span {
     color: red;
   }
+}
+
+.reduce {
+  font-size: 1.2em;
 }
 </style>
