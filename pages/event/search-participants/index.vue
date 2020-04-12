@@ -17,6 +17,11 @@
         :small="true"
         :required="false"
       />
+      <Participant
+        v-for="participant in participants"
+        :key="participant.id"
+        :user="participant"
+      />
     </div>
     <div v-else>
       <p
@@ -30,17 +35,20 @@
 </template>
 <script>
 import Input from '~/components/fields/input'
+import Participant from '~/components/participant'
 import SegmentedControl from '~/components/segmentedControl'
 import axiosHelper from '~/lib/axiosHelper'
 
 export default {
   components: {
     Input,
+    Participant,
     SegmentedControl
   },
   data: () => ({
     search: '',
     status: 'Recherche',
+    participants: [],
     errors: {
       search: ''
     }
@@ -53,24 +61,28 @@ export default {
     async handleChangeField(name, value) {
       this[name] = value
       const valueHasSpace = value.split(' ')
+      let response
+
       if (value.length > 3 && valueHasSpace.length > 1) {
         try {
-          await axiosHelper({
-            path: `users?givenName=${valueHasSpace[0]}&lastName=${valueHasSpace[1]}`
+          response = await axiosHelper({
+            url: `api/users?givenName=${valueHasSpace[0]}&lastName=${valueHasSpace[1]}`
           })
         } catch (e) {
           this.errors.general =
             'Une erreur est survenur, veuillez reessayer plus tard'
         }
+        this.participants = response.data
       } else if (value.length > 3) {
         try {
-          await axiosHelper({
-            path: `users?givenName=${value}`
+          response = await axiosHelper({
+            url: `api/users?givenName=${value}`
           })
         } catch (e) {
           this.errors.general =
             'Une erreur est survenur, veuillez reessayer plus tard'
         }
+        this.participants = response.data
       }
     }
   }
