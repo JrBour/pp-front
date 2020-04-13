@@ -35,7 +35,6 @@ export default {
   methods: {
     handleClick(status) {
       this.activeStatus = status
-      console.log('ntm')
       this.$emit('get-segment', status)
     }
   }

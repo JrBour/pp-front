@@ -1,5 +1,8 @@
 export default {
   mode: 'universal',
+  env: {
+    API_URL: process.env.API_URL || 'http://localhost/'
+  },
   /*
    ** Headers of the page
    */

@@ -1,7 +1,9 @@
 <template>
   <div class="participant">
     <div class="participant__wrapper">
-      <img :src="user.image.filePath" />
+      <img
+        :src="`${process.env.NUXT_ENV_API_URL}/media/${user.image.filePath}`"
+      />
       <p>{{ user.givenName }} {{ user.lastName }}</p>
     </div>
     <button @click="addParticipant">+</button>
