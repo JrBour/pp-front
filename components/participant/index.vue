@@ -1,12 +1,15 @@
 <template>
   <div class="participant">
     <div class="participant__wrapper">
-      <img
-        :src="`${process.env.NUXT_ENV_API_URL}/media/${user.image.filePath}`"
-      />
+      <img :src="imageUrl" />
       <p>{{ user.givenName }} {{ user.lastName }}</p>
     </div>
-    <button @click="addParticipant">+</button>
+    <button
+      v-if="!$store.state.participants.includes(user)"
+      @click="addParticipant"
+    >
+      +
+    </button>
   </div>
 </template>
 <script>
@@ -17,9 +20,21 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    baseUrl: process.env.NUXT_ENV_API_URL
+  }),
+  computed: {
+    imageUrl() {
+      return this.user.image
+        ? `${this.baseUrl}/media/${this.user.image.filePath}`
+        : require('~/static/img/icons/default-user.svg')
+    }
+  },
   methods: {
     addParticipant() {
-      this.$emit('add-partcipant', this.user)
+      if (!this.$store.state.participants.includes(this.user)) {
+        this.$emit('add-partcipant', this.user)
+      }
     }
   }
 }

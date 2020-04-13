@@ -1,6 +1,10 @@
 <template>
   <div class="search">
-    <img :src="require('~/static/img/icons/back.svg')" alt="back" />
+    <img
+      :src="require('~/static/img/icons/back.svg')"
+      alt="back"
+      @click="$router.push({ name: 'event-create' })"
+    />
     <SegmentedControl
       first="Recherche"
       second="Invités"
@@ -31,17 +35,26 @@
       >
         Vous n'avez pas encore ajoute de participants
       </p>
+      <div v-else class="participants__wrapper">
+        <User
+          v-for="participant in $store.state.participants"
+          :key="participant.id"
+          :user="participant"
+        />
+      </div>
     </div>
   </div>
 </template>
 <script>
 import Input from '~/components/fields/input'
+import User from '~/components/user'
 import Participant from '~/components/participant'
 import SegmentedControl from '~/components/segmentedControl'
 import axiosHelper from '~/lib/axiosHelper'
 
 export default {
   components: {
+    User,
     Input,
     Participant,
     SegmentedControl
@@ -93,6 +106,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.participants__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
 .search {
   margin-top: 10vh;
 }

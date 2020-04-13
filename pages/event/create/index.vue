@@ -70,6 +70,19 @@
       :on-change="handleChangeField"
     />
     <h2>Participants</h2>
+    <p
+      v-if="$store.state.participants.length === 0"
+      class="events__participants_warning"
+    >
+      Vous n'avez pas encore ajoute de participants
+    </p>
+    <div v-else class="events__participants">
+      <User
+        v-for="participant in $store.state.participants"
+        :key="participant.id"
+        :user="participant"
+      />
+    </div>
     <Button
       text="Ajouter des participants"
       :small="true"
@@ -96,18 +109,20 @@
         </div>
       </div>
     </div>
-    <Button text="Valider" />
+    <Button text="Valider" :disabled="disabledSubmitButton" />
   </div>
 </template>
 <script>
 import { validateEventFields } from './validator'
 import Button from '~/components/button'
+import User from '~/components/user'
 import Input from '~/components/fields/input'
 import Datetime from '~/components/fields/datetime'
 
 export default {
   components: {
     Input,
+    User,
     Button,
     Datetime
   },
@@ -140,7 +155,7 @@ export default {
       if (
         this.end !== '' &&
         this.start !== '' &&
-        new Date(this.start).getTime() > new Date(this.end).getTime()
+        new Date(this.start).getTime() >= new Date(this.end).getTime()
       ) {
         this.errors.end =
           "La date de fin doit etre superieur a la date de debut de l'evenement"
@@ -148,6 +163,28 @@ export default {
     }
   },
   methods: {
+    disabledSubmitButton() {
+      if (
+        this.name.length === 0 ||
+        this.description.length === 0 ||
+        this.address.length === 0 ||
+        this.zipcode.length === 0 ||
+        this.city.length === 0 ||
+        this.start.length === 0 ||
+        this.end.length === 0
+      ) {
+        return true
+      }
+      const errorsToCheck = { ...this.errors }
+      delete errorsToCheck.general
+      const checkError = Object.values(errorsToCheck).some(
+        (value) => value !== ''
+      )
+      if (checkError) {
+        return true
+      }
+      return false
+    },
     handleChangeField(name, value) {
       this[name] = value
       this.errors[name] = validateEventFields(name, value)
@@ -174,6 +211,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.events__participants_warning {
+  text-align: center;
+}
+.events__participants {
+  display: flex;
+  flex-wrap: wrap;
+}
 .event__wrapper {
   margin-bottom: 10vh;
 }
