@@ -21,6 +21,7 @@
         v-for="participant in participants"
         :key="participant.id"
         :user="participant"
+        @add-partcipant="addParticipant"
       />
     </div>
     <div v-else>
@@ -55,6 +56,9 @@ export default {
   }),
   middleware: 'authenticated',
   methods: {
+    addParticipant(user) {
+      this.$store.commit('addParticipant', user)
+    },
     changeStatus(status) {
       this.status = status
     },

@@ -1,12 +1,10 @@
 <template>
   <div class="participant">
     <div class="participant__wrapper">
-      <img
-        src="https://s.ftcdn.net/v2013/pics/all/curated/RKyaEDwp8J7JKeZWQPuOVWvkUjGQfpCx_cover_580.jpg?r=1a0fc22192d0c808b8bb2b9bcfbf4a45b1793687"
-      />
+      <img :src="user.image.filePath" />
       <p>{{ user.givenName }} {{ user.lastName }}</p>
     </div>
-    <button>+</button>
+    <button @click="addParticipant">+</button>
   </div>
 </template>
 <script>
@@ -15,6 +13,11 @@ export default {
     user: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    addParticipant() {
+      this.$emit('add-partcipant', this.user)
     }
   }
 }
