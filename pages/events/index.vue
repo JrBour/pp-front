@@ -8,10 +8,7 @@
 </template>
 <script>
 export default {
-  middleware: 'authenticated',
-  mounted() {
-    console.log(this.$router.history.current)
-  }
+  middleware: 'authenticated'
 }
 </script>
 <style lang="scss" scoped>

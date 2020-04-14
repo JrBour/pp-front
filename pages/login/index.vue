@@ -24,11 +24,11 @@
 
 <script>
 import Cookies from 'js-cookie'
-import Button from '../../components/button'
-import Input from '../../components/fields/input'
-import Password from '../../components/fields/password'
-import axiosHelper from '../../lib/axiosHelper'
 import { validateLoginField } from './validator'
+import Button from '~/components/button'
+import Input from '~/components/fields/input'
+import Password from '~/components/fields/password'
+import axiosHelper from '~/lib/axiosHelper'
 
 export default {
   components: {

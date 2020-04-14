@@ -1,5 +1,5 @@
 <template>
-  <div class="event__wrapper">
+  <form class="event__wrapper" @submit="submitEvent">
     <h1>Nouvel <br />évènement</h1>
     <div class="events__cover">
       <h2>Image de couverture</h2>
@@ -109,15 +109,18 @@
         </div>
       </div>
     </div>
-    <Button text="Valider" :disabled="disabledSubmitButton" />
-  </div>
+    <Button text="Valider" type="submit" :disabled="disabledSubmitButton" />
+  </form>
 </template>
 <script>
+import Cookies from 'js-cookie'
 import { validateEventFields } from './validator'
 import Button from '~/components/button'
 import User from '~/components/user'
 import Input from '~/components/fields/input'
 import Datetime from '~/components/fields/datetime'
+import axiosHelper from '~/lib/axiosHelper'
+import parseJwt from '~/utils/token'
 
 export default {
   components: {
@@ -150,6 +153,31 @@ export default {
     }
   }),
   middleware: 'authenticated',
+  computed: {
+    disabledSubmitButton() {
+      if (
+        this.name.length === 0 ||
+        this.description.length === 0 ||
+        this.address.length === 0 ||
+        this.zipcode.length === 0 ||
+        this.city.length === 0 ||
+        this.start.length === 0 ||
+        this.end.length === 0
+      ) {
+        return true
+      }
+
+      const errorsToCheck = { ...this.errors }
+      delete errorsToCheck.general
+      const checkError = Object.values(errorsToCheck).some(
+        (value) => value !== ''
+      )
+      if (checkError) {
+        return true
+      }
+      return false
+    }
+  },
   watch: {
     end(val) {
       if (
@@ -163,27 +191,49 @@ export default {
     }
   },
   methods: {
-    disabledSubmitButton() {
-      if (
-        this.name.length === 0 ||
-        this.description.length === 0 ||
-        this.address.length === 0 ||
-        this.zipcode.length === 0 ||
-        this.city.length === 0 ||
-        this.start.length === 0 ||
-        this.end.length === 0
-      ) {
-        return true
+    async submitEvent(e) {
+      e.preventDefault()
+      let imageId
+      if (this.image !== '') {
+        const formData = new FormData()
+        formData.append('file', this.cover)
+
+        try {
+          imageId = await axiosHelper({
+            url: 'api/media_objects',
+            method: 'post',
+            data: formData
+          })
+        } catch (e) {
+          this.errors.general =
+            "Une erreur s'est produite, veuillez reessayer ulterieurement"
+        }
       }
-      const errorsToCheck = { ...this.errors }
-      delete errorsToCheck.general
-      const checkError = Object.values(errorsToCheck).some(
-        (value) => value !== ''
-      )
-      if (checkError) {
-        return true
+      const token = Cookies.get('token')
+      const data = {
+        name: this.name,
+        description: this.description,
+        address: this.address,
+        city: this.city,
+        zipcode: parseInt(this.zipcode, 10),
+        startAt: new Date(this.start).toISOString(),
+        endAt: new Date(this.end).toISOString(),
+        shareFees: this.showExpense === 'yes',
+        image: imageId ? imageId.data.id : null,
+        author: `api/users/${parseJwt(token).id}`
       }
-      return false
+
+      try {
+        await axiosHelper({
+          url: 'api/events',
+          method: 'post',
+          data
+        })
+        this.$router.push({ name: 'event' })
+      } catch (e) {
+        this.errors.general =
+          "Une erreur s'est produite, veuillez reessayer ulterieurement"
+      }
     },
     handleChangeField(name, value) {
       this[name] = value
@@ -224,7 +274,8 @@ export default {
 h2 {
   font-weight: 500;
   font-size: 1.3em;
-  margin: 3vh 0;
+  margin: 3.5vh 0;
+  margin-left: -2vh;
 }
 input[id='cover'] {
   display: none;

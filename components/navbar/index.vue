@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
     <ul class="navbar__wrapper">
-      <li @click="$router.push('events')">
+      <li @click="$router.push({ name: 'events' })">
         <img
           :src="
             require(`~/static/img/icons/home-${
@@ -11,7 +11,7 @@
           alt="home"
         />
       </li>
-      <li @click="$router.push('album')">
+      <li @click="$router.push({ name: 'album' })">
         <img
           :src="
             require(`~/static/img/icons/album-${
@@ -21,7 +21,7 @@
           alt="album"
         />
       </li>
-      <li @click="$router.push('notifications')">
+      <li @click="$router.push({ name: 'notifications' })">
         <img
           :src="
             require(`~/static/img/icons/bell-${
@@ -32,7 +32,7 @@
           alt="notifications"
         />
       </li>
-      <li @click="$router.push('profile')">
+      <li @click="$router.push({ name: 'profile' })">
         <img
           :src="
             require(`~/static/img/icons/user-${

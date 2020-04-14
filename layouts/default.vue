@@ -7,11 +7,17 @@
   </div>
 </template>
 <script>
-import Navbar from '../components/navbar'
+import Cookies from 'js-cookie'
+import Navbar from '~/components/navbar'
 
 export default {
   components: {
     Navbar
+  },
+  mounted() {
+    if (Cookies.get('token')) {
+      this.$store.commit('addJwt', Cookies.get('token'))
+    }
   }
 }
 </script>
