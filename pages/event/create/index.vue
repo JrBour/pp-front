@@ -219,7 +219,7 @@ export default {
         startAt: new Date(this.start).toISOString(),
         endAt: new Date(this.end).toISOString(),
         shareFees: this.showExpense === 'yes',
-        image: imageId ? imageId.data.id : null,
+        image: imageId ? `api/media_objects/${imageId.data.id}` : null,
         author: `api/users/${parseJwt(token).id}`
       }
 
