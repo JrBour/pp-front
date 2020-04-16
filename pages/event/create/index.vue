@@ -224,12 +224,12 @@ export default {
       }
 
       try {
-        await axiosHelper({
+        const event = await axiosHelper({
           url: 'api/events',
           method: 'post',
           data
         })
-        this.$router.push({ name: 'event' })
+        this.$router.push({ name: 'event-id', params: { id: event.data.id } })
       } catch (e) {
         this.errors.general =
           "Une erreur s'est produite, veuillez reessayer ulterieurement"
@@ -386,6 +386,7 @@ input[id='cover'] {
 
 .events__image_display {
   width: 100%;
+  margin-bottom: 2vh;
 }
 .events__cover {
   display: flex;
