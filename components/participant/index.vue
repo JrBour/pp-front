@@ -5,7 +5,7 @@
       <p>{{ user.givenName }} {{ user.lastName }}</p>
     </div>
     <button
-      v-if="!$store.state.participants.includes(user)"
+      v-if="!$store.state.participants.some(({ id }) => id === user.id)"
       @click="addParticipant"
     >
       +

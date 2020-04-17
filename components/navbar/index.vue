@@ -82,6 +82,7 @@ export default {
   justify-content: space-around;
   & li {
     height: 2em;
+    margin-top: 1vh;
   }
   & li img {
     height: 100%;

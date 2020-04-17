@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 import axiosHelper from '../../lib/axiosHelper'
 import Button from '../../components/button'
 import Input from '../../components/fields/input'
@@ -124,6 +125,11 @@ export default {
         return true
       }
       return false
+    }
+  },
+  beforeCreate() {
+    if (Cookies.get('token') !== '') {
+      this.$router.push('events')
     }
   },
   methods: {

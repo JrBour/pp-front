@@ -16,6 +16,12 @@ export default {
     if (Cookies.get('token')) {
       this.$store.commit('addJwt', Cookies.get('token'))
     }
+  },
+  // eslint-disable-next-line nuxt/require-func-head
+  head: {
+    bodyAttrs: {
+      class: 'noBorder'
+    }
   }
 }
 </script>
@@ -87,7 +93,7 @@ html {
   overflow: scroll;
 }
 
-h1 {
+.noBorder h1 {
   padding: 9vh 0 0 8vw;
   font-size: 2.5em;
 }

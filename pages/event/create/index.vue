@@ -193,7 +193,7 @@ export default {
   methods: {
     async submitEvent(e) {
       e.preventDefault()
-      let imageId
+      let imageId, event
       if (this.image !== '') {
         const formData = new FormData()
         formData.append('file', this.cover)
@@ -224,16 +224,36 @@ export default {
       }
 
       try {
-        const event = await axiosHelper({
+        event = await axiosHelper({
           url: 'api/events',
           method: 'post',
           data
         })
-        this.$router.push({ name: 'event-id', params: { id: event.data.id } })
       } catch (e) {
         this.errors.general =
           "Une erreur s'est produite, veuillez reessayer ulterieurement"
       }
+
+      const userEvents = this.$store.state.participants.map(
+        (participant, index) =>
+          axiosHelper({
+            url: 'api/user_events',
+            method: 'post',
+            data: {
+              status: 'waiting',
+              isRead: false,
+              user: `api/users/${participant.id}`,
+              event: `api/events/${event.data.id}`
+            }
+          })
+      )
+      try {
+        await Promise.all(userEvents)
+        this.$router.push({
+          name: 'event-id',
+          params: { id: event.data.id }
+        })
+      } catch (e) {}
     },
     handleChangeField(name, value) {
       this[name] = value

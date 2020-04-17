@@ -18,6 +18,13 @@ export default {
     if (Cookies.get('token')) {
       this.$store.commit('addJwt', Cookies.get('token'))
     }
+  },
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'default'
+      }
+    }
   }
 }
 </script>
@@ -93,7 +100,7 @@ html {
   overflow: scroll;
 }
 
-h1 {
+.default h1 {
   padding-top: 7vh;
   font-size: 2.5em;
 }

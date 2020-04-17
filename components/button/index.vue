@@ -39,6 +39,7 @@ export default {
 
 <style lang="scss" scoped>
 button {
+  box-sizing: content-box;
   width: 100%;
   border: none;
   border-radius: 10px;
@@ -57,6 +58,6 @@ button {
   display: block;
   width: 80%;
   margin: 3vh auto;
-  font-size: 1em;
+  font-size: 0.9em;
 }
 </style>

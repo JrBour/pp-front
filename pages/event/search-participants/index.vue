@@ -3,7 +3,7 @@
     <img
       :src="require('~/static/img/icons/back.svg')"
       alt="back"
-      @click="$router.push({ name: 'event-create' })"
+      @click="$router.go(-1)"
     />
     <SegmentedControl
       first="Recherche"
