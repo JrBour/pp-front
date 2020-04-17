@@ -42,7 +42,12 @@
           </h2>
           <AddButton
             v-if="showActionButton"
-            @handle-click="$router.push({ name: 'event-search-participants' })"
+            @handle-click="
+              $router.push({
+                name: 'event-search-participants',
+                query: { event: event.id }
+              })
+            "
           />
         </div>
         <div>
@@ -61,15 +66,7 @@
       <div v-if="event.shareFees" class="event__expenses">
         <div class="event__expenses_title">
           <h2>Depenses</h2>
-          <AddButton
-            v-if="showActionButton"
-            @handle-click="
-              $router.push({
-                path: 'event/search-participants',
-                query: { event: event.id }
-              })
-            "
-          />
+          <AddButton v-if="showActionButton" @handle-click="test" />
         </div>
         <Button
           text="Voir toutes les depenses"
@@ -130,9 +127,18 @@ export default {
       })
       this.event = event.data
       const participants = event.data.userEvents.map(({ user }) => user)
+      this.$store.commit('addCurrentEvent', this.event)
       this.$store.commit('addParticipants', participants)
     } catch (e) {
       this.errors.general = "Une erreur s'est produite"
+    }
+  },
+  methods: {
+    test() {
+      this.$router.push({
+        name: 'events',
+        query: { yo: 'ntm' }
+      })
     }
   }
 }

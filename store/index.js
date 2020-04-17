@@ -30,9 +30,9 @@ export const mutations = {
     state.events = []
   },
   addCurrentEvent(state, event) {
-    state.event = event
+    state.currentEvent = event
   },
   resetCurrentEvent(state) {
-    state.event = null
+    state.currentEvent = null
   }
 }

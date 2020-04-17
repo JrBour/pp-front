@@ -241,7 +241,6 @@ export default {
             method: 'post',
             data: {
               status: 'waiting',
-              isRead: false,
               user: `api/users/${participant.id}`,
               event: `api/events/${event.data.id}`
             }

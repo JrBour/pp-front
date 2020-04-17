@@ -3,7 +3,7 @@
     <img
       :src="require('~/static/img/icons/back.svg')"
       alt="back"
-      @click="$router.go(-1)"
+      @click="submitParticipants"
     />
     <SegmentedControl
       first="Recherche"
@@ -67,8 +67,67 @@ export default {
       search: ''
     }
   }),
+  async beforeCreate() {
+    if (
+      this.$route.query.event &&
+      this.$store.state.participants.length === 0
+    ) {
+      try {
+        const event = await axiosHelper({
+          url: `api/events/${this.$route.query.event}`
+        })
+        const participants = event.data.userEvents.map(({ user }) => user)
+        this.$store.commit('addCurrentEvent', event.data)
+        this.$store.commit('addParticipants', participants)
+      } catch (e) {
+        return e
+      }
+    }
+  },
   middleware: 'authenticated',
   methods: {
+    async submitParticipants() {
+      if (this.$route.query.event) {
+        const participants = this.$store.state.participants
+        const userEvents = this.$store.state.currentEvent.userEvents
+        const participantsToAdd = participants.filter(
+          ({ id: participantId }) =>
+            !userEvents.find(({ user: { id } }) => id === participantId)
+        )
+
+        const participantsToRemove = userEvents.filter(
+          ({ user: { id } }) =>
+            !participants.find(({ id: participantId }) => id === participantId)
+        )
+
+        const userEventsToCreate = participantsToAdd.map(({ id }) =>
+          axiosHelper({
+            url: 'api/user_events',
+            method: 'POST',
+            data: {
+              status: 'waiting',
+              event: `api/events/${this.$route.query.event}`,
+              user: `api/users/${id}`
+            }
+          })
+        )
+
+        const userEventsToDelete = participantsToRemove.map(({ id }) =>
+          axiosHelper({
+            url: `api/user_events/${id}`,
+            method: 'DELETE'
+          })
+        )
+
+        try {
+          await Promise.all(userEventsToDelete)
+          await Promise.all(userEventsToCreate)
+        } catch (e) {
+          return e
+        }
+      }
+      this.$router.go(-1)
+    },
     addParticipant(user) {
       this.$store.commit('addParticipant', user)
     },
