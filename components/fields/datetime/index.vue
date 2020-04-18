@@ -61,6 +61,10 @@ export default {
     },
     defaultValue(val) {
       this.type = 'datetime-local'
+      if (val === '') {
+        return
+      }
+
       const date = new Date(val)
       const x = new Date(date).getTimezoneOffset() * 60000
       const localISOTime = new Date(date - x).toISOString().slice(0, 16)

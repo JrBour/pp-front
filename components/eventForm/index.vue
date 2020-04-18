@@ -156,6 +156,7 @@ export default {
     end: new Date().toLocaleString(),
     cover: '',
     image: '',
+    baseUrl: process.env.NUXT_ENV_API_URL,
     showExpense: 'no',
     errors: {
       name: '',
@@ -215,7 +216,7 @@ export default {
       this.start = val.startAt
       this.end = val.endAt
       this.cover = val.cover
-      this.image = val.image
+      this.image = `${this.baseUrl}media/${val.image.filePath}`
       this.showExpense = val.showExpense ? 'yes' : 'no'
 
       const participants = val.userEvents.map(({ user }) => user)
