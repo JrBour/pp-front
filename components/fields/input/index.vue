@@ -53,6 +53,10 @@ export default {
     onChange: {
       type: Function,
       required: true
+    },
+    defaultValue: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -62,7 +66,11 @@ export default {
   },
   watch: {
     inputValue(value) {
+      console.log('wsh')
       this.onChange(this.name, value)
+    },
+    defaultValue(val) {
+      this.inputValue = val
     }
   }
 }

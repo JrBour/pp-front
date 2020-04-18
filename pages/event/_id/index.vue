@@ -9,7 +9,16 @@
         <h1>{{ event.name }}</h1>
       </div>
       <div v-if="showActionButton" class="event__action">
-        <img :src="require('~/static/img/icons/pencil.svg')" alt="pencil" />
+        <img
+          :src="require('~/static/img/icons/pencil.svg')"
+          alt="pencil"
+          @click="
+            $router.push({
+              name: 'event-id-edit',
+              params: { id: $router.history.current.params.id }
+            })
+          "
+        />
         <img :src="require('~/static/img/icons/trash.svg')" alt="trash" />
       </div>
       <div
@@ -50,7 +59,7 @@
             "
           />
         </div>
-        <div>
+        <div class="event__particpants_wrapper">
           <User
             v-for="(participant, index) in event.userEvents"
             :key="index"
@@ -153,6 +162,10 @@ export default {
   width: 100%;
   background: white;
   padding: 1.5em;
+}
+.event__particpants_wrapper {
+  display: flex;
+  flex-wrap: wrap;
 }
 .event__participants,
 .event__expenses {

@@ -43,6 +43,10 @@ export default {
     onChange: {
       type: Function,
       required: true
+    },
+    defaultValue: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -54,6 +58,13 @@ export default {
   watch: {
     inputValue(value) {
       this.onChange(this.name, value)
+    },
+    defaultValue(val) {
+      this.type = 'datetime-local'
+      const date = new Date(val)
+      const x = new Date(date).getTimezoneOffset() * 60000
+      const localISOTime = new Date(date - x).toISOString().slice(0, 16)
+      this.inputValue = localISOTime
     }
   },
   methods: {

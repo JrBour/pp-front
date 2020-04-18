@@ -1,5 +1,13 @@
 <template>
-  <EventForm :general-error="generalError" @submit-event="submitEvent" />
+  <div>
+    <EventForm
+      v-if="error === ''"
+      :general-error="generalError"
+      :event="event"
+      @submit-event="submitEvent"
+    />
+    <p v-else>{{ error }}</p>
+  </div>
 </template>
 <script>
 import EventForm from '~/components/eventForm'
@@ -10,8 +18,23 @@ export default {
     EventForm
   },
   data: () => ({
+    event: null,
+    error: '',
     generalError: ''
   }),
+  async beforeCreate() {
+    if (this.$route.params.id !== this.$store.state.currentEvent?.id) {
+      try {
+        const event = await axiosHelper({
+          url: `api/events/${this.$route.params.id}`
+        })
+        this.$store.commit('addCurrentEvent', event.data)
+        this.event = event.data
+      } catch (e) {
+        this.error = "Une erreur s'est produite, veuillez recharger la page"
+      }
+    }
+  },
   methods: {
     async submitEvent(event) {
       let imageId, eventResponse
@@ -22,7 +45,7 @@ export default {
         try {
           imageId = await axiosHelper({
             url: 'api/media_objects',
-            method: 'post',
+            method: 'patch',
             data: formData
           })
         } catch (e) {
@@ -80,3 +103,4 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped></style>

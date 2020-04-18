@@ -94,7 +94,7 @@ html {
 }
 
 .noBorder h1 {
-  padding: 9vh 0 0 8vw;
+  padding: 9vh 1vw 0 8vw;
   font-size: 2.5em;
 }
 
