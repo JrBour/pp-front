@@ -14,7 +14,7 @@
           alt="pencil"
           @click="
             $router.push({
-              name: 'event-id-edit',
+              name: 'event-id',
               params: { id: $router.history.current.params.id }
             })
           "

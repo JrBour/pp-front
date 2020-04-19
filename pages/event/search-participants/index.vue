@@ -119,12 +119,8 @@ export default {
           })
         )
 
-        try {
-          await Promise.all(userEventsToDelete)
-          await Promise.all(userEventsToCreate)
-        } catch (e) {
-          return e
-        }
+        await Promise.all(userEventsToDelete)
+        await Promise.all(userEventsToCreate)
       }
       this.$router.go(-1)
     },

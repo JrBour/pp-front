@@ -22,34 +22,40 @@ export default {
     error: '',
     generalError: ''
   }),
-  async beforeCreate() {
-    if (this.$route.params.id !== this.$store.state.currentEvent?.id) {
+  async mounted() {
+    if (
+      parseInt(this.$route.params.id, 10) !== this.$store.state.currentEvent?.id
+    ) {
       try {
         const event = await axiosHelper({
           url: `api/events/${this.$route.params.id}`
         })
         this.$store.commit('addCurrentEvent', event.data)
+        const participants = event.data.userEvents.map(({ user }) => user)
+        this.$store.commit('addParticipants', participants)
         this.event = event.data
       } catch (e) {
         this.error = "Une erreur s'est produite, veuillez recharger la page"
       }
+    } else {
+      this.event = this.$store.state.currentEvent
     }
   },
   methods: {
     async submitEvent(event) {
-      let imageId, eventResponse
-      if (event.image !== '') {
+      let imageId
+      if (event.image !== null && event.cover instanceof File) {
         const formData = new FormData()
         formData.append('file', event.cover)
 
         try {
           imageId = await axiosHelper({
             url: 'api/media_objects',
-            method: 'patch',
+            method: 'post',
             data: formData
           })
         } catch (e) {
-          this.errors.general =
+          this.generalError =
             "Une erreur s'est produite, veuillez reessayer ulterieurement"
         }
       }
@@ -67,9 +73,9 @@ export default {
       }
 
       try {
-        eventResponse = await axiosHelper({
-          url: 'api/events',
-          method: 'post',
+        await axiosHelper({
+          url: `api/events/${this.$route.params.id}`,
+          method: 'patch',
           data
         })
       } catch (e) {
@@ -77,28 +83,42 @@ export default {
           "Une erreur s'est produite, veuillez reessayer ulterieurement"
       }
 
-      const userEvents = this.$store.state.participants.map(
-        (participant, index) =>
-          axiosHelper({
-            url: 'api/user_events',
-            method: 'post',
-            data: {
-              status: 'waiting',
-              user: `api/users/${participant.id}`,
-              event: `api/events/${eventResponse.data.id}`
-            }
-          })
+      const participants = this.$store.state.participants
+      const userEvents = this.$store.state.currentEvent.userEvents
+      const participantsToAdd = participants.filter(
+        ({ id: participantId }) =>
+          !userEvents.find(({ user: { id } }) => id === participantId)
       )
-      try {
-        await Promise.all(userEvents)
-        this.$router.push({
-          name: 'event-id',
-          params: { id: eventResponse.data.id }
+
+      const participantsToRemove = userEvents.filter(
+        ({ user: { id } }) =>
+          !participants.find(({ id: participantId }) => id === participantId)
+      )
+
+      const userEventsToCreate = participantsToAdd.map(({ id }) =>
+        axiosHelper({
+          url: 'api/user_events',
+          method: 'POST',
+          data: {
+            status: 'waiting',
+            event: `api/events/${this.$route.params.id}`,
+            user: `api/users/${id}`
+          }
         })
-      } catch (e) {
-        this.generalError =
-          "Une erreur s'est produite, veuillez reessayer ulterieurement"
-      }
+      )
+      const userEventsToDelete = participantsToRemove.map(({ id }) =>
+        axiosHelper({
+          url: `api/user_events/${id}`,
+          method: 'DELETE'
+        })
+      )
+
+      await Promise.all(userEventsToDelete)
+      await Promise.all(userEventsToCreate)
+      this.$router.push({
+        name: 'event-id',
+        params: { id: this.$route.params.id }
+      })
     }
   }
 }

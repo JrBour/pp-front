@@ -93,7 +93,7 @@
     <Button
       text="Ajouter des participants"
       :small="true"
-      @handle-click="$router.push('search-participants')"
+      @handle-click="$router.push({ name: 'event-search-participants' })"
     />
     <div>
       <p class="events__expense_question">
@@ -170,7 +170,6 @@ export default {
       general: ''
     }
   }),
-  middleware: 'authenticated',
   computed: {
     disabledSubmitButton() {
       if (
@@ -208,6 +207,7 @@ export default {
       }
     },
     event(val) {
+      console.log('val : ', val)
       this.name = val.name
       this.description = val.description
       this.address = val.address
@@ -216,13 +216,16 @@ export default {
       this.start = val.startAt
       this.end = val.endAt
       this.cover = val.cover
-      this.image = `${this.baseUrl}media/${val.image.filePath}`
+      this.image = val.image
+        ? `${this.baseUrl}media/${val.image.filePath}`
+        : null
       this.showExpense = val.showExpense ? 'yes' : 'no'
-
-      const participants = val.userEvents.map(({ user }) => user)
-      this.$store.commit('addParticipants', participants)
     }
   },
+  mounted() {
+    console.log(this.event)
+  },
+  middleware: 'authenticated',
   methods: {
     submitEvent(e) {
       e.preventDefault()
