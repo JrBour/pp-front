@@ -5,6 +5,12 @@
       <p v-if="errors.general">{{ errors.general }}</p>
     </div>
     <div v-else class="event__wrapper">
+      <Modal
+        v-if="displayModal"
+        text="Souhaitez-vous supprimer cette evenement ?"
+        @confirm="confirmRemoveEvent"
+        @cancel="cancelRemoveEvent"
+      />
       <div class="event__title">
         <h1>{{ event.name }}</h1>
       </div>
@@ -14,12 +20,16 @@
           alt="pencil"
           @click="
             $router.push({
-              name: 'event-id',
-              params: { id: $router.history.current.params.id }
+              name: 'event-id-edit',
+              params: { id: $route.params.id }
             })
           "
         />
-        <img :src="require('~/static/img/icons/trash.svg')" alt="trash" />
+        <img
+          :src="require('~/static/img/icons/trash.svg')"
+          alt="trash"
+          @click="displayModal = true"
+        />
       </div>
       <div
         v-if="event.image"
@@ -90,6 +100,7 @@
 import Cookies from 'js-cookie'
 import axiosHelper from '~/lib/axiosHelper'
 import AddButton from '~/components/addButton'
+import Modal from '~/components/modal'
 import User from '~/components/user'
 import Button from '~/components/button'
 import { days, months } from '~/constants/date'
@@ -100,10 +111,12 @@ export default {
   components: {
     AddButton,
     Button,
+    Modal,
     User
   },
   data: () => ({
     event: null,
+    displayModal: false,
     baseUrl: process.env.NUXT_ENV_API_URL,
     errors: {
       general: ''
@@ -143,10 +156,26 @@ export default {
     }
   },
   methods: {
-    test() {
+    async confirmRemoveEvent() {
+      this.displayModal = false
+      try {
+        await axiosHelper({
+          url: `api/events/${this.$route.params.id}`,
+          method: 'delete'
+        })
+        this.$router.push({ name: 'events' })
+      } catch (e) {
+        this.errors.general =
+          'Une erreur est survenue, veuillez rechargez la page et réessayer'
+      }
+    },
+    cancelRemoveEvent() {
+      this.displayModal = false
+    },
+    pushToEditPage() {
       this.$router.push({
-        name: 'events',
-        query: { yo: 'ntm' }
+        name: 'event-id-edit',
+        params: { id: this.$route.params.id }
       })
     }
   }

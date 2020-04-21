@@ -207,7 +207,6 @@ export default {
       }
     },
     event(val) {
-      console.log('val : ', val)
       this.name = val.name
       this.description = val.description
       this.address = val.address
@@ -221,9 +220,6 @@ export default {
         : null
       this.showExpense = val.showExpense ? 'yes' : 'no'
     }
-  },
-  mounted() {
-    console.log(this.event)
   },
   middleware: 'authenticated',
   methods: {

@@ -1,14 +1,61 @@
 <template>
-  <div>
+  <div class="events__container">
     <h1>Événements</h1>
+    <div class="events__wrapper">
+      <SegmentedControl first="Prochains" second="Passés" />
+      <div v-if="events !== null && events.length === 0">
+        <p>Vous n'avez aucun événement de prévu</p>
+      </div>
+      <div v-else>
+        <Event v-for="event in events" :key="event.id" :event="event" />
+      </div>
+    </div>
     <button class="events__button_add" @click="$router.push('/event/create')">
       +
     </button>
   </div>
 </template>
 <script>
+import Cookies from 'js-cookie'
+import Event from '~/components/event'
+import SegmentedControl from '~/components/segmentedControl'
+import axiosHelper from '~/lib/axiosHelper'
+import parseToken from '~/utils/token'
+
 export default {
-  middleware: 'authenticated'
+  components: {
+    Event,
+    SegmentedControl
+  },
+  middleware: 'authenticated',
+  data: () => ({
+    events: null,
+    error: ''
+  }),
+  async mounted() {
+    let events = []
+    try {
+      const userId = parseToken(Cookies.get('token')).id
+      const date = new Date()
+
+      const eventsFromUserEvents = await axiosHelper({
+        url: `api/events?userEvents.user.id=${userId}&start_at[after]=${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+      })
+      const eventsFromAuthor = await axiosHelper({
+        url: `api/events?author.id=${userId}&start_at[after]=${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+      })
+
+      events = eventsFromUserEvents.data.filter(
+        (event) => !eventsFromAuthor.data.includes(event)
+      )
+      events = [...events, ...eventsFromAuthor.data]
+      this.events = events.sort(
+        (a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime()
+      )
+    } catch (e) {
+      this.error = e
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
