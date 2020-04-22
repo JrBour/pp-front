@@ -6,6 +6,7 @@
         v-model="inputValue"
         :name="name"
         :type="type"
+        :step="step"
         :class="{ inputError: error !== '' }"
       />
       <label
@@ -22,6 +23,10 @@
 <script>
 export default {
   props: {
+    step: {
+      type: String,
+      default: 'any'
+    },
     text: {
       type: String,
       required: true

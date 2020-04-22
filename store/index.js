@@ -19,6 +19,9 @@ export const mutations = {
   addParticipants(state, participants) {
     state.participants = participants
   },
+  resetParticipants(state) {
+    state.participants = []
+  },
   removeParticipant(state, id) {
     state.participants = state.participants.filter(
       (participant) => participant.id !== id

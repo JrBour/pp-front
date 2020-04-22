@@ -11,7 +11,7 @@ const requiredFields = [
 ]
 
 const dateFields = ['start', 'end']
-const regexAlphaFields = ['name', 'city']
+const regexAlphaFields = ['city']
 
 export const validateEventFields = (name, value) => {
   if (requiredFields.includes(name) && value === '') {

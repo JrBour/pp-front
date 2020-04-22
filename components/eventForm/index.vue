@@ -9,7 +9,7 @@
         name="cover"
         @change="processFile($event)"
       />
-      <label for="cover"
+      <label v-if="displayInputFile" for="cover"
         ><img :src="require('~/static/img/icons/upload.svg')" alt="upload"
       /></label>
     </div>
@@ -156,6 +156,7 @@ export default {
     end: new Date().toLocaleString(),
     cover: '',
     image: '',
+    displayInputFile: true,
     baseUrl: process.env.NUXT_ENV_API_URL,
     showExpense: 'no',
     errors: {
@@ -249,6 +250,8 @@ export default {
     removeCoverPicture() {
       this.cover = ''
       this.image = ''
+      this.displayInputFile = false
+      this.$nextTick(() => (this.displayInputFile = true))
     },
     processFile(event) {
       const extensionsAllowed = ['jpg', 'jpeg', 'png']
@@ -267,7 +270,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .events__participants_warning {
   text-align: center;
 }

@@ -40,6 +40,7 @@
       ></div>
       <div class="event__informations">
         <h2>Informations</h2>
+        <p class="event__informations_description">{{ event.description }}</p>
         <div class="event__informations_address">
           <img
             :src="require('~/static/img/icons/calendar.svg')"
@@ -69,7 +70,7 @@
             "
           />
         </div>
-        <div class="event__particpants_wrapper">
+        <div class="event__participants_wrapper">
           <User
             v-for="(participant, index) in participants"
             :key="index"
@@ -91,7 +92,15 @@
       <div v-if="event.shareFees" class="event__expenses">
         <div class="event__expenses_title">
           <h2>Depenses</h2>
-          <AddButton v-if="showActionButton" @handle-click="test" />
+          <AddButton
+            v-if="showActionButton"
+            @handle-click="
+              $router.push({
+                name: 'event-id-expenses-create',
+                query: { event: $route.params.id }
+              })
+            "
+          />
         </div>
         <Button
           text="Voir toutes les depenses"
@@ -136,6 +145,13 @@ export default {
 
       return `${day} ${date.getDate()} ${month}`
     },
+    expenses() {
+      if (this.event.expenses.length > 3) {
+        return this.event.expenses.filter((expense, index) => index < 3)
+      }
+
+      return this.event.expenses
+    },
     hours() {
       const start = new Date(this.event.startAt)
       const end = new Date(this.event.endAt)
@@ -156,7 +172,9 @@ export default {
       return parseJwt(token).id === this.event.author.id
     },
     participants() {
-      const participants = this.event.userEvents.map(({ user }) => user)
+      const participants = this.event.userEvents
+        .map(({ user }) => user)
+        .filter((userEvent, index) => index <= 10)
       return [...participants, this.event.author]
     }
   },
@@ -200,7 +218,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .event__title {
   min-height: 18vh;
 }
@@ -211,13 +229,16 @@ export default {
   background: white;
   padding: 1.5em;
 }
-.event__particpants_wrapper {
+.event__participants_wrapper {
   display: flex;
   flex-wrap: wrap;
 }
 .event__participants,
 .event__expenses {
   margin: 3vh 0;
+}
+.event__informations_description {
+  margin-left: 3vw;
 }
 .event__action {
   display: flex;
@@ -245,10 +266,13 @@ export default {
 .event__expenses_title {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3vh;
 }
 h2 {
   font-size: 1.3em;
   margin-bottom: 3vh;
+  font-weight: 500;
   & span {
     font-weight: 300;
     font-size: 0.9em;

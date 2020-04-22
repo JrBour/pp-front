@@ -10,7 +10,11 @@
       />
       <div class="register__profile">
         <p>Photo <br />de profil</p>
-        <label v-if="image === ''" class="register__profile_add" for="profile">
+        <label
+          v-if="image === '' && displayInputFile"
+          class="register__profile_add"
+          for="profile"
+        >
           +
         </label>
         <div v-else class="register__profile_pictureAdd">
@@ -75,11 +79,11 @@
 
 <script>
 import Cookies from 'js-cookie'
-import axiosHelper from '../../lib/axiosHelper'
-import Button from '../../components/button'
-import Input from '../../components/fields/input'
-import Password from '../../components/fields/password'
 import { validateRegisterField } from './validator'
+import Button from '~/components/button'
+import Input from '~/components/fields/input'
+import Password from '~/components/fields/password'
+import axiosHelper from '~/lib/axiosHelper'
 
 export default {
   components: {
@@ -93,6 +97,7 @@ export default {
     email: '',
     phone: '',
     password: '',
+    displayInputFile: true,
     profile: '',
     image: '',
     errors: {
@@ -136,6 +141,8 @@ export default {
     removeProfilePicture() {
       this.profile = ''
       this.image = ''
+      this.displayInputFile = false
+      this.$nextTick(() => (this.displayInputFile = true))
     },
     handleChangeField(name, value) {
       this[name] = value

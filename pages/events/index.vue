@@ -16,7 +16,7 @@
         <Event v-for="event in events" :key="event.id" :event="event" />
       </div>
     </div>
-    <button class="events__button_add" @click="$router.push('/event/create')">
+    <button class="events__button_add" @click="addEvent">
       +
     </button>
   </div>
@@ -36,6 +36,8 @@ export default {
   middleware: 'authenticated',
   data: () => ({
     events: null,
+    date: null,
+    month: null,
     status: 'Prochains',
     loading: false,
     userId: null,
@@ -46,15 +48,24 @@ export default {
     try {
       this.userId = parseToken(Cookies.get('token')).id
       this.date = new Date()
+      this.month =
+        this.date.getMonth().length === 1
+          ? `0${this.date.getMonth()}`
+          : this.date.getMonth()
+
       const eventsFromUserEvents = await axiosHelper({
         url: `api/events?userEvents.user.id=${
           this.userId
-        }&startAt[after]=${this.date.getFullYear()}-0${this.date.getMonth()}-${this.date.getDate()}`
+        }&startAt[after]=${this.date.getFullYear()}-${
+          this.month
+        }-${this.date.getDate()}`
       })
       const eventsFromAuthor = await axiosHelper({
         url: `api/events?author.id=${
           this.userId
-        }&startAt[after]=${this.date.getFullYear()}-0${this.date.getMonth()}-${this.date.getDate()}`
+        }&startAt[after]=${this.date.getFullYear()}-${
+          this.month
+        }-${this.date.getDate()}`
       })
       this.events = this.handleEvent(eventsFromAuthor, eventsFromUserEvents)
       this.$store.commit('addEvents', this.events)
@@ -64,6 +75,11 @@ export default {
     this.loading = false
   },
   methods: {
+    addEvent() {
+      this.$store.commit('resetEvents')
+      this.$store.commit('resetParticipants')
+      this.$router.push('/event/create')
+    },
     handleEvent(eventsFromAuthor, eventsFromUserEvents) {
       let events = []
       const eventFromAuthorId = eventsFromAuthor.data.map(({ id }) => id)
@@ -80,6 +96,7 @@ export default {
     async changeStatus(status) {
       this.loading = true
       this.status = status
+
       if (status === 'Prochains') {
         this.events = this.$store.state.events
       } else if (this.$store.state.pastEvents.length === 0) {
@@ -87,12 +104,16 @@ export default {
           const eventsFromUserEvents = await axiosHelper({
             url: `api/events?userEvents.user.id=${
               this.userId
-            }&endAt[before]=${this.date.getFullYear()}-0${this.date.getMonth()}-${this.date.getDate()}`
+            }&endAt[before]=${this.date.getFullYear()}-${
+              this.month
+            }-${this.date.getDate()}`
           })
           const eventsFromAuthor = await axiosHelper({
             url: `api/events?author.id=${
               this.userId
-            }&endAt[before]=${this.date.getFullYear()}-0${this.date.getMonth()}-${this.date.getDate()}`
+            }&endAt[before]=${this.date.getFullYear()}-${
+              this.month
+            }-${this.date.getDate()}`
           })
 
           this.events = this.handleEvent(eventsFromAuthor, eventsFromUserEvents)

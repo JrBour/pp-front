@@ -59,7 +59,8 @@ export default {
             "Une erreur s'est produite, veuillez reessayer ulterieurement"
         }
       }
-      const data = {
+
+      let data = {
         name: event.name,
         description: event.description,
         address: event.address,
@@ -67,9 +68,11 @@ export default {
         zipcode: parseInt(event.zipcode, 10),
         startAt: event.startAt,
         endAt: event.endAt,
-        shareFees: event.showExpense === 'yes',
-        image: imageId ? `api/media_objects/${imageId.data.id}` : null,
+        shareFees: event.shareFees,
         author: event.author
+      }
+      if (imageId) {
+        data = { ...data, image: `api/media_objects/${imageId.data.id}` }
       }
 
       try {
