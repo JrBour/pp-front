@@ -6,7 +6,7 @@
       <div v-if="events !== null && events.length === 0">
         <p>Vous n'avez aucun événement de prévu</p>
       </div>
-      <div v-else>
+      <div v-else class="events__list">
         <Event v-for="event in events" :key="event.id" :event="event" />
       </div>
     </div>
@@ -44,10 +44,12 @@ export default {
       const eventsFromAuthor = await axiosHelper({
         url: `api/events?author.id=${userId}&start_at[after]=${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
       })
+      const eventFromAuthorId = eventsFromAuthor.data.map(({ id }) => id)
 
       events = eventsFromUserEvents.data.filter(
-        (event) => !eventsFromAuthor.data.includes(event)
+        ({ id }) => !eventFromAuthorId.includes(id)
       )
+
       events = [...events, ...eventsFromAuthor.data]
       this.events = events.sort(
         (a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime()
@@ -59,6 +61,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.events__list {
+  min-height: 70vh;
+  padding-bottom: 13vh;
+}
 .events__button_add {
   position: fixed;
   bottom: 10vh;

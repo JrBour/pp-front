@@ -10,7 +10,7 @@ export default ({ redirect, store, req }) => {
     return
   }
 
-  if (store.state.jwt === null && cookie === undefined) {
+  if (store.state.jwt === null && !cookie) {
     return redirect('/login')
   }
 }

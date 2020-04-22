@@ -25,6 +25,7 @@
         v-for="participant in participants"
         :key="participant.id"
         :user="participant"
+        :display-add-button="showAddButton(participant.id)"
         @add-partcipant="addParticipant"
       />
     </div>
@@ -46,11 +47,13 @@
   </div>
 </template>
 <script>
+import Cookies from 'js-cookie'
 import Input from '~/components/fields/input'
 import User from '~/components/user'
 import Participant from '~/components/participant'
 import SegmentedControl from '~/components/segmentedControl'
 import axiosHelper from '~/lib/axiosHelper'
+import parseToken from '~/utils/token'
 
 export default {
   components: {
@@ -67,6 +70,14 @@ export default {
       search: ''
     }
   }),
+  computed: {
+    showAddButton() {
+      return (userId) => {
+        const currentUserId = parseToken(Cookies.get('token')).id
+        return !(currentUserId === userId)
+      }
+    }
+  },
   async beforeCreate() {
     if (
       this.$route.query.event &&

@@ -8,22 +8,43 @@
       </div>
       <div class="event__separator"></div>
       <div class="event__information">
-        <h2>{{ title }}</h2>
-        <p>{{ event.address }} - {{ event.city }}</p>
+        <h2
+          @click="$router.push({ name: 'event-id', params: { id: event.id } })"
+        >
+          {{ title }}
+        </h2>
+        <p>{{ address }}</p>
       </div>
       <img :src="require('~/static/img/icons/dots.svg')" />
     </div>
-    <div>
-      <div></div>
-      <div class="event__hour"></div>
+    <div class="event__footer">
+      <div class="event__participants">
+        <User
+          v-for="participant in participants"
+          :key="participant.id"
+          :user="participant"
+          :small="true"
+          :display-full-name="false"
+        />
+        <div v-if="event.userEvents.length > 5" class="participants__remain">
+          <p>{{ event.userEvents.length - 4 }}</p>
+        </div>
+      </div>
+      <div class="event__hours">
+        <p>{{ hours }}</p>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import { shortDays, shortMonths } from '~/constants/date'
+import User from '~/components/user'
 
 export default {
   name: 'Event',
+  components: {
+    User
+  },
   props: {
     event: {
       type: Object,
@@ -35,6 +56,32 @@ export default {
     shortMonths
   }),
   computed: {
+    participants() {
+      if (this.event.userEvents.length > 5) {
+        return this.event.userEvents.filter((userEvent, index) => {
+          if (index < 4) {
+            return userEvent.user
+          }
+        })
+      }
+      const participants = this.event.userEvents.map(({ user }) => user)
+
+      return participants
+    },
+    address() {
+      const addressFormatted = `${this.event.address} - ${this.event.city}`
+      if (addressFormatted.length >= 30) {
+        return `${addressFormatted.slice(0, 28)}...`
+      }
+
+      return addressFormatted
+    },
+    hours() {
+      const start = new Date(this.event.startAt)
+      const end = new Date(this.event.endAt)
+
+      return `${start.getHours()}h${start.getMinutes()} - ${end.getHours()}h${end.getMinutes()}`
+    },
     start() {
       return new Date(this.event.startAt)
     },
@@ -50,13 +97,36 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.event__participants {
+  display: flex;
+}
+.participants__remain {
+  border-radius: 50%;
+  background: rgba(255, 115, 116, 0.2);
+  color: #47588a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2em;
+  height: 2em;
+  font-weight: 500;
+}
+.event__hours {
+  border-radius: 8px;
+  color: #47588a;
+  font-size: 0.8em;
+  background: #b9e5ec;
+  text-align: center;
+  padding: 2px 10px;
+  font-weight: 500;
+}
 .event__wrapper {
   width: 100%;
   background: #ffffff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
   margin-bottom: 3vh;
-  padding: 14px;
+  padding: 14px 14px 10px 14px;
 }
 img {
   margin-top: 1vh;
@@ -66,9 +136,15 @@ img {
   line-height: 1.4em;
   & p {
     font-size: 0.8em;
-    font-weight: 400;
+    font-weight: 500;
     color: #808080;
   }
+}
+.event__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 2vh;
 }
 .event__header {
   display: flex;
@@ -106,6 +182,6 @@ img {
 h2 {
   color: #47588a;
   font-size: 1.2em;
-  font-weight: 500;
+  font-weight: 600;
 }
 </style>

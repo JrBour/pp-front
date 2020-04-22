@@ -128,7 +128,7 @@ export default {
     }
   },
   beforeCreate() {
-    if (Cookies.get('token') !== '') {
+    if (Cookies.get('token')) {
       this.$router.push('events')
     }
   },

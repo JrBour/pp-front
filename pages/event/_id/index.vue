@@ -57,7 +57,7 @@
       <div class="event__participants">
         <div class="event__participants_title">
           <h2>
-            Participants <span>({{ event.userEvents.length }})</span>
+            Participants <span>({{ event.userEvents.length + 1 }})</span>
           </h2>
           <AddButton
             v-if="showActionButton"
@@ -71,15 +71,21 @@
         </div>
         <div class="event__particpants_wrapper">
           <User
-            v-for="(participant, index) in event.userEvents"
+            v-for="(participant, index) in participants"
             :key="index"
-            :user="participant.user"
+            :user="participant"
+            :is-editable="removeParticipant(participant.id)"
           />
         </div>
         <Button
           text="Voir tous les participants"
           :small="true"
-          @handle-click="$router.push({ name: 'participants' })"
+          @handle-click="
+            $router.push({
+              name: 'event-participants',
+              query: { event: $route.params.id }
+            })
+          "
         />
       </div>
       <div v-if="event.shareFees" class="event__expenses">
@@ -136,9 +142,22 @@ export default {
 
       return `${start.getHours()}h${start.getMinutes()} - ${end.getHours()}h${end.getMinutes()}`
     },
+    removeParticipant() {
+      return (userId) => {
+        const token = Cookies.get('token')
+        return (
+          parseJwt(token).id === this.event.author.id &&
+          this.event.author.id !== userId
+        )
+      }
+    },
     showActionButton() {
       const token = Cookies.get('token')
       return parseJwt(token).id === this.event.author.id
+    },
+    participants() {
+      const participants = this.event.userEvents.map(({ user }) => user)
+      return [...participants, this.event.author]
     }
   },
   async beforeCreate() {
@@ -183,7 +202,7 @@ export default {
 </script>
 <style lang="scss">
 .event__title {
-  min-height: 23vh;
+  min-height: 18vh;
 }
 .event__informations,
 .event__participants,
@@ -203,7 +222,7 @@ export default {
 .event__action {
   display: flex;
   margin: 2vh 5vw;
-  justify-content: flex-end;
+  justify-content: flex-start;
   & img {
     margin-left: 2vw;
   }

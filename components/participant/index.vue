@@ -5,7 +5,10 @@
       <p>{{ user.givenName }} {{ user.lastName }}</p>
     </div>
     <button
-      v-if="!$store.state.participants.some(({ id }) => id === user.id)"
+      v-if="
+        !$store.state.participants.some(({ id }) => id === user.id) &&
+          displayAddButton
+      "
       @click="addParticipant"
     >
       +
@@ -17,6 +20,10 @@ export default {
   props: {
     user: {
       type: Object,
+      required: true
+    },
+    displayAddButton: {
+      type: Boolean,
       required: true
     }
   },
@@ -49,6 +56,7 @@ export default {
   border-radius: 5px;
   padding: 10px;
   box-sizing: border-box;
+  margin-bottom: 2vh;
 }
 .participant__wrapper {
   width: 90%;

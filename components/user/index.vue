@@ -1,10 +1,16 @@
 <template>
-  <div class="user">
-    <div class="user__wrapper">
-      <img :src="imageUrl" alt="" />
-      <button @click="removeParticipant"><p>x</p></button>
+  <div :class="[small ? 'user__small' : 'user']">
+    <div :class="[small ? 'user__wrapper_small' : 'user__wrapper']">
+      <img
+        :src="imageUrl"
+        alt=""
+        :class="[small ? 'user__image_small' : 'user__image']"
+      />
+      <button v-if="displayFullName && isEditable" @click="removeParticipant">
+        <p>x</p>
+      </button>
     </div>
-    <p>
+    <p v-if="displayFullName">
       <span>{{ user.givenName }}</span> <br />
       {{ user.lastName }}
     </p>
@@ -17,6 +23,18 @@ export default {
     user: {
       type: Object,
       required: true
+    },
+    displayFullName: {
+      type: Boolean,
+      default: true
+    },
+    small: {
+      type: Boolean,
+      default: false
+    },
+    isEditable: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => ({
@@ -40,6 +58,11 @@ export default {
 <style lang="scss" scoped>
 .user {
   width: 25%;
+  margin-bottom: 4vh;
+}
+.user__small {
+  width: auto;
+  margin-right: 1vw;
 }
 .user__wrapper {
   position: relative;
@@ -66,9 +89,15 @@ button {
 }
 img {
   border-radius: 50%;
+  margin: auto;
+}
+.user__image {
   width: 3em;
   height: 3em;
-  margin: auto;
+}
+.user__image_small {
+  width: 2em;
+  height: 2em;
 }
 p {
   font-size: 0.9em;
