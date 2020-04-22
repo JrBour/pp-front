@@ -2,10 +2,16 @@
   <div class="events__container">
     <h1>Événements</h1>
     <div class="events__wrapper">
-      <SegmentedControl first="Prochains" second="Passés" />
+      <SegmentedControl
+        first="Prochains"
+        second="Passés"
+        :status="status"
+        @get-segment="changeStatus"
+      />
       <div v-if="events !== null && events.length === 0">
-        <p>Vous n'avez aucun événement de prévu</p>
+        <p>Vous n'avez aucun événement à afficher</p>
       </div>
+      <p v-else-if="loading">Chargement...</p>
       <div v-else class="events__list">
         <Event v-for="event in events" :key="event.id" :event="event" />
       </div>
@@ -30,20 +36,36 @@ export default {
   middleware: 'authenticated',
   data: () => ({
     events: null,
+    status: 'Prochains',
+    loading: false,
+    userId: null,
     error: ''
   }),
   async mounted() {
-    let events = []
+    this.loading = true
     try {
-      const userId = parseToken(Cookies.get('token')).id
-      const date = new Date()
-
+      this.userId = parseToken(Cookies.get('token')).id
+      this.date = new Date()
       const eventsFromUserEvents = await axiosHelper({
-        url: `api/events?userEvents.user.id=${userId}&start_at[after]=${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+        url: `api/events?userEvents.user.id=${
+          this.userId
+        }&startAt[after]=${this.date.getFullYear()}-0${this.date.getMonth()}-${this.date.getDate()}`
       })
       const eventsFromAuthor = await axiosHelper({
-        url: `api/events?author.id=${userId}&start_at[after]=${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+        url: `api/events?author.id=${
+          this.userId
+        }&startAt[after]=${this.date.getFullYear()}-0${this.date.getMonth()}-${this.date.getDate()}`
       })
+      this.events = this.handleEvent(eventsFromAuthor, eventsFromUserEvents)
+      this.$store.commit('addEvents', this.events)
+    } catch (e) {
+      this.error = e
+    }
+    this.loading = false
+  },
+  methods: {
+    handleEvent(eventsFromAuthor, eventsFromUserEvents) {
+      let events = []
       const eventFromAuthorId = eventsFromAuthor.data.map(({ id }) => id)
 
       events = eventsFromUserEvents.data.filter(
@@ -51,11 +73,37 @@ export default {
       )
 
       events = [...events, ...eventsFromAuthor.data]
-      this.events = events.sort(
+      return events.sort(
         (a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime()
       )
-    } catch (e) {
-      this.error = e
+    },
+    async changeStatus(status) {
+      this.loading = true
+      this.status = status
+      if (status === 'Prochains') {
+        this.events = this.$store.state.events
+      } else if (this.$store.state.pastEvents.length === 0) {
+        try {
+          const eventsFromUserEvents = await axiosHelper({
+            url: `api/events?userEvents.user.id=${
+              this.userId
+            }&endAt[before]=${this.date.getFullYear()}-0${this.date.getMonth()}-${this.date.getDate()}`
+          })
+          const eventsFromAuthor = await axiosHelper({
+            url: `api/events?author.id=${
+              this.userId
+            }&endAt[before]=${this.date.getFullYear()}-0${this.date.getMonth()}-${this.date.getDate()}`
+          })
+
+          this.events = this.handleEvent(eventsFromAuthor, eventsFromUserEvents)
+          this.$store.commit('addPastEvents', this.events)
+        } catch (e) {
+          this.error = "Une erreur s'est produite, veuillez recharger la page"
+        }
+      } else {
+        this.events = this.$store.state.pastEvents
+      }
+      this.loading = false
     }
   }
 }

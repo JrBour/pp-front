@@ -2,6 +2,7 @@ export const state = () => ({
   jwt: null,
   currentEvent: null,
   events: [],
+  pastEvents: [],
   participants: []
 })
 
@@ -24,10 +25,16 @@ export const mutations = {
     )
   },
   addEvents(state, events) {
-    state.events = [...state.events, ...events]
+    state.events = events
   },
   resetEvents(state) {
     state.events = []
+  },
+  addPastEvents(state, events) {
+    state.pastEvents = events
+  },
+  resetPastEvents(state) {
+    state.pastEvents = []
   },
   addCurrentEvent(state, event) {
     state.currentEvent = event
