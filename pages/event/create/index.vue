@@ -62,7 +62,8 @@ export default {
             data: {
               status: 'waiting',
               user: `api/users/${participant.id}`,
-              event: `api/events/${eventResponse.data.id}`
+              event: `api/events/${eventResponse.data.id}`,
+              is_read: false
             }
           })
       )

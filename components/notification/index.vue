@@ -10,7 +10,7 @@
     <div class="notifications__separator"></div>
     <div class="notifications__informations">
       <h2 @click="$router.push({ name: 'event-id', params: { id: event.id } })">
-        {{ event.name }}
+        {{ title }}
       </h2>
       <p>{{ event.address }} - {{ event.city }}</p>
     </div>
@@ -26,6 +26,7 @@
 </template>
 <script>
 import { shortDays, shortMonths } from '~/constants/date'
+
 export default {
   props: {
     event: {
@@ -40,6 +41,14 @@ export default {
   computed: {
     start() {
       return new Date(this.event.startAt)
+    },
+    title() {
+      if (this.event.name.length >= 18) {
+        const title = this.event.name.slice(0, 15)
+        return `${title}...`
+      }
+
+      return this.event.name
     }
   },
   methods: {

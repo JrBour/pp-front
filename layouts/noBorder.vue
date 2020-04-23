@@ -7,14 +7,27 @@
 <script>
 import Cookies from 'js-cookie'
 import Navbar from '~/components/navbar'
+import axiosHelper from '~/lib/axiosHelper'
+import parseToken from '~/utils/token'
 
 export default {
   components: {
     Navbar
   },
-  mounted() {
+  async mounted() {
     if (Cookies.get('token')) {
-      this.$store.commit('addJwt', Cookies.get('token'))
+      const token = Cookies.get('token')
+      this.$store.commit('addJwt', token)
+
+      try {
+        const notifications = await axiosHelper({
+          url: `api/user_events?user.id=${parseToken(token).id}&status=waiting`
+        })
+        this.$store.commit('addNotifications', notifications.data)
+      } catch (e) {
+        this.errors.general =
+          'Une erreur est survenue, veuillez recharger la page'
+      }
     }
   },
   // eslint-disable-next-line nuxt/require-func-head

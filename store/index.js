@@ -21,6 +21,12 @@ export const mutations = {
   addNotifications(state, notifications) {
     state.notifications = notifications
   },
+  editNotificationProperty(state) {
+    state.notifications = state.notifications.map((notification) => ({
+      ...notification,
+      isRead: true
+    }))
+  },
   removeNotification(state, userEventId) {
     state.notifications = state.notifications.filter(
       ({ id }) => id !== userEventId

@@ -18,8 +18,10 @@
   </div>
 </template>
 <script>
+import Cookies from 'js-cookie'
 import Notification from '~/components/notification'
 import axiosHelper from '~/lib/axiosHelper'
+import parseToken from '~/utils/token'
 
 export default {
   components: {
@@ -28,14 +30,40 @@ export default {
   data: () => ({
     error: ''
   }),
-  async beforeCreate() {
-    try {
-      const notifications = await axiosHelper({
-        url: `api/user_events?user.id=${this.$store.state.userId}&status=waiting`
-      })
-      this.$store.commit('addNotifications', notifications.data)
-    } catch (e) {
-      this.error = 'Une erreur est survenue, veuillez recharger la page'
+  async mounted() {
+    const token = Cookies.get('token')
+    if (this.$store.state.notifications === null) {
+      try {
+        const notifications = await axiosHelper({
+          url: `api/user_events?user.id=${parseToken(token).id}&status=waiting`
+        })
+        this.$store.commit('addNotifications', notifications.data)
+      } catch (e) {
+        this.error = 'Une erreur est survenue, veuillez recharger la page'
+      }
+    }
+
+    const unreadNotifications = this.$store.state.notifications
+      .filter(({ isRead }) => isRead === false)
+      .map(({ id }) => id)
+
+    if (unreadNotifications.length !== 0) {
+      const notificationsToPatch = unreadNotifications.map((id) =>
+        axiosHelper({
+          url: `api/user_events/${id}`,
+          method: 'patch',
+          data: {
+            isRead: true
+          }
+        })
+      )
+
+      try {
+        await Promise.all(notificationsToPatch)
+        this.$store.commit('editNotificationProperty')
+      } catch (e) {
+        this.error = 'Une erreur est survenue, veuillez recharger la page'
+      }
     }
   },
   methods: {

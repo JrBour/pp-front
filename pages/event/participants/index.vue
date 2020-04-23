@@ -85,7 +85,8 @@ export default {
           data: {
             status: 'waiting',
             event: `api/events/${this.$route.query.event}`,
-            user: `api/users/${id}`
+            user: `api/users/${id}`,
+            is_read: false
           }
         })
       )

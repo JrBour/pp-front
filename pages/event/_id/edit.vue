@@ -106,7 +106,8 @@ export default {
           data: {
             status: 'waiting',
             event: `api/events/${this.$route.params.id}`,
-            user: `api/users/${id}`
+            user: `api/users/${id}`,
+            is_read: false
           }
         })
       )

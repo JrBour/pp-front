@@ -22,15 +22,20 @@
         />
       </li>
       <li @click="$router.push({ name: 'notifications' })">
-        <img
-          :src="
-            require(`~/static/img/icons/bell-${
-              currentRoute.includes('notifications') ? 'enable' : 'disable'
-            }.svg`)
-          "
-          class="navbar__item_bell"
-          alt="notifications"
-        />
+        <div class="notification__item">
+          <img
+            :src="
+              require(`~/static/img/icons/bell-${
+                currentRoute.includes('notifications') ? 'enable' : 'disable'
+              }.svg`)
+            "
+            class="navbar__item_bell"
+            alt="notifications"
+          />
+          <div v-if="notifications !== 0" class="notifications__number">
+            <p>{{ notifications }}</p>
+          </div>
+        </div>
       </li>
       <li @click="$router.push({ name: 'profile' })">
         <img
@@ -51,6 +56,18 @@ export default {
   data: () => ({
     currentRoute: ''
   }),
+  computed: {
+    notifications() {
+      const notifications = this.$store.state.notifications
+      if (notifications) {
+        const notificationsNotread = notifications.filter(
+          ({ isRead }) => isRead === false
+        )
+        return notificationsNotread.length
+      }
+      return 0
+    }
+  },
   watch: {
     $route(to, from) {
       this.currentRoute = to.path
@@ -62,6 +79,25 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.notification__item {
+  position: relative;
+}
+.notifications__number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -5px;
+  right: 1.9em;
+  font-size: 0.9em;
+  font-weight: 500;
+  padding: 9px;
+  height: 1em;
+  width: 1em;
+  border-radius: 50%;
+  color: white;
+  background: #fd5c63;
+}
 .navbar {
   position: fixed;
   z-index: 10;
@@ -81,10 +117,15 @@ export default {
   padding: 0;
   justify-content: space-around;
   & li {
+    position: relative;
     height: 2em;
     margin-top: 1vh;
   }
   & li img {
+    height: 100%;
+    width: 100%;
+  }
+  & li > div {
     height: 100%;
     width: 100%;
   }

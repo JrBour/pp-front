@@ -29,6 +29,7 @@ import Button from '~/components/button'
 import Input from '~/components/fields/input'
 import Password from '~/components/fields/password'
 import axiosHelper from '~/lib/axiosHelper'
+import parseToken from '~/utils/token'
 
 export default {
   components: {
@@ -94,6 +95,17 @@ export default {
           this.errors.general =
             "L'email et le mot de passe ne correspondent pas"
         }
+      }
+
+      const token = Cookies.get('token')
+      try {
+        const notifications = await axiosHelper({
+          url: `api/user_events?user.id=${parseToken(token).id}&status=waiting`
+        })
+        this.$store.commit('addNotifications', notifications.data)
+      } catch (e) {
+        this.errors.general =
+          'Une erreur est survenue, veuillez recharger la page'
       }
     }
   }
