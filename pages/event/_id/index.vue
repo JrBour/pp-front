@@ -93,19 +93,22 @@
         <div class="event__expenses_title">
           <h2>Depenses</h2>
           <AddButton
-            v-if="showActionButton"
             @handle-click="
-              $router.push({
-                name: 'event-id-expenses-create',
-                query: { event: $route.params.id }
-              })
+              $router.push(`/event/${$route.params.id}/expenses/create`)
             "
+          />
+        </div>
+        <div>
+          <Expense
+            v-for="expense in expenses"
+            :key="expense.id"
+            :expense="expense"
           />
         </div>
         <Button
           text="Voir toutes les depenses"
           :small="true"
-          @handle-click="$router.push({ name: 'expenses' })"
+          @handle-click="$router.push(`/event/${$route.params.id}/expenses`)"
         />
       </div>
     </div>
@@ -118,6 +121,7 @@ import AddButton from '~/components/addButton'
 import Modal from '~/components/modal'
 import User from '~/components/user'
 import Button from '~/components/button'
+import Expense from '~/components/expense'
 import { days, months } from '~/constants/date'
 import parseJwt from '~/utils/token'
 
@@ -126,6 +130,7 @@ export default {
   components: {
     AddButton,
     Button,
+    Expense,
     Modal,
     User
   },

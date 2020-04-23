@@ -69,7 +69,7 @@ export default {
       const data = {
         name: this.title,
         amount: parseFloat(this.amount),
-        event: `api/events/${this.$route.query.event}`,
+        event: `api/events/${this.$route.params.id}`,
         user: `api/users/${parseJwt(Cookies.get('token')).id}`
       }
 
@@ -81,7 +81,7 @@ export default {
         })
         this.$router.push({
           name: 'event-id',
-          params: { id: this.$route.query.event }
+          params: { id: this.$route.params.id }
         })
       } catch (e) {
         this.errors.general =

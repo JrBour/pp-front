@@ -38,7 +38,7 @@ export default {
         zipcode: parseInt(event.zipcode, 10),
         startAt: event.startAt,
         endAt: event.endAt,
-        shareFees: event.showExpense === 'yes',
+        shareFees: event.shareFees,
         image: imageId ? `api/media_objects/${imageId.data.id}` : null,
         author: event.author
       }
