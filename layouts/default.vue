@@ -9,6 +9,7 @@
 <script>
 import Cookies from 'js-cookie'
 import Navbar from '~/components/navbar'
+import parseJwt from '~/utils/token'
 
 export default {
   components: {
@@ -17,6 +18,7 @@ export default {
   mounted() {
     if (Cookies.get('token')) {
       this.$store.commit('addJwt', Cookies.get('token'))
+      this.$store.commit('addUserId', parseJwt(Cookies.get('token')).id)
     }
   },
   head() {

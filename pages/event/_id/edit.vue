@@ -76,11 +76,12 @@ export default {
       }
 
       try {
-        await axiosHelper({
+        const event = await axiosHelper({
           url: `api/events/${this.$route.params.id}`,
           method: 'patch',
           data
         })
+        this.$store.commit('addCurrentEvent', event.data)
       } catch (e) {
         this.generalError =
           "Une erreur s'est produite, veuillez reessayer ulterieurement"

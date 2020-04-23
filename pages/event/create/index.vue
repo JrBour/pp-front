@@ -26,7 +26,7 @@ export default {
             data: formData
           })
         } catch (e) {
-          this.errors.general =
+          this.generalError =
             "Une erreur s'est produite, veuillez reessayer ulterieurement"
         }
       }

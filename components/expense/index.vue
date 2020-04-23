@@ -1,5 +1,6 @@
 <template>
   <div class="expense__wrapper">
+    <button v-if="canRemoveExpense" @click="removeExpense"><p>x</p></button>
     <div class="expense__date">
       <p class="expense__date_day">{{ shortDays[start.getDay()] }}</p>
       <p class="expense__date_date">{{ start.getDate() }}</p>
@@ -26,6 +27,10 @@ export default {
     expense: {
       required: true,
       type: Object
+    },
+    canRemoveExpense: {
+      type: Boolean,
+      required: true
     }
   },
   data: () => ({
@@ -48,11 +53,17 @@ export default {
     start() {
       return new Date(this.expense.createdAt)
     }
+  },
+  methods: {
+    removeExpense() {
+      this.$emit('remove-expense', this.expense.id)
+    }
   }
 }
 </script>
 <style lang="scss" scoped>
 .expense__wrapper {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -64,6 +75,20 @@ export default {
   background: #fff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   padding: 10px;
+}
+button {
+  position: absolute;
+  top: -0.5em;
+  right: -0.5em;
+  height: 1.5em;
+  width: 1.5em;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fd5c63;
+  color: white;
+  border: none;
 }
 .expense__informations_wrapper {
   display: flex;

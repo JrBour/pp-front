@@ -1,5 +1,7 @@
 <template>
-  <button @click="handleClick">{{ text }}</button>
+  <button @click="handleClick">
+    <p>{{ text }}</p>
+  </button>
 </template>
 <script>
 export default {
@@ -18,9 +20,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  width: 1.2em;
-  height: 1.2em;
+  width: 1.4em;
+  height: 1.4em;
   font-size: 1.6em;
   border-radius: 50%;
   border: none;

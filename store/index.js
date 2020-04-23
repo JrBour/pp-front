@@ -1,17 +1,33 @@
 export const state = () => ({
   jwt: null,
+  userId: null,
   currentEvent: null,
   events: [],
   pastEvents: [],
-  participants: []
+  participants: [],
+  notifications: null
 })
 
 export const mutations = {
   addJwt(state, jwt) {
     state.jwt = jwt
   },
+  addUserId(state, id) {
+    state.userId = id
+  },
   resetJwt(state) {
     state.jwt = null
+  },
+  addNotifications(state, notifications) {
+    state.notifications = notifications
+  },
+  removeNotification(state, userEventId) {
+    state.notifications = state.notifications.filter(
+      ({ id }) => id !== userEventId
+    )
+  },
+  resetNotifications(state) {
+    state.notifications = null
   },
   addParticipant(state, participant) {
     state.participants = [...state.participants, participant]

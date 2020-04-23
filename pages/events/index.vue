@@ -56,7 +56,7 @@ export default {
       const eventsFromUserEvents = await axiosHelper({
         url: `api/events?userEvents.user.id=${
           this.userId
-        }&startAt[after]=${this.date.getFullYear()}-${
+        }&userEvents.status=accept&startAt[after]=${this.date.getFullYear()}-${
           this.month
         }-${this.date.getDate()}`
       })

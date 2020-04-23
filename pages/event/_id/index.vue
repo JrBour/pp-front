@@ -9,7 +9,13 @@
         v-if="displayModal"
         text="Souhaitez-vous supprimer cette evenement ?"
         @confirm="confirmRemoveEvent"
-        @cancel="cancelRemoveEvent"
+        @cancel="cancel"
+      />
+      <Modal
+        v-if="displayModalExpense"
+        text="Souhaitez-vous supprimer cette depense ?"
+        @confirm="confirmRemoveExpense"
+        @cancel="cancel"
       />
       <div class="event__title">
         <h1>{{ event.name }}</h1>
@@ -38,6 +44,23 @@
           backgroundImage: `url(${baseUrl}/media/${event.image.filePath})`
         }"
       ></div>
+      <div v-if="displayInvitation" class="event__invitations">
+        <h3>Souhaitez-vous accepter l'invitation à cet événement ?</h3>
+        <div class="event__invitations_actions">
+          <button
+            class="event__invitations_deny"
+            @click="submitResponse('deny')"
+          >
+            Refuser
+          </button>
+          <button
+            class="event__invitations_accept"
+            @click="submitResponse('accept')"
+          >
+            Accepter
+          </button>
+        </div>
+      </div>
       <div class="event__informations">
         <h2>Informations</h2>
         <p class="event__informations_description">{{ event.description }}</p>
@@ -103,6 +126,8 @@
             v-for="expense in expenses"
             :key="expense.id"
             :expense="expense"
+            :can-remove-expense="canRemoveExpense(expense.user.id)"
+            @remove-expense="removeExpense"
           />
         </div>
         <Button
@@ -136,6 +161,8 @@ export default {
   },
   data: () => ({
     event: null,
+    expenseId: null,
+    displayModalExpense: false,
     displayModal: false,
     baseUrl: process.env.NUXT_ENV_API_URL,
     errors: {
@@ -163,6 +190,15 @@ export default {
 
       return `${start.getHours()}h${start.getMinutes()} - ${end.getHours()}h${end.getMinutes()}`
     },
+    canRemoveExpense() {
+      return (userId) => {
+        const token = Cookies.get('token')
+        return (
+          parseJwt(token).id === this.event.author.id ||
+          parseJwt(token).id === userId
+        )
+      }
+    },
     removeParticipant() {
       return (userId) => {
         const token = Cookies.get('token')
@@ -171,6 +207,17 @@ export default {
           this.event.author.id !== userId
         )
       }
+    },
+    displayInvitation() {
+      const token = Cookies.get('token')
+      const invitation = this.event.userEvents.find(
+        ({ user }) => user.id === parseJwt(token).id
+      )
+      if (invitation === undefined) {
+        return false
+      }
+
+      return invitation.status === 'waiting'
     },
     showActionButton() {
       const token = Cookies.get('token')
@@ -183,21 +230,72 @@ export default {
       return [...participants, this.event.author]
     }
   },
-  async beforeCreate() {
+  async mounted() {
     const id = this.$router.history.current.params.id
-    try {
-      const event = await axiosHelper({
-        url: `api/events/${id}`
-      })
-      this.event = event.data
-      const participants = event.data.userEvents.map(({ user }) => user)
-      this.$store.commit('addCurrentEvent', this.event)
-      this.$store.commit('addParticipants', participants)
-    } catch (e) {
-      this.errors.general = "Une erreur s'est produite"
+    if (this.$store.state.currentEvent === null) {
+      try {
+        const event = await axiosHelper({
+          url: `api/events/${id}`
+        })
+        this.event = event.data
+        const participants = event.data.userEvents.map(({ user }) => user)
+        this.$store.commit('addCurrentEvent', this.event)
+        this.$store.commit('addParticipants', participants)
+      } catch (e) {
+        this.errors.general = "Une erreur s'est produite"
+      }
+    } else {
+      this.event = this.$store.state.currentEvent
     }
   },
   methods: {
+    removeExpense(expenseId) {
+      this.expenseId = expenseId
+      this.displayModalExpense = true
+    },
+    async confirmRemoveExpense() {
+      this.displayModalExpense = false
+      try {
+        await axiosHelper({
+          url: `api/expenses/${this.expenseId}`,
+          method: 'delete'
+        })
+        const event = await axiosHelper({
+          url: `api/events/${this.$route.params.id}`
+        })
+        this.$store.commit('addCurrentEvent', event.data)
+        this.event = event.data
+      } catch (e) {
+        this.errors.general =
+          "Une erreur s'est produite, veuillez rechargez la page"
+      }
+    },
+    async submitResponse(status) {
+      const token = Cookies.get('token')
+      const userEvent = this.event.userEvents.find(
+        ({ user }) => user.id === parseJwt(token).id
+      )
+      try {
+        await axiosHelper({
+          url: `api/user_events/${userEvent.id}`,
+          method: 'patch',
+          data: {
+            status
+          }
+        })
+        if (status === 'accept') {
+          this.$router.push({
+            name: 'event-id',
+            params: { id: this.$route.params.id }
+          })
+        } else {
+          this.$router.push({ name: 'notifications' })
+        }
+      } catch (e) {
+        this.errors.general =
+          'Une erreur est survenue, veuillez recharger la page'
+      }
+    },
     async confirmRemoveEvent() {
       this.displayModal = false
       try {
@@ -211,8 +309,9 @@ export default {
           'Une erreur est survenue, veuillez rechargez la page et réessayer'
       }
     },
-    cancelRemoveEvent() {
+    cancel() {
       this.displayModal = false
+      this.displayModalExpense = false
     },
     pushToEditPage() {
       this.$router.push({
@@ -224,6 +323,38 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.event__invitations {
+  padding: 2em;
+  margin: 4vh 0;
+  background: #fff;
+  & h3 {
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 500;
+    margin-bottom: 3vh;
+  }
+}
+.event__invitations_actions {
+  display: flex;
+  justify-content: space-between;
+}
+.event__invitations_deny,
+.event__invitations_accept {
+  width: 45%;
+  padding: 10px 0;
+  border-radius: 10px;
+}
+.event__invitations_deny {
+  color: #ff0000;
+  border: 2px solid #ff0000;
+  background: transparent;
+}
+.event__invitations_accept {
+  color: #fff;
+  background: #3750b2;
+  border: none;
+}
+
 .event__title {
   min-height: 18vh;
 }
@@ -267,13 +398,6 @@ export default {
     font-weight: 500;
   }
 }
-.event__participants_title,
-.event__expenses_title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 3vh;
-}
 h2 {
   font-size: 1.3em;
   margin-bottom: 3vh;
@@ -281,6 +405,16 @@ h2 {
   & span {
     font-weight: 300;
     font-size: 0.9em;
+  }
+}
+.event__participants_title,
+.event__expenses_title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5vh;
+  & h2 {
+    margin-bottom: 0;
   }
 }
 .event__cover {
