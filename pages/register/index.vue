@@ -79,7 +79,7 @@
 
 <script>
 import Cookies from 'js-cookie'
-import { validateRegisterField } from './validator'
+import validateRegisterField from '~/lib/validatorRegister'
 import Button from '~/components/button'
 import Input from '~/components/fields/input'
 import Password from '~/components/fields/password'

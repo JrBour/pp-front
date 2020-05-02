@@ -2,7 +2,9 @@ import Cookies from 'js-cookie'
 
 export default ({ redirect, store, req }) => {
   const cookie = process.server
-    ? req.headers.cookie.includes('token')
+    ? req
+      ? req.headers.cookie.includes('token')
+      : null
     : Cookies.get('token')
 
   if (store.state.jwt === null && cookie) {

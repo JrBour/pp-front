@@ -24,7 +24,7 @@
 
 <script>
 import Cookies from 'js-cookie'
-import { validateLoginField } from './validator'
+import validateLoginField from '~/lib/validatorLogin'
 import Button from '~/components/button'
 import Input from '~/components/fields/input'
 import Password from '~/components/fields/password'
