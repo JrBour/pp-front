@@ -41,11 +41,31 @@ export default {
     status: 'Prochains',
     loading: false,
     userId: null,
-    error: ''
+    error: '',
+    env: process.env.NODE_ENV
   }),
-  async beforeCreate() {
-    const userId = await this.$OneSignal.getUserId()
-    console.log(userId)
+
+  async mounted() {
+    if (
+      this.$store.state.currentUser !== null &&
+      this.$store.state.currentUser.player_id === null &&
+      this.env === 'production'
+    ) {
+      const playerId = await this.$OneSignal.getUserId()
+      try {
+        const user = await axiosHelper({
+          url: `api/users/${this.$store.state.currentUser.id}`,
+          method: 'PATCH',
+          data: {
+            player_id: playerId
+          }
+        })
+        console.log(user)
+      } catch (e) {
+        this.error = 'aie'
+      }
+    }
+
     this.$OneSignal.push(() => {
       this.$OneSignal.isPushNotificationsEnabled((isEnabled) => {
         if (isEnabled) {
@@ -55,8 +75,7 @@ export default {
         }
       })
     })
-  },
-  async mounted() {
+
     this.loading = true
     try {
       this.userId = parseToken(Cookies.get('token')).id

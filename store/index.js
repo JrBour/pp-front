@@ -1,5 +1,6 @@
 export const state = () => ({
   jwt: null,
+  currentUser: null,
   userId: null,
   currentEvent: null,
   events: [],
@@ -11,6 +12,12 @@ export const state = () => ({
 export const mutations = {
   addJwt(state, jwt) {
     state.jwt = jwt
+  },
+  addCurrentUser(state, currentUser) {
+    state.currentUser = currentUser
+  },
+  resetCurrentUser(state) {
+    state.currentUser = null
   },
   addUserId(state, id) {
     state.userId = id
