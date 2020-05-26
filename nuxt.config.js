@@ -45,6 +45,13 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/pwa'
   ],
+
+  pwa: {
+    workbox: {
+      dev: false,
+      offlineStrategy: 'StaleWhileRevalidate'
+    }
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
