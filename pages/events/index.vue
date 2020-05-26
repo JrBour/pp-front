@@ -44,8 +44,8 @@ export default {
     error: ''
   }),
   async beforeCreate() {
-    await this.$OneSignal.getUserId()
-
+    const userId = await this.$OneSignal.getUserId()
+    console.log(userId)
     this.$OneSignal.push(() => {
       this.$OneSignal.isPushNotificationsEnabled((isEnabled) => {
         if (isEnabled) {
