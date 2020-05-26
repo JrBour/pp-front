@@ -230,6 +230,17 @@ export default {
       return [...participants, this.event.author]
     }
   },
+  beforeCreate() {
+    this.$OneSignal.push(() => {
+      this.$OneSignal.isPushNotificationsEnabled((isEnabled) => {
+        if (isEnabled) {
+          console.log('Push notifications are enabled!')
+        } else {
+          console.log('Push notifications are not enabled yet.')
+        }
+      })
+    })
+  },
   async mounted() {
     const id = this.$router.history.current.params.id
     if (this.$store.state.currentEvent === null) {

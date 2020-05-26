@@ -53,6 +53,16 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
+  oneSignal: {
+    cdn: true,
+    init: {
+      appId: '6243e402-acfa-476c-aac5-7a89fd9d8e64',
+      allowLocalhostAsSecureOrigin: true,
+      welcomeNotification: {
+        disable: true
+      }
+    }
+  },
   axios: {},
   /*
    ** Build configuration
