@@ -43,6 +43,19 @@ export default {
     userId: null,
     error: ''
   }),
+  async beforeCreate() {
+    await this.$OneSignal.getUserId()
+
+    this.$OneSignal.push(() => {
+      this.$OneSignal.isPushNotificationsEnabled((isEnabled) => {
+        if (isEnabled) {
+          console.log('Push notifications are enabled!')
+        } else {
+          console.log('Push notifications are not enabled yet.')
+        }
+      })
+    })
+  },
   async mounted() {
     this.loading = true
     try {
