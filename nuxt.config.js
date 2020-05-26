@@ -34,27 +34,26 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: [
-    // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
-  ],
+  buildModules: ['@nuxtjs/pwa', '@nuxtjs/eslint-module'],
   /*
    ** Nuxt.js modules
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    ['@nuxtjs/onesignal', {
-      cdn: true,
-      init: {
-        appId: '6243e402-acfa-476c-aac5-7a89fd9d8e64',
-        allowLocalhostAsSecureOrigin: true,
-        welcomeNotification: {
-          disable: true
+    [
+      '@nuxtjs/onesignal',
+      {
+        cdn: true,
+        init: {
+          appId: '6243e402-acfa-476c-aac5-7a89fd9d8e64',
+          allowLocalhostAsSecureOrigin: true,
+          welcomeNotification: {
+            disable: true
+          }
         }
       }
-    } ],
-    '@nuxtjs/pwa',
+    ],
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv'
   ],
