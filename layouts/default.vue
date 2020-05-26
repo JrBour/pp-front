@@ -10,7 +10,6 @@
 import Cookies from 'js-cookie'
 import Navbar from '~/components/navbar'
 import axiosHelper from '~/lib/axiosHelper'
-import parseToken from '~/utils/token'
 
 export default {
   components: {
@@ -23,7 +22,7 @@ export default {
 
       try {
         const notifications = await axiosHelper({
-          url: `api/user_events?user.id=${parseToken(token).id}&status=waiting`
+          url: `api/user_events?user.id=${this.$store.state.currentUser.id}&status=waiting`
         })
         this.$store.commit('addNotifications', notifications.data)
       } catch (e) {

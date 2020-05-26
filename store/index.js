@@ -19,9 +19,6 @@ export const mutations = {
   resetCurrentUser(state) {
     state.currentUser = null
   },
-  addUserId(state, id) {
-    state.userId = id
-  },
   resetJwt(state) {
     state.jwt = null
   },

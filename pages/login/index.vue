@@ -89,7 +89,6 @@ export default {
 
         Cookies.set('token', token)
         this.$store.commit('addJwt', token)
-        console.log('coucou : ', parseToken(token))
         this.$store.commit('addCurrentUser', parseToken(token).user)
         this.$router.push('events')
       } catch (e) {

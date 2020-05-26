@@ -22,11 +22,9 @@
   </div>
 </template>
 <script>
-import Cookies from 'js-cookie'
 import Event from '~/components/event'
 import SegmentedControl from '~/components/segmentedControl'
 import axiosHelper from '~/lib/axiosHelper'
-import parseToken from '~/utils/token'
 
 export default {
   components: {
@@ -78,7 +76,7 @@ export default {
 
     this.loading = true
     try {
-      this.userId = parseToken(Cookies.get('token')).id
+      this.userId = this.$store.state.currentUser.id
       this.date = new Date()
       this.month =
         this.date.getMonth().length === 1
