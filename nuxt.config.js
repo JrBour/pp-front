@@ -42,9 +42,21 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/dotenv-module
+    '@nuxtjs/onesignal',
     '@nuxtjs/dotenv',
     '@nuxtjs/pwa'
   ],
+
+  oneSignal: {
+    init: {
+      appId:
+        process.env.NUXT_ENV_APP_ID || '6243e402-acfa-476c-aac5-7a89fd9d8e64',
+      allowLocalhostAsSecureOrigin: true,
+      welcomeNotification: {
+        disable: false
+      }
+    }
+  },
 
   pwa: {
     workbox: {
