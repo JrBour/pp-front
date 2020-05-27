@@ -85,7 +85,7 @@ export default {
   height: 35px;
 }
 .input__wrapper {
-  margin-bottom: 3vh;
+  margin-bottom: 30px;
 }
 
 p {
@@ -105,7 +105,7 @@ input {
 label {
   padding: 0 0 0 1vw;
   z-index: 1;
-  top: 0.5vh;
+  top: 10px;
   font-family: 'Rubik';
   font-size: 1.3em;
   transition: top 0.2s ease;
