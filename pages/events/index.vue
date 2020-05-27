@@ -49,7 +49,7 @@ export default {
       this.$store.state.currentUser.player_id === null &&
       this.env === 'production'
     ) {
-      const playerId = await this.$OneSignal.getUserId()
+      const playerId = await window.OneSignal.getUserId()
       try {
         const user = await axiosHelper({
           url: `api/users/${this.$store.state.currentUser.id}`,
