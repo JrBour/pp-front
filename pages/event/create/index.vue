@@ -76,7 +76,7 @@ export default {
 
       const includePlayerIds = this.$store.state.participants
         .filter((participant) => participant.playerId !== null)
-        .map(({ id }) => id)
+        .map(({ playerId }) => playerId)
 
       if (this.env === 'production') {
         try {
