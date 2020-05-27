@@ -13,7 +13,8 @@ export default {
   },
   data: () => ({
     generalError: '',
-    env: process.env.NODE_ENV
+    env: process.env.NODE_ENV,
+    oneSignalUrl: process.env.NUXT_ENV_ONESIGNAL_URL
   }),
   methods: {
     async submitEvent(event) {
@@ -90,7 +91,7 @@ export default {
           }
 
           await axiosHelper({
-            baseUrl: process.env.NUXT_ENV_ONESIGNAL_URL,
+            baseURL: this.oneSignalUrl,
             url: 'notifications',
             method: 'post',
             data
