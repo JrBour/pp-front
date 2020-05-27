@@ -53,10 +53,10 @@ export default {
 <style lang="scss" scoped>
 .input__container {
   position: relative;
-  height: 4.5vh;
+  height: 35px;
 }
 .input__wrapper {
-  margin-bottom: 2vh;
+  margin-bottom: 30px;
 }
 
 p {
@@ -64,16 +64,6 @@ p {
   font-size: 0.8em;
   font-style: italic;
   padding-top: 1vh;
-}
-
-.inputError {
-  border-bottom: 1px solid #fd5c63;
-}
-
-div {
-  position: relative;
-  height: 5vh;
-  margin-top: 4vh;
 }
 
 label,
@@ -86,11 +76,44 @@ input {
 label {
   padding: 0 0 0 1vw;
   z-index: 1;
-  top: 0.5vh;
+  top: 2px;
   font-family: 'Rubik';
   font-size: 1.3em;
   transition: top 0.2s ease;
   color: rgba(0, 0, 0, 0.6);
+}
+
+input {
+  font-size: 1.2em;
+  z-index: 0;
+  background: transparent;
+  border: none;
+  height: 35px;
+  padding-left: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  width: 100%;
+  &:focus {
+    outline: none;
+  }
+}
+
+.inputError {
+  border-bottom: 1px solid #fd5c63;
+}
+
+input:focus + label,
+.active {
+  left: -2vw;
+  top: -20px;
+  font-size: 1em;
+  font-weight: 500;
+  & span {
+    color: red;
+  }
+}
+
+.reduce {
+  font-size: 1.2em;
 }
 
 img {
@@ -98,20 +121,6 @@ img {
   right: 5vw;
   top: 50%;
   transform: translate(0, -50%);
-}
-
-input {
-  font-size: 1.2em;
-  z-index: 0;
-  border: none;
-  height: 4.5vh;
-  background: transparent;
-  padding-left: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  width: 100%;
-  &:focus {
-    outline: none;
-  }
 }
 
 input:focus + label,

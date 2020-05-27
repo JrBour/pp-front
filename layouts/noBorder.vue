@@ -21,7 +21,9 @@ export default {
 
       try {
         const notifications = await axiosHelper({
-          url: `api/user_events?user.id=${parseToken(token).id}&status=waiting`
+          url: `api/user_events?user.id=${
+            parseToken(token).user.id
+          }&status=waiting`
         })
         this.$store.commit('addNotifications', notifications.data)
       } catch (e) {

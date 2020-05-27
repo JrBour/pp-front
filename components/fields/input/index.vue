@@ -105,7 +105,7 @@ input {
 label {
   padding: 0 0 0 1vw;
   z-index: 1;
-  top: 10px;
+  top: 2px;
   font-family: 'Rubik';
   font-size: 1.3em;
   transition: top 0.2s ease;
