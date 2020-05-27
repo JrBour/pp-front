@@ -239,7 +239,7 @@ export default {
         endAt: new Date(this.end).toISOString(),
         shareFees: this.showExpense === 'yes',
         image: this.image,
-        author: `api/users/${parseJwt(token).id}`
+        author: `api/users/${parseJwt(token).user.id}`
       }
       this.$emit('submit-event', event)
     },

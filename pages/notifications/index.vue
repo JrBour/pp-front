@@ -70,7 +70,7 @@ export default {
     async submitResponse(status, eventId) {
       const userEvent = this.$store.state.notifications.find(
         (userEvent) =>
-          userEvent.user.id === this.$store.state.userId &&
+          userEvent.user.id === this.$store.state.currentUser.id &&
           userEvent.event.id === eventId
       )
       try {
