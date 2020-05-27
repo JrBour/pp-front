@@ -221,7 +221,7 @@ export default {
     },
     showActionButton() {
       const token = Cookies.get('token')
-      return parseJwt(token).id === this.event.author.id
+      return parseJwt(token).user.id === this.event.author.id
     },
     participants() {
       const participants = this.event.userEvents
@@ -232,7 +232,8 @@ export default {
   },
   async mounted() {
     const id = this.$router.history.current.params.id
-    if (this.$store.state.currentEvent === null) {
+
+    if (this.$route.params.id !== this.$store.state.currentEvent?.id) {
       try {
         const event = await axiosHelper({
           url: `api/events/${id}`
@@ -356,7 +357,7 @@ export default {
 }
 
 .event__title {
-  min-height: 18vh;
+  min-height: 24vh;
 }
 .event__informations,
 .event__participants,
