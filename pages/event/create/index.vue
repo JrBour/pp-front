@@ -72,13 +72,13 @@ export default {
           })
       )
 
+      const currentUser = parseToken(Cookies.get('token')).user
+
+      const includePlayerIds = this.$store.state.participants
+        .filter((participant) => participant.playerId !== null)
+        .map(({ id }) => id)
+
       if (this.env === 'production') {
-        const currentUser = parseToken(Cookies.get('token')).user
-
-        const includePlayerIds = this.$store.state.participants.filter(
-          (participant) => participant.playerId !== null
-        )
-
         try {
           const data = {
             app_id: process.env.NUXT_ENV_APP_ID,
@@ -101,7 +101,6 @@ export default {
             "Une erreur s'est produite, veuillez reessayer ulterieurement"
         }
       }
-
       try {
         await Promise.all(userEvents)
         this.$router.push({
