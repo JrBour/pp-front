@@ -22,9 +22,11 @@
   </div>
 </template>
 <script>
+import Cookies from 'js-cookie'
 import Event from '~/components/event'
 import SegmentedControl from '~/components/segmentedControl'
 import axiosHelper from '~/lib/axiosHelper'
+import parseToken from '~/utils/token'
 
 export default {
   components: {
@@ -44,18 +46,15 @@ export default {
   }),
 
   async mounted() {
-    if (
-      this.$store.state.currentUser !== null &&
-      this.$store.state.currentUser.player_id === null &&
-      this.env === 'production'
-    ) {
+    const currentUser = parseToken(Cookies.get('token')).user
+    if (currentUser.playerId === null && this.env === 'production') {
       const playerId = await window.OneSignal.getUserId()
       try {
         const user = await axiosHelper({
-          url: `api/users/${this.$store.state.currentUser.id}`,
+          url: `api/users/${currentUser.id}`,
           method: 'PATCH',
           data: {
-            player_id: playerId
+            playerId
           }
         })
         console.log(user)
@@ -76,7 +75,7 @@ export default {
 
     this.loading = true
     try {
-      this.userId = this.$store.state.currentUser.id
+      this.userId = currentUser.id
       this.date = new Date()
       this.month =
         this.date.getMonth().length === 1

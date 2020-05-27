@@ -82,10 +82,10 @@ export default {
 <style lang="scss" scoped>
 .input__container {
   position: relative;
-  height: 4.5vh;
+  height: 35px;
 }
 .input__wrapper {
-  margin-bottom: 5vh;
+  margin-bottom: 3vh;
 }
 
 p {
@@ -117,7 +117,7 @@ input {
   z-index: 0;
   background: transparent;
   border: none;
-  height: 5vh;
+  height: 35px;
   padding-left: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   width: 100%;
@@ -133,7 +133,7 @@ input {
 input:focus + label,
 .active {
   left: -2vw;
-  top: -2vh;
+  top: -20px;
   font-size: 1em;
   font-weight: 500;
   & span {

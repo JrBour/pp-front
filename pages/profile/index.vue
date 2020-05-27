@@ -41,7 +41,7 @@ export default {
     const token = Cookies.get('token')
     try {
       const user = await axiosHelper({
-        url: `api/users/${parseJwt(token).id}`
+        url: `api/users/${parseJwt(token).user.id}`
       })
       this.user = user.data
     } catch (e) {
