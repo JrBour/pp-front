@@ -1,8 +1,8 @@
 export const state = () => ({
   jwt: null,
-  currentUser: null,
+  user: null,
   userId: null,
-  currentEvent: null,
+  event: null,
   events: [],
   pastEvents: [],
   participants: [],
@@ -13,11 +13,11 @@ export const mutations = {
   addJwt(state, jwt) {
     state.jwt = jwt
   },
-  addCurrentUser(state, currentUser) {
-    state.currentUser = currentUser
+  addUser(state, user) {
+    state.user = user
   },
-  resetCurrentUser(state) {
-    state.currentUser = null
+  resetUser(state) {
+    state.user = null
   },
   resetJwt(state) {
     state.jwt = null
@@ -65,10 +65,10 @@ export const mutations = {
   resetPastEvents(state) {
     state.pastEvents = []
   },
-  addCurrentEvent(state, event) {
-    state.currentEvent = event
+  addEvent(state, event) {
+    state.event = event
   },
-  resetCurrentEvent(state) {
-    state.currentEvent = null
+  resetEvent(state) {
+    state.event = null
   }
 }

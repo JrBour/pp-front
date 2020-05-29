@@ -13,9 +13,9 @@
       @confirm="confirmRemoveExpense"
       @cancel="cancel"
     />
-    <div v-if="$store.state.currentEvent !== null" class="expenses__wrapper">
+    <div v-if="$store.state.event !== null" class="expenses__wrapper">
       <Expense
-        v-for="expense in $store.state.currentEvent.expenses"
+        v-for="expense in $store.state.event.expenses"
         :key="expense.id"
         :expense="expense"
         :can-remove-expense="canRemoveExpense(expense.user.id)"
@@ -46,20 +46,20 @@ export default {
       return (userId) => {
         const token = Cookies.get('token')
         return (
-          parseJwt(token).id === this.$store.state.currentEvent.author.id ||
+          parseJwt(token).id === this.$store.state.event.author.id ||
           parseJwt(token).id === userId
         )
       }
     }
   },
   async beforeCreate() {
-    if (this.$store.state.currentEvent === null) {
+    if (this.$store.state.event === null) {
       try {
         const id = this.$route.params.id
         const event = await axiosHelper({
           url: `api/events/${id}`
         })
-        this.$store.commit('addCurrentEvent', event.data)
+        this.$store.commit('addEvent', event.data)
       } catch (e) {
         this.error = 'Une erreur est survenue, veuillez rechargez la page'
       }
@@ -84,7 +84,7 @@ export default {
         const event = await axiosHelper({
           url: `api/events/${this.$route.params.id}`
         })
-        this.$store.commit('addCurrentEvent', event.data)
+        this.$store.commit('addEvent', event.data)
       } catch (e) {
         this.error = 'Une erreur est survenue, veuillez rechargez la page'
       }

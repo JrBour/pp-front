@@ -89,7 +89,7 @@ export default {
 
         Cookies.set('token', token)
         this.$store.commit('addJwt', token)
-        this.$store.commit('addCurrentUser', parseToken(token).user)
+        this.$store.commit('addUser', parseToken(token).user)
         this.$router.push('events')
       } catch (e) {
         if (e.response.status === 401) {

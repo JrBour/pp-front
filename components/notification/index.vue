@@ -1,5 +1,5 @@
 <template>
-  <div class="notifications__wrapper">
+  <div class="notification__wrapper">
     <div class="notifications__date">
       <p class="notifications__date_day">{{ shortDays[start.getDay()] }}</p>
       <p class="notifications__date_date">{{ start.getDate() }}</p>
@@ -59,13 +59,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.notifications__wrapper {
+.notification__wrapper {
   background: white;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   padding: 10px;
   display: flex;
   align-items: center;
+  margin-bottom: 3vh;
 }
 .notifications__informations {
   width: 65%;

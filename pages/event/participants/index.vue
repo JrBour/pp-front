@@ -58,7 +58,7 @@ export default {
         this.event = event.data
         const participants = event.data.userEvents.map(({ user }) => user)
         this.$store.commit('addParticipants', participants)
-        this.$store.commit('addCurrentEvent', event.data)
+        this.$store.commit('addEvent', event.data)
       } catch (e) {
         this.error = "Une erreur s'est produite, veuillez rechargez la page"
       }
@@ -67,7 +67,7 @@ export default {
   methods: {
     async submitParticipants() {
       const participants = this.$store.state.participants
-      const userEvents = this.$store.state.currentEvent.userEvents
+      const userEvents = this.$store.state.event.userEvents
       const participantsToAdd = participants.filter(
         ({ id: participantId }) =>
           !userEvents.find(({ user: { id } }) => id === participantId)

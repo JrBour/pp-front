@@ -17,7 +17,6 @@ export default {
   async mounted() {
     if (Cookies.get('token')) {
       const token = Cookies.get('token')
-      this.$store.commit('addJwt', token)
 
       try {
         const notifications = await axiosHelper({

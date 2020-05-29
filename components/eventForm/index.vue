@@ -93,7 +93,7 @@
     <Button
       text="Ajouter des participants"
       :small="true"
-      @handle-click="$router.push({ name: 'event-search-participants' })"
+      @handle-click="addParticipants"
     />
     <div>
       <p class="events__expense_question">
@@ -178,12 +178,30 @@ export default {
         this.description.length === 0 ||
         this.address.length === 0 ||
         this.zipcode.length === 0 ||
-        this.city.length === 0 ||
-        this.start.length === 0 ||
-        this.end.length === 0
+        this.city.length === 0
       ) {
         return true
       }
+
+      // const startDate = new Date(this.start.split(',').join(''))
+      // const endDate = new Date(this.end.split(',').join(''))
+      // const nowDate = new Date()
+
+      // if (
+      //   startDate.getMonth() === nowDate.getMonth() &&
+      //   startDate.getDate() === nowDate.getDate() &&
+      //   startDate.getFullYear() === nowDate.getFullYear()
+      // ) {
+      //   return true
+      // }
+
+      // if (
+      //   endDate.getMonth() === nowDate.getMonth() &&
+      //   endDate.getDate() === nowDate.getDate() &&
+      //   endDate.getFullYear() === nowDate.getFullYear()
+      // ) {
+      //   return true
+      // }
 
       const errorsToCheck = { ...this.errors }
       delete errorsToCheck.general
@@ -208,22 +226,53 @@ export default {
       }
     },
     event(val) {
+      if (val.image !== '' && val.cover !== '') {
+        this.cover = new File([this.cover], this.image)
+        this.image = val.image
+          ? typeof val.image === 'object'
+            ? `${this.baseUrl}media/${val.image.filePath}`
+            : val.image
+          : null
+      }
+
       this.name = val.name
       this.description = val.description
       this.address = val.address
       this.zipcode = val.zipcode.toString()
       this.city = val.city
-      this.start = val.startAt
-      this.end = val.endAt
-      this.cover = val.cover
-      this.image = val.image
-        ? `${this.baseUrl}media/${val.image.filePath}`
-        : null
-      this.showExpense = val.showExpense ? 'yes' : 'no'
+      this.start = val.startAt.includes('T')
+        ? val.startAt
+        : new Date().toLocaleString()
+      this.end = val.endAt.includes('T')
+        ? val.endAt
+        : new Date().toLocaleString()
+      this.showExpense =
+        val.shareFees !== undefined
+          ? val.shareFees
+            ? 'yes'
+            : 'no'
+          : val.showExpense
     }
   },
   middleware: 'authenticated',
   methods: {
+    addParticipants() {
+      const event = {
+        name: this.name,
+        description: this.description,
+        address: this.address,
+        zipcode: this.zipcode.toString(),
+        city: this.city,
+        startAt: this.start,
+        endAt: this.end,
+        cover: new File([this.cover], this.image),
+        image: this.image,
+        showExpense: this.showExpense
+      }
+      this.$store.commit('addEvent', event)
+
+      this.$router.push({ name: 'event-search-participants' })
+    },
     submitEvent(e) {
       e.preventDefault()
 

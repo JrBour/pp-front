@@ -47,17 +47,20 @@ export default {
 
   async mounted() {
     const currentUser = parseToken(Cookies.get('token')).user
+    if (this.$store.state.event !== null) {
+      this.$store.commit('resetEvent')
+    }
+
     if (currentUser.playerId === null && this.env === 'production') {
       const playerId = await window.OneSignal.getUserId()
       try {
-        const user = await axiosHelper({
+        await axiosHelper({
           url: `api/users/${currentUser.id}`,
           method: 'PATCH',
           data: {
             playerId
           }
         })
-        console.log(user)
       } catch (e) {
         this.error = 'aie'
       }

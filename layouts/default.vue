@@ -22,8 +22,7 @@ export default {
   async mounted() {
     if (Cookies.get('token')) {
       const token = Cookies.get('token')
-      this.$store.commit('addJwt', token)
-
+      // this.$store.commit('addJwt', token)
       try {
         const notifications = await axiosHelper({
           url: `api/user_events?user.id=${

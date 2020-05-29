@@ -88,7 +88,7 @@ export default {
           url: `api/events/${this.$route.query.event}`
         })
         const participants = event.data.userEvents.map(({ user }) => user)
-        this.$store.commit('addCurrentEvent', event.data)
+        this.$store.commit('addEvent', event.data)
         this.$store.commit('addParticipants', participants)
       } catch (e) {
         return e
@@ -100,7 +100,7 @@ export default {
     async submitParticipants() {
       if (this.$route.query.event) {
         const participants = this.$store.state.participants
-        const userEvents = this.$store.state.currentEvent.userEvents
+        const userEvents = this.$store.state.event.userEvents
         const participantsToAdd = participants.filter(
           ({ id: participantId }) =>
             !userEvents.find(({ user: { id } }) => id === participantId)

@@ -30,6 +30,7 @@ export default {
   data: () => ({
     error: ''
   }),
+  middleware: 'authenticated',
   async mounted() {
     const token = Cookies.get('token')
     if (this.$store.state.notifications === null) {
@@ -72,7 +73,7 @@ export default {
     async submitResponse(status, eventId) {
       const userEvent = this.$store.state.notifications.find(
         (userEvent) =>
-          userEvent.user.id === this.$store.state.currentUser.id &&
+          userEvent.user.id === this.$store.state.user.id &&
           userEvent.event.id === eventId
       )
       try {

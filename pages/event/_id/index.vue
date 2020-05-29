@@ -233,20 +233,20 @@ export default {
   async mounted() {
     const id = this.$router.history.current.params.id
 
-    if (this.$route.params.id !== this.$store.state.currentEvent?.id) {
+    if (this.$route.params.id !== this.$store.state.event?.id) {
       try {
         const event = await axiosHelper({
           url: `api/events/${id}`
         })
         this.event = event.data
         const participants = event.data.userEvents.map(({ user }) => user)
-        this.$store.commit('addCurrentEvent', this.event)
+        this.$store.commit('addEvent', this.event)
         this.$store.commit('addParticipants', participants)
       } catch (e) {
         this.errors.general = "Une erreur s'est produite"
       }
     } else {
-      this.event = this.$store.state.currentEvent
+      this.event = this.$store.state.event
     }
   },
   methods: {
@@ -264,7 +264,7 @@ export default {
         const event = await axiosHelper({
           url: `api/events/${this.$route.params.id}`
         })
-        this.$store.commit('addCurrentEvent', event.data)
+        this.$store.commit('addEvent', event.data)
         this.event = event.data
       } catch (e) {
         this.errors.general =

@@ -1,5 +1,9 @@
 <template>
-  <EventForm :general-error="generalError" @submit-event="submitEvent" />
+  <EventForm
+    :general-error="generalError"
+    :event="event"
+    @submit-event="submitEvent"
+  />
 </template>
 <script>
 import Cookies from 'js-cookie'
@@ -13,9 +17,15 @@ export default {
   },
   data: () => ({
     generalError: '',
+    event: null,
     env: process.env.NODE_ENV,
     oneSignalUrl: process.env.NUXT_ENV_ONESIGNAL_URL
   }),
+  mounted() {
+    if (this.$store.state.event !== null) {
+      this.event = this.$store.state.event
+    }
+  },
   methods: {
     async submitEvent(event) {
       let imageId, eventResponse
@@ -83,7 +93,7 @@ export default {
           const data = {
             app_id: process.env.NUXT_ENV_APP_ID,
             contents: {
-              en: `Vous avez recu une nouvelle invitation de la part de ${currentUser.givenName} ${currentUser.lastName}`
+              en: `Vous avez recu une nouvelle invitation de la part de ${currentUser.firstname} ${currentUser.lastname}`
             },
             headings: { en: 'Nouvelle invitation' },
             web_url: 'https://pp.jeremybourel.fr',
@@ -101,6 +111,7 @@ export default {
             "Une erreur s'est produite, veuillez reessayer ulterieurement"
         }
       }
+
       try {
         await Promise.all(userEvents)
         this.$router.push({

@@ -15,7 +15,17 @@
         </h2>
         <p>{{ address }}</p>
       </div>
-      <img :src="require('~/static/img/icons/dots.svg')" />
+      <div>
+        <div v-if="showSettings">
+          <a @click="$router.push(`event/${event.id}/edit`)">Editer</a>
+          <a @click="removeEvent">Supprimer</a>
+        </div>
+        <img
+          v-if="$store.state.user && $store.state.user.id === event.author.id"
+          :src="require('~/static/img/icons/dots.svg')"
+          @click="displaySettings"
+        />
+      </div>
     </div>
     <div class="event__footer">
       <div class="event__participants">
@@ -53,7 +63,8 @@ export default {
   },
   data: () => ({
     shortDays,
-    shortMonths
+    shortMonths,
+    showSettings: false
   }),
   computed: {
     participants() {
@@ -92,6 +103,15 @@ export default {
       }
 
       return this.event.name
+    }
+  },
+  methods: {
+    removeEvent() {
+      this.$emit('remove-event', this.event.id)
+    },
+    displaySettings(e) {
+      e.stopPropagation()
+      this.showSettings = true
     }
   }
 }
