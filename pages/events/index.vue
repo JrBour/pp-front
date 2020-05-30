@@ -62,7 +62,7 @@ export default {
           }
         })
       } catch (e) {
-        this.error = 'aie'
+        this.error = 'Une erreure est survenue'
       }
     }
 

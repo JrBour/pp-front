@@ -33,7 +33,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/axios'],
+  plugins: [
+    '~/plugins/axios',
+    { src: '~/plugins/webcam', mode: 'client', ssr: false }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -47,7 +50,8 @@ export default {
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/onesignal',
     '@nuxtjs/dotenv',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    'vue-web-cam/nuxt'
   ],
 
   oneSignal: {
