@@ -4,6 +4,7 @@ export const state = () => ({
   userId: null,
   event: null,
   events: [],
+  eventOccuring: null,
   pastEvents: [],
   participants: [],
   notifications: null
@@ -18,6 +19,12 @@ export const mutations = {
   },
   resetUser(state) {
     state.user = null
+  },
+  addEventOccuring(state, event) {
+    state.eventOccuring = event
+  },
+  resetEventOccuring(state) {
+    state.eventOccuring = null
   },
   resetJwt(state) {
     state.jwt = null

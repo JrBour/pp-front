@@ -23,7 +23,7 @@
         <img
           v-if="$store.state.user && $store.state.user.id === event.author.id"
           :src="require('~/static/img/icons/dots.svg')"
-          @click="displaySettings"
+          @click="setSettings"
         />
       </div>
     </div>
@@ -109,9 +109,9 @@ export default {
     removeEvent() {
       this.$emit('remove-event', this.event.id)
     },
-    displaySettings(e) {
+    setSettings(e) {
       e.stopPropagation()
-      this.showSettings = true
+      this.showSettings = !this.showSettings
     }
   }
 }

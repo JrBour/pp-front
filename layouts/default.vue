@@ -17,7 +17,8 @@ export default {
     Navbar
   },
   data: () => ({
-    error: ''
+    error: '',
+    showCamera: false
   }),
   async mounted() {
     if (Cookies.get('token')) {

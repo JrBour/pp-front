@@ -1,5 +1,11 @@
 <template>
   <div>
+    <img
+      :src="require('~/static/img/icons/back-white.svg')"
+      alt="Back"
+      @click="$router.back()"
+    />
+    <p v-if="error">{{ error }}</p>
     <client-only>
       <vue-web-cam
         ref="webcam"
@@ -9,7 +15,8 @@
         @cameras="onCameras"
         @camera-change="onCameraChange"
       />
-      <button type="button" @click="onCapture"></button>
+      <button v-if="!loading" type="button" @click="onCapture"></button>
+      <Loader v-if="loading" height="74px" fill="#fff" opacity="1" />
     </client-only>
   </div>
 </template>
@@ -26,13 +33,20 @@ import axiosHelper from '~/lib/axiosHelper'
  * Then, create album_media
  */
 
+import Loader from '~/components/loader'
+
 export default {
+  components: {
+    Loader
+  },
   data: () => ({
+    error: '',
     img: null,
     imgFile: null,
     camera: null,
     deviceId: null,
-    devices: []
+    devices: [],
+    loading: false
   }),
   layout: 'blank',
   computed: {
@@ -54,12 +68,35 @@ export default {
     }
   },
   middleware: 'authenticated',
+  async beforeCreate(){
+    const { eventOccuring } = this.$store.state
+    if (eventOccuring === null) {
+      return this.$router.push('/events')
+    }
+    if (eventOccuring.album === null) {
+      const data = {
+        event: `api/events/${eventOccuring.id}`,
+        name: eventOccuring.name
+      }
+      
+      try {
+        await axiosHelper({
+          url: 'api/albums',
+          method: 'post',
+          data
+        })
+      } catch (e) {
+        this.error = "Une erreur est survenue, veuillez reessayer plus tard"
+      }
+    }
+  },
   methods: {
     removeImage(){
       this.img = null;
       this.image = null;
     },
     async onCapture() {
+      this.loading = true;
       this.img = this.$refs.webcam.capture()
       this.imgFile = await this.srcToFile(this.img, new Date().getTime(), 'text/plain')
 
@@ -73,9 +110,21 @@ export default {
           data: formData
         })
 
+        const data = {
+          album: `api/albums/${this.$store.state.eventOccuring.album.id}`,
+          media: `api/media_objects/${media.data.id}`
+        }
+
+        await axiosHelper({
+          url: 'api/album_media',
+          method: 'POST',
+          data
+        })
 
       } catch(e) {
         this.error = "Une erreur est survenur, veuillez reesayer plus tard";
+      } finally {
+        this.loading = false;
       }
     },
     srcToFile(src, fileName, mimeType) {
@@ -99,6 +148,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/ svg {
+  margin: auto;
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  z-index: 104;
+  transform: translateX(-50%);
+}
 .image, video {
   position: absolute;
   top: 0;

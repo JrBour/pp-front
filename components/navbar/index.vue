@@ -21,6 +21,21 @@
           alt="album"
         />
       </li>
+
+      <li
+        v-if="$store.state.eventOccuring !== null"
+        @click="$router.push({ name: 'camera' })"
+      >
+        <img
+          class="navbar__item_camera"
+          :src="
+            require(`~/static/img/icons/camera-${
+              currentRoute.includes('camera') ? 'enable' : 'disable'
+            }.svg`)
+          "
+          alt="camera"
+        />
+      </li>
       <li @click="$router.push({ name: 'notifications' })">
         <div class="notification__item">
           <img
@@ -123,7 +138,6 @@ export default {
   }
   & li img {
     height: 100%;
-    width: 100%;
   }
   & li > div {
     height: 100%;
@@ -133,5 +147,8 @@ export default {
 
 .navbar__item_bell {
   transform: rotate(30deg);
+}
+.navbar__wrapper li .navbar__item_camera {
+  height: 90%;
 }
 </style>

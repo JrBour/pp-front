@@ -101,6 +101,17 @@ export default {
       })
       this.events = this.handleEvent(eventsFromAuthor, eventsFromUserEvents)
       this.$store.commit('addEvents', this.events)
+
+      const currentDate = Date.now()
+      const eventOccuring = this.events.find(({ startAt, endAt }) => {
+        return (
+          new Date(startAt).getTime() < currentDate &&
+          new Date(endAt).getTime() > currentDate
+        )
+      })
+      if (eventOccuring) {
+        this.$store.commit('addEventOccuring', eventOccuring)
+      }
     } catch (e) {
       this.error = e
     }

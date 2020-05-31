@@ -1,8 +1,17 @@
 <template>
-  <nuxt />
+  <div class="blank__wrapper">
+    <Loader height="140px" />
+    <nuxt />
+  </div>
 </template>
+
 <script>
+import Loader from '~/components/loader'
+
 export default {
+  components: {
+    Loader
+  },
   data: () => ({
     error: ''
   }),
@@ -15,7 +24,16 @@ export default {
   }
 }
 </script>
+
 <style>
+.blank__wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 @font-face {
   font-family: 'Rubik';
   font-weight: 300;
