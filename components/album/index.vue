@@ -3,6 +3,7 @@
     <div
       class="album__cover"
       :style="{ backgroundImage: `url(${baseUrl}/media/${media})` }"
+      @click="$router.push(`/album/${id}`)"
     />
     <p class="album__title">{{ title }}</p>
     <p class="album__numberOfPictures">
@@ -13,6 +14,10 @@
 <script>
 export default {
   props: {
+    id: {
+      type: Number,
+      required: true
+    },
     media: {
       type: String,
       required: true

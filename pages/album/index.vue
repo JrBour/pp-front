@@ -4,6 +4,7 @@
     <div v-if="this.$store.state.albums !== null" class="albums__wrapper">
       <Album
         v-for="album in this.$store.state.albums"
+        :id="album.id"
         :key="album.id"
         :title="album.event.name"
         :number="album.medias.length"
@@ -37,6 +38,7 @@ export default {
 <style lang="scss" scoped>
 .albums__wrapper {
   display: flex;
+  margin-bottom: 10vh;
   margin-top: 40px;
   flex-wrap: wrap;
 }
