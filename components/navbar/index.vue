@@ -149,6 +149,6 @@ export default {
   transform: rotate(30deg);
 }
 .navbar__wrapper li .navbar__item_camera {
-  height: 90%;
+  height: 80%;
 }
 </style>

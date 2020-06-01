@@ -80,10 +80,8 @@ export default {
     try {
       this.userId = currentUser.id
       this.date = new Date()
-      this.month =
-        this.date.getMonth().length === 1
-          ? `0${this.date.getMonth()}`
-          : this.date.getMonth()
+      const currentMonth = this.date.getMonth() + 1
+      this.month = currentMonth.length === 1 ? `0${currentMonth}` : currentMonth
 
       const eventsFromUserEvents = await axiosHelper({
         url: `api/events?userEvents.user.id=${
@@ -92,6 +90,7 @@ export default {
           this.month
         }-${this.date.getDate()}`
       })
+
       const eventsFromAuthor = await axiosHelper({
         url: `api/events?author.id=${
           this.userId

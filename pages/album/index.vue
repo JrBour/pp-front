@@ -5,6 +5,9 @@
 </template>
 <script>
 export default {
+  mounted() {
+    this.$store.dispatch('addAlbums')
+  },
   middleware: 'authenticated'
 }
 </script>

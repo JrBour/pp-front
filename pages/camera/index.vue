@@ -22,18 +22,10 @@
 </template>
 
 <script>
-import axiosHelper from '~/lib/axiosHelper'
-
-/**
- * Check if an event is occuring
- * Display camera icons on navbar if an event is occuring
- * Check on the camera page if an event is occuring
- * Create the media object when the customer click on the button for take a picture
- * Then, create the album if this.$store.state.currentEvent.album is equal to null
- * Then, create album_media
- */
-
+import Cookies from 'js-cookie'
 import Loader from '~/components/loader'
+import axiosHelper from '~/lib/axiosHelper'
+import parseToken from '~/utils/token'
 
 export default {
   components: {
@@ -41,6 +33,7 @@ export default {
   },
   data: () => ({
     error: '',
+    events: null,
     img: null,
     imgFile: null,
     camera: null,
@@ -68,29 +61,52 @@ export default {
     }
   },
   middleware: 'authenticated',
-  async beforeCreate(){
-    const { eventOccuring } = this.$store.state
-    if (eventOccuring === null) {
-      return this.$router.push('/events')
-    }
-    if (eventOccuring.album === null) {
-      const data = {
-        event: `api/events/${eventOccuring.id}`,
-        name: eventOccuring.name
-      }
-      
-      try {
-        await axiosHelper({
-          url: 'api/albums',
-          method: 'post',
-          data
-        })
-      } catch (e) {
-        this.error = "Une erreur est survenue, veuillez reessayer plus tard"
+  async beforeMount() {
+    if (this.$store.state.events === null && this.$store.state.eventOccuring === null) {
+      const userId = parseToken(Cookies.get('token')).user.id
+      const date = new Date()
+      const currentMonth = date.getMonth() + 1
+      const month = currentMonth.length === 1 ? `0${currentMonth}` : currentMonth
+
+      const eventsFromUserEvents = await axiosHelper({
+        url: `api/events?userEvents.user.id=${userId}&userEvents.status=accept&startAt[after]=${date.getFullYear()}-${month}-${date.getDate()}`
+      })
+
+      const eventsFromAuthor = await axiosHelper({
+        url: `api/events?author.id=${userId}&startAt[after]=${date.getFullYear()}-${month}-${date.getDate()}`
+      })
+      this.events = this.handleEvent(eventsFromAuthor, eventsFromUserEvents)
+      this.$store.commit('addEvents', this.events)
+
+      const currentDate = Date.now()
+      const eventOccuring = this.events.find(({ startAt, endAt }) => {
+        return (
+          new Date(startAt).getTime() < currentDate &&
+          new Date(endAt).getTime() > currentDate
+        )
+      })
+
+      if (eventOccuring) {
+        this.$store.commit('addEventOccuring', eventOccuring)
+      } else {
+        this.$router.push('/events')
       }
     }
   },
   methods: {
+    handleEvent(eventsFromAuthor, eventsFromUserEvents) {
+      let events = []
+      const eventFromAuthorId = eventsFromAuthor.data.map(({ id }) => id)
+
+      events = eventsFromUserEvents.data.filter(
+        ({ id }) => !eventFromAuthorId.includes(id)
+      )
+
+      events = [...events, ...eventsFromAuthor.data]
+      return events.sort(
+        (a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime()
+      )
+    },
     removeImage(){
       this.img = null;
       this.image = null;
@@ -98,15 +114,16 @@ export default {
     async onCapture() {
       this.loading = true;
       this.img = this.$refs.webcam.capture()
-      this.imgFile = await this.srcToFile(this.img, new Date().getTime(), 'text/plain')
-
+      this.imgFile = await this.srcToFile(this.img, new Date().getTime(), 'image/jpeg')
+      
+      console.log(this.imgFile)
       try {
         const formData = new FormData();
         formData.append('file', this.imgFile)
 
         const media = await axiosHelper({
           url: 'api/media_objects',
-          method: 'POST',
+          method: 'post',
           data: formData
         })
 
@@ -117,7 +134,7 @@ export default {
 
         await axiosHelper({
           url: 'api/album_media',
-          method: 'POST',
+          method: 'post',
           data
         })
 
@@ -127,10 +144,21 @@ export default {
         this.loading = false;
       }
     },
-    srcToFile(src, fileName, mimeType) {
+    // dataUriToBlob(dataURI){
+    //   const mime = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    //   const binary = atob(dataURI.split(',')[1]);
+    //   let array = [];
+  
+    //   for (var i = 0; i < binary.length; i++) {
+    //     array = [...array, binary.charCodeAt(i)];
+    //   }
+      
+    //   return new Blob([new Uint8Array(array)], {type: mime});
+    // },
+    srcToFile(src, fileName, type) {
       return (fetch(src)
         .then((res) => res.arrayBuffer())
-        .then((buf) => new File([buf], fileName, {type:mimeType}))
+        .then((buf) => new File([buf], `${fileName}.jpg`, { type }))
       )
     },
     onError(error) {

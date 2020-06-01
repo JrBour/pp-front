@@ -1,18 +1,40 @@
+import Cookies from 'js-cookie'
+import axiosHelper from '~/lib/axiosHelper'
+import parseToken from '~/utils/token'
+
 export const state = () => ({
   jwt: null,
   user: null,
   userId: null,
   event: null,
-  events: [],
+  events: null,
+  albums: null,
   eventOccuring: null,
   pastEvents: [],
   participants: [],
   notifications: null
 })
 
+export const actions = {
+  async addAlbums({ commit }) {
+    const userId = parseToken(Cookies.get('token')).user.id
+    const albumsByParticipant = await axiosHelper({
+      url: `api/albums?event.userEvents.user.id=${userId}`
+    })
+    const albumsByAuthor = await axiosHelper({
+      url: `api/albums?event.author.id=${userId}`
+    })
+    const albums = [...albumsByParticipant.data, ...albumsByAuthor.data]
+    commit('addAlbums', albums)
+  }
+}
+
 export const mutations = {
   addJwt(state, jwt) {
     state.jwt = jwt
+  },
+  addAlbums(state, albums) {
+    state.albums = albums
   },
   addUser(state, user) {
     state.user = user
