@@ -310,7 +310,6 @@ export default {
       if (extensionsAllowed.includes(extension)) {
         this.errors.picture = ''
         this.cover = event.target.files[0]
-        console.log(this.cover)
         this.image = URL.createObjectURL(this.cover)
       } else {
         this.errors.picture =

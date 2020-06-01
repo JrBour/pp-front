@@ -1,23 +1,25 @@
 <template>
   <div>
-    <img
-      :src="require('~/static/img/icons/back-white.svg')"
-      alt="Back"
-      @click="$router.back()"
-    />
-    <p v-if="error">{{ error }}</p>
-    <client-only>
-      <vue-web-cam
-        ref="webcam"
-        :device-id="deviceId"
-        width="100%"
-        @error="onError"
-        @cameras="onCameras"
-        @camera-change="onCameraChange"
+    <div v-if="!loadApi">
+      <img
+        :src="require('~/static/img/icons/back-white.svg')"
+        alt="Back"
+        @click="$router.back()"
       />
-      <button v-if="!loading" type="button" @click="onCapture"></button>
-      <Loader v-if="loading" height="74px" fill="#fff" opacity="1" />
-    </client-only>
+      <p v-if="error">{{ error }}</p>
+      <client-only>
+        <vue-web-cam
+          ref="webcam"
+          :device-id="deviceId"
+          width="100%"
+          @error="onError"
+          @cameras="onCameras"
+          @camera-change="onCameraChange"
+        />
+        <button v-if="!loading" type="button" @click="onCapture"></button>
+        <Loader v-if="loading" height="74px" fill="#fff" opacity="1" />
+      </client-only>
+    </div>
   </div>
 </template>
 
@@ -39,7 +41,8 @@ export default {
     camera: null,
     deviceId: null,
     devices: [],
-    loading: false
+    loading: false,
+    loadApi: false
   }),
   layout: 'blank',
   computed: {
@@ -63,6 +66,7 @@ export default {
   middleware: 'authenticated',
   async beforeMount() {
     if (this.$store.state.events === null && this.$store.state.eventOccuring === null) {
+      this.loadApi = true
       const userId = parseToken(Cookies.get('token')).user.id
       const date = new Date()
       const currentMonth = date.getMonth() + 1
@@ -92,6 +96,26 @@ export default {
         this.$router.push('/events')
       }
     }
+
+    if (this.$store.state.eventOccuring.album === null) {
+        try {
+          await axiosHelper({
+            url: 'api/albums',
+            method: 'post',
+            data: {
+              event: `api/events/${this.$store.state.eventOccuring.id}`,
+              name: 'ntm'
+            }     
+          })
+          const event = await axiosHelper({
+            url: `api/events/${this.$store.state.eventOccuring.id}`
+          })
+          this.$store.commit('addEventOccuring', event.data)
+        } catch(e){
+          this.error = 'Une erreur est survenu, veuillez reessayer plus tard'
+        }
+      }
+      this.loadApi = false
   },
   methods: {
     handleEvent(eventsFromAuthor, eventsFromUserEvents) {
@@ -116,7 +140,6 @@ export default {
       this.img = this.$refs.webcam.capture()
       this.imgFile = await this.srcToFile(this.img, new Date().getTime(), 'image/jpeg')
       
-      console.log(this.imgFile)
       try {
         const formData = new FormData();
         formData.append('file', this.imgFile)
@@ -144,17 +167,6 @@ export default {
         this.loading = false;
       }
     },
-    // dataUriToBlob(dataURI){
-    //   const mime = dataURI.split(',')[0].split(':')[1].split(';')[0];
-    //   const binary = atob(dataURI.split(',')[1]);
-    //   let array = [];
-  
-    //   for (var i = 0; i < binary.length; i++) {
-    //     array = [...array, binary.charCodeAt(i)];
-    //   }
-      
-    //   return new Blob([new Uint8Array(array)], {type: mime});
-    // },
     srcToFile(src, fileName, type) {
       return (fetch(src)
         .then((res) => res.arrayBuffer())
@@ -183,6 +195,14 @@ export default {
   left: 50%;
   z-index: 104;
   transform: translateX(-50%);
+}
+.loader__wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 .image, video {
   position: absolute;
