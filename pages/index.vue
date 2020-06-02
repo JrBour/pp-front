@@ -23,7 +23,7 @@ export default {
       // Parameters to pass to OAuth 2.0 endpoint.
       const params = {
         client_id: this.clientId,
-        redirect_uri: 'https://pp.jeremybourel.fr/login',
+        redirect_uri: 'http://localhost:3000/login',
         response_type: 'token',
         scope: 'https://www.googleapis.com/auth/calendar.events',
         include_granted_scopes: 'true',

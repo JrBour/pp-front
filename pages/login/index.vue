@@ -63,10 +63,19 @@ export default {
       return false
     }
   },
-  beforeMount() {
-    this.oauthSignIn()
+  watch: {
+    $route(to, from) {
+      if (from.hash) {
+        const hashes = from.hash.split('&')
+        Cookies.set('access_token', hashes[1].split('=')[1])
+      }
+    }
   },
   beforeCreate() {
+    if (this.$route.query) {
+      this.$router.push('events')
+      return
+    }
     if (Cookies.get('token') !== '') {
       this.$router.push('events')
     }
