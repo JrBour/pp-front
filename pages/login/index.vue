@@ -71,10 +71,21 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    if (this.$route.query) {
-      this.$router.push('events')
-      return
+  async beforeCreate() {
+    if (Cookies.get('access_token')) {
+      try {
+        const calendars = await axiosHelper({
+          baseURL: 'https://www.googleapis.com/',
+          url: 'calendar/v3/users/me/calendarList',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('access_token')}`
+          }
+        })
+
+        Cookies.set('calendar_id', calendars.data.items[0].id)
+      } catch (e) {
+        this.error = 'Une erreur est survenue'
+      }
     }
     if (Cookies.get('token') !== '') {
       this.$router.push('events')

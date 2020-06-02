@@ -25,7 +25,7 @@ export default {
         client_id: this.clientId,
         redirect_uri: 'http://localhost:3000/login',
         response_type: 'token',
-        scope: 'https://www.googleapis.com/auth/calendar.events',
+        scope: 'https://www.googleapis.com/auth/calendar',
         include_granted_scopes: 'true',
         state: 'pass-through value'
       }

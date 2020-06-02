@@ -27,6 +27,61 @@ export default {
     }
   },
   methods: {
+    async sendNotifications(currentUser, includePlayerIds) {
+      try {
+        const data = {
+          app_id: process.env.NUXT_ENV_APP_ID,
+          contents: {
+            en: `Vous avez recu une nouvelle invitation de la part de ${currentUser.firstname} ${currentUser.lastname}`
+          },
+          headings: { en: 'Nouvelle invitation' },
+          web_url: 'https://pp.jeremybourel.fr',
+          include_player_ids: includePlayerIds
+        }
+
+        await axiosHelper({
+          baseURL: this.oneSignalUrl,
+          url: 'notifications',
+          method: 'post',
+          data
+        })
+      } catch (e) {
+        this.generalError =
+          "Une erreur s'est produite, veuillez reessayer ulterieurement"
+      }
+    },
+    async createAgendaEvent(calendarId, event) {
+      const data = {
+        location: `${event.address}, ${event.zipcode} ${event.city}`,
+        description: event.description,
+        summary: event.title,
+        creator: {
+          email: this.$store.state.user.email,
+          displayName: `${this.$store.state.user.firstname} ${this.$store.state.user.lastname}`
+        },
+        start: {
+          dateTime: `${event.startAt.split('Z')[0]}+00:00`,
+          timeZone: 'Europe/Paris'
+        },
+        end: {
+          dateTime: `${event.endAt.split('Z')[0]}+00:00`,
+          timeZone: 'Europe/Paris'
+        }
+      }
+      try {
+        await axiosHelper({
+          baseURL: 'https://www.googleapis.com/',
+          url: `calendar/v3/calendars/${calendarId}/events`,
+          method: 'post',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('access_token')}`
+          },
+          data
+        })
+      } catch (e) {
+        this.error = 'Une erreur est survenue'
+      }
+    },
     async submitEvent(event) {
       let imageId, eventResponse
       if (event.image !== '') {
@@ -89,27 +144,11 @@ export default {
         .map(({ playerId }) => playerId)
 
       if (this.env === 'production') {
-        try {
-          const data = {
-            app_id: process.env.NUXT_ENV_APP_ID,
-            contents: {
-              en: `Vous avez recu une nouvelle invitation de la part de ${currentUser.firstname} ${currentUser.lastname}`
-            },
-            headings: { en: 'Nouvelle invitation' },
-            web_url: 'https://pp.jeremybourel.fr',
-            include_player_ids: includePlayerIds
-          }
+        await this.sendNotifications(currentUser, includePlayerIds)
+      }
 
-          await axiosHelper({
-            baseURL: this.oneSignalUrl,
-            url: 'notifications',
-            method: 'post',
-            data
-          })
-        } catch (e) {
-          this.generalError =
-            "Une erreur s'est produite, veuillez reessayer ulterieurement"
-        }
+      if (Cookies.get('calendar_id')) {
+        await this.createAgendaEvent(Cookies.get('calendar_id'), data)
       }
 
       try {
