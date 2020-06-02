@@ -22,6 +22,7 @@
     "node-sass": "^4.13.1",
     "nuxt": "^2.0.0",
     "sass-loader": "^8.0.2",
+    "vue-google-oauth2": "^1.5.4",
     "vue-web-cam": "^1.9.0"
   },
   "devDependencies": {

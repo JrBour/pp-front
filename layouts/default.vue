@@ -17,10 +17,11 @@ export default {
     Navbar
   },
   data: () => ({
+    isGapiLoaded: false,
     error: '',
     showCamera: false
   }),
-  async mounted() {
+  async beforeMount() {
     if (Cookies.get('token')) {
       const token = Cookies.get('token')
       // this.$store.commit('addJwt', token)

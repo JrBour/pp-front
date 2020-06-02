@@ -35,6 +35,7 @@ export default {
    */
   plugins: [
     '~/plugins/axios',
+    { src: '~/plugins/vue-google-oauth2.js', ssr: false },
     { src: '~/plugins/webcam', mode: 'client', ssr: false }
   ],
   /*
