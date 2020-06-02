@@ -5,7 +5,8 @@
 <script>
 export default {
   data: () => ({
-    clientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID
+    clientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID,
+    baseUrl: process.env.BASE_URL
   }),
   beforeMount() {
     this.oauthSignIn()
@@ -23,7 +24,7 @@ export default {
       // Parameters to pass to OAuth 2.0 endpoint.
       const params = {
         client_id: this.clientId,
-        redirect_uri: 'http://localhost:3000/login',
+        redirect_uri: `${this.baseUrl}/login`,
         response_type: 'token',
         scope: 'https://www.googleapis.com/auth/calendar',
         include_granted_scopes: 'true',
