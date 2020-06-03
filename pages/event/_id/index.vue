@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="event === null">
-      Chargement...
+    <div v-if="event === null" class="event__loader">
+      <Loader height="100px" />
       <p v-if="errors.general">{{ errors.general }}</p>
     </div>
     <div v-else class="event__wrapper">
@@ -143,6 +143,7 @@
 import Cookies from 'js-cookie'
 import axiosHelper from '~/lib/axiosHelper'
 import AddButton from '~/components/addButton'
+import Loader from '~/components/loader'
 import Modal from '~/components/modal'
 import User from '~/components/user'
 import Button from '~/components/button'
@@ -156,6 +157,7 @@ export default {
     AddButton,
     Button,
     Expense,
+    Loader,
     Modal,
     User
   },
@@ -234,6 +236,7 @@ export default {
     const id = this.$router.history.current.params.id
 
     if (this.$route.params.id !== this.$store.state.event?.id) {
+      this.loading = true
       try {
         const event = await axiosHelper({
           url: `api/events/${id}`
@@ -245,6 +248,7 @@ export default {
       } catch (e) {
         this.errors.general = "Une erreur s'est produite"
       }
+      this.loading = false
     } else {
       this.event = this.$store.state.event
     }
@@ -407,6 +411,13 @@ h2 {
     font-weight: 300;
     font-size: 0.9em;
   }
+}
+.event__loader {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .event__participants_title,
 .event__expenses_title {

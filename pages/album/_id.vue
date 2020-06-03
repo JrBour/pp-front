@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="loading" class="loader__wrapper">
-      <Loader height="140px" />
+      <Loader height="100px" />
     </div>
     <div v-else-if="loading && error">
       <p>{{ error }}</p>

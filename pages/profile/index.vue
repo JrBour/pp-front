@@ -1,7 +1,9 @@
 <template>
   <div>
     <p v-if="error">{{ error }}</p>
-    <p v-else-if="user === null">Chargement...</p>
+    <div v-else-if="user === null" class="profile__loader">
+      <Loader height="100px" />
+    </div>
     <div v-else-if="user !== null">
       <img :src="profilePicture" alt="" />
       <h1>
@@ -20,10 +22,14 @@
 </template>
 <script>
 import Cookies from 'js-cookie'
+import Loader from '~/components/loader'
 import axiosHelper from '~/lib/axiosHelper'
 import parseJwt from '~/utils/token'
 
 export default {
+  components: {
+    Loader
+  },
   data: () => ({
     error: '',
     user: null,
@@ -78,6 +84,12 @@ h1 {
 .profile__phone {
   text-align: center;
   margin-bottom: 10vh;
+}
+.profile__loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 .profile__actions {
   display: flex;

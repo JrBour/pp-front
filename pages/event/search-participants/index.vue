@@ -21,17 +21,31 @@
         :small="true"
         :required="false"
       />
-      <Participant
-        v-for="participant in participants"
-        :key="participant.id"
-        :user="participant"
-        :display-add-button="showAddButton(participant.id)"
-        @add-partcipant="addParticipant"
-      />
+      <div v-if="loading && participants === null" class="participant__loader">
+        <Loader height="100px" />
+      </div>
+      <div
+        v-else-if="participants !== null && participants.length === 0"
+        class="participant__error_search"
+      >
+        <p>Aucun resultat pour cette recherche</p>
+      </div>
+      <div v-else>
+        <Participant
+          v-for="participant in participants"
+          :key="participant.id"
+          :user="participant"
+          :display-add-button="showAddButton(participant.id)"
+          @add-partcipant="addParticipant"
+        />
+      </div>
     </div>
     <div v-else>
       <p
-        v-if="$store.state.participants.length === 0"
+        v-if="
+          typeof $store.state.participants === 'object' &&
+            $store.state.participants.length === 0
+        "
         class="participants__warning"
       >
         Vous n'avez pas encore ajoute de participants
@@ -49,6 +63,7 @@
 <script>
 import Cookies from 'js-cookie'
 import Input from '~/components/fields/input'
+import Loader from '~/components/loader'
 import User from '~/components/user'
 import Participant from '~/components/participant'
 import SegmentedControl from '~/components/segmentedControl'
@@ -59,13 +74,15 @@ export default {
   components: {
     User,
     Input,
+    Loader,
     Participant,
     SegmentedControl
   },
   data: () => ({
     search: '',
+    loading: false,
     status: 'Recherche',
-    participants: [],
+    participants: null,
     errors: {
       search: ''
     }
@@ -148,25 +165,34 @@ export default {
       let response
 
       if (value.length > 3 && valueHasSpace.length > 1) {
+        this.loading = true
         try {
           response = await axiosHelper({
             url: `api/users?givenName=${valueHasSpace[0]}&lastName=${valueHasSpace[1]}`
           })
         } catch (e) {
+          this.loading = false
           this.errors.general =
-            'Une erreur est survenur, veuillez reessayer plus tard'
+            'Une erreur est survenue, veuillez reessayer plus tard'
         }
+        this.loading = false
         this.participants = response.data
       } else if (value.length > 3) {
+        this.loading = true
+
         try {
           response = await axiosHelper({
             url: `api/users?givenName=${value}`
           })
         } catch (e) {
+          this.loading = false
           this.errors.general =
-            'Une erreur est survenur, veuillez reessayer plus tard'
+            'Une erreur est survenue, veuillez reessayer plus tard'
         }
+        this.loading = false
         this.participants = response.data
+      } else {
+        this.participants = null
       }
     }
   }
@@ -176,6 +202,17 @@ export default {
 .participants__wrapper {
   display: flex;
   flex-wrap: wrap;
+}
+.participant__error_search {
+  text-align: center;
+  margin-top: 20vh;
+}
+.participant__loader {
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .search {
   margin-top: 10vh;

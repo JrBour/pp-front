@@ -11,7 +11,9 @@
       <div v-if="events !== null && events.length === 0">
         <p>Vous n'avez aucun événement à afficher</p>
       </div>
-      <p v-else-if="loading">Chargement...</p>
+      <div v-else-if="loading" class="events__loader">
+        <Loader height="100px" />
+      </div>
       <div v-else class="events__list">
         <Event v-for="event in events" :key="event.id" :event="event" />
       </div>
@@ -24,6 +26,7 @@
 <script>
 import Cookies from 'js-cookie'
 import Event from '~/components/event'
+import Loader from '~/components/loader'
 import SegmentedControl from '~/components/segmentedControl'
 import axiosHelper from '~/lib/axiosHelper'
 import parseToken from '~/utils/token'
@@ -31,6 +34,7 @@ import parseToken from '~/utils/token'
 export default {
   components: {
     Event,
+    Loader,
     SegmentedControl
   },
   middleware: 'authenticated',
@@ -175,6 +179,13 @@ export default {
 .events__list {
   min-height: 70vh;
   padding-bottom: 13vh;
+}
+.events__loader {
+  height: 60vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .events__button_add {
   position: fixed;

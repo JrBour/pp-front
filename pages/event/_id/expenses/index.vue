@@ -7,6 +7,9 @@
       @click="$router.go(-1)"
     />
     <p v-if="error">{{ error }}</p>
+    <div v-if="loading" class="expenses__loader">
+      <Loader height="100px" />
+    </div>
     <Modal
       v-if="displayModal"
       text="Souhaitez-vous supprimer cette depense ?"
@@ -27,6 +30,7 @@
 <script>
 import Cookies from 'js-cookie'
 import Expense from '~/components/expense'
+import Loader from '~/components/loader'
 import Modal from '~/components/modal'
 import axiosHelper from '~/lib/axiosHelper'
 import parseJwt from '~/utils/token'
@@ -34,6 +38,7 @@ import parseJwt from '~/utils/token'
 export default {
   components: {
     Modal,
+    Loader,
     Expense
   },
   data: () => ({
@@ -54,6 +59,7 @@ export default {
   },
   async beforeCreate() {
     if (this.$store.state.event === null) {
+      this.loading = true
       try {
         const id = this.$route.params.id
         const event = await axiosHelper({
@@ -61,8 +67,10 @@ export default {
         })
         this.$store.commit('addEvent', event.data)
       } catch (e) {
+        this.loading = false
         this.error = 'Une erreur est survenue, veuillez rechargez la page'
       }
+      this.loading = false
     }
   },
   methods: {
@@ -96,6 +104,13 @@ export default {
 .expenses {
   overflow: scroll;
   padding-bottom: 10vh;
+}
+.expenses__loader {
+  height: 80vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .expenses__wrapper {
   margin-top: 10vh;

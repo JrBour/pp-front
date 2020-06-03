@@ -77,7 +77,7 @@ export default {
         name: this.title,
         amount: parseFloat(this.amount),
         event: `api/events/${this.$route.params.id}`,
-        user: `api/users/${parseJwt(Cookies.get('token')).id}`
+        user: `api/users/${parseJwt(Cookies.get('token')).user.id}`
       }
 
       try {

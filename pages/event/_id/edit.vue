@@ -22,6 +22,7 @@ export default {
     event: null,
     error: '',
     loading: false,
+    loadingEvent: false,
     generalError: ''
   }),
   async mounted() {
@@ -137,4 +138,12 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.event__loader {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

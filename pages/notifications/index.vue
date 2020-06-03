@@ -2,7 +2,12 @@
   <div class="notifications">
     <h1>Notifications</h1>
     <p v-if="error">{{ error }}</p>
-    <p v-else-if="$store.state.notifications === null">Chargement...</p>
+    <div
+      v-else-if="$store.state.notifications === null"
+      class="notification__loader"
+    >
+      <Loader height="100px" />
+    </div>
     <div
       v-else-if="$store.state.notifications.length > 0"
       class="notifications__wrapper"
@@ -20,11 +25,13 @@
 <script>
 import Cookies from 'js-cookie'
 import Notification from '~/components/notification'
+import Loader from '~/components/loader'
 import axiosHelper from '~/lib/axiosHelper'
 import parseToken from '~/utils/token'
 
 export default {
   components: {
+    Loader,
     Notification
   },
   data: () => ({
@@ -95,5 +102,12 @@ export default {
 <style lang="scss" scoped>
 .notifications__wrapper {
   margin-top: 10vh;
+}
+.notification__loader {
+  height: 70vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
