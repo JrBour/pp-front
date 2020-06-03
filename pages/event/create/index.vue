@@ -1,6 +1,7 @@
 <template>
   <EventForm
     :general-error="generalError"
+    :loading="loading"
     :event="event"
     @submit-event="submitEvent"
   />
@@ -18,6 +19,7 @@ export default {
   data: () => ({
     generalError: '',
     event: null,
+    loading: false,
     env: process.env.NODE_ENV,
     oneSignalUrl: process.env.NUXT_ENV_ONESIGNAL_URL
   }),
@@ -46,6 +48,7 @@ export default {
           data
         })
       } catch (e) {
+        this.loading = false
         this.generalError =
           "Une erreur s'est produite, veuillez reessayer ulterieurement"
       }
@@ -54,7 +57,7 @@ export default {
       const data = {
         location: `${event.address}, ${event.zipcode} ${event.city}`,
         description: event.description,
-        summary: event.title,
+        summary: event.name,
         creator: {
           email: this.$store.state.user.email,
           displayName: `${this.$store.state.user.firstname} ${this.$store.state.user.lastname}`
@@ -79,10 +82,12 @@ export default {
           data
         })
       } catch (e) {
+        this.loading = false
         this.error = 'Une erreur est survenue'
       }
     },
     async submitEvent(event) {
+      this.loading = true
       let imageId, eventResponse
       if (event.image !== '') {
         const formData = new FormData()
@@ -95,6 +100,7 @@ export default {
             data: formData
           })
         } catch (e) {
+          this.loading = false
           this.generalError =
             "Une erreur s'est produite, veuillez reessayer ulterieurement"
         }
@@ -119,6 +125,7 @@ export default {
           data
         })
       } catch (e) {
+        this.loading = false
         this.generalError =
           "Une erreur s'est produite, veuillez reessayer ulterieurement"
       }
@@ -158,6 +165,7 @@ export default {
           params: { id: eventResponse.data.id }
         })
       } catch (e) {
+        this.loading = false
         this.generalError =
           "Une erreur s'est produite, veuillez reessayer ulterieurement"
       }

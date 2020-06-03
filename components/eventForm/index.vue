@@ -117,7 +117,12 @@
       </div>
     </div>
     <p v-if="generalError">{{ generalError }}</p>
-    <Button text="Valider" type="submit" :disabled="disabledSubmitButton" />
+    <Button
+      text="Valider"
+      type="submit"
+      :loading="loading"
+      :disabled="disabledSubmitButton"
+    />
   </form>
 </template>
 <script>
@@ -137,6 +142,10 @@ export default {
     Datetime
   },
   props: {
+    loading: {
+      type: Boolean,
+      required: true
+    },
     generalError: {
       type: String,
       required: true

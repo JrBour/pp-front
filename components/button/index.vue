@@ -3,16 +3,26 @@
     :type="type"
     :disabled="disabled"
     :class="{ reduce: small }"
+    :style="{ padding: loading ? '3px 0' : '1em 0' }"
     @click="handleClick"
   >
-    {{ text }}
+    <Loader v-if="loading" opacity="1" fill="#fff" height="50px" />
+    <span v-else>{{ text }}</span>
   </button>
 </template>
 
 <script>
+import Loader from '~/components/loader'
+
 export default {
-  name: 'Button',
+  components: {
+    Loader
+  },
   props: {
+    loading: {
+      type: Boolean,
+      default: false
+    },
     disabled: {
       type: Boolean
     },

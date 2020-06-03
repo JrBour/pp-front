@@ -15,6 +15,7 @@
       <Button
         type="submit"
         text="Se connecter"
+        :loading="loading"
         :disabled="disabledSubmitButton"
       />
     </form>
@@ -40,6 +41,7 @@ export default {
   data: () => ({
     email: '',
     password: '',
+    loading: false,
     errors: {
       email: '',
       password: '',
@@ -98,6 +100,8 @@ export default {
     },
     async submitForm(e) {
       e.preventDefault()
+      this.loading = true
+
       try {
         const {
           data: { token }
@@ -115,6 +119,7 @@ export default {
         this.$store.commit('addUser', parseToken(token).user)
         this.$router.push('events')
       } catch (e) {
+        this.loading = false
         if (e.response.status === 401) {
           this.errors.general =
             "L'email et le mot de passe ne correspondent pas"
@@ -130,9 +135,11 @@ export default {
         })
         this.$store.commit('addNotifications', notifications.data)
       } catch (e) {
+        this.loading = false
         this.errors.general =
           'Une erreur est survenue, veuillez recharger la page'
       }
+      this.loading = false
     }
   }
 }

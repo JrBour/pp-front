@@ -70,6 +70,7 @@
       <Button
         type="submit"
         text="S'inscrire"
+        :loading="loading"
         :disabled="disabledSubmitButton"
       />
     </form>
@@ -92,14 +93,15 @@ export default {
     Button
   },
   data: () => ({
-    firstname: '',
-    lastname: '',
-    email: '',
-    phone: '',
-    password: '',
     displayInputFile: true,
-    profile: '',
+    email: '',
+    firstname: '',
     image: '',
+    lastname: '',
+    loading: false,
+    password: '',
+    phone: '',
+    profile: '',
     errors: {
       picture: '',
       lastname: '',
@@ -165,7 +167,7 @@ export default {
     async submitForm(e) {
       e.preventDefault()
       let userId = null
-
+      this.loading = true
       try {
         userId = await axiosHelper({
           method: 'post',
@@ -179,6 +181,8 @@ export default {
           }
         })
       } catch (e) {
+        this.loading = false
+
         this.errors.general =
           'Une erreur est survenue, veuillez reesayer plus tard'
       }
@@ -193,6 +197,7 @@ export default {
             data: formData
           })
         } catch (e) {
+          this.loading = false
           this.errors.general =
             'Une erreur est survenue, veuillez reesayer plus tard'
         }

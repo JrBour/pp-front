@@ -4,6 +4,7 @@
       v-if="error === ''"
       :general-error="generalError"
       :event="event"
+      :loading="loading"
       @submit-event="submitEvent"
     />
     <p v-else>{{ error }}</p>
@@ -20,6 +21,7 @@ export default {
   data: () => ({
     event: null,
     error: '',
+    loading: false,
     generalError: ''
   }),
   async mounted() {
@@ -41,6 +43,7 @@ export default {
   },
   methods: {
     async submitEvent(event) {
+      this.loading = true
       let imageId
       if (
         event.image !== null &&
@@ -57,6 +60,7 @@ export default {
             data: formData
           })
         } catch (e) {
+          this.loading = false
           this.generalError =
             "Une erreur s'est produite, veuillez reessayer ulterieurement"
         }
@@ -85,6 +89,7 @@ export default {
         })
         this.$store.commit('addEvent', event.data)
       } catch (e) {
+        this.loading = false
         this.generalError =
           "Une erreur s'est produite, veuillez reessayer ulterieurement"
       }
@@ -122,6 +127,8 @@ export default {
 
       await Promise.all(userEventsToDelete)
       await Promise.all(userEventsToCreate)
+      this.loading = false
+
       this.$router.push({
         name: 'event-id',
         params: { id: this.$route.params.id }

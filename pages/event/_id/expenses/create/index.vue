@@ -20,7 +20,12 @@
         :on-change="handleChangeField"
       />
       <p v-if="errors.general">{{ errors.general }}</p>
-      <Button type="submit" text="Creer" :disabled="disabledSubmitButton" />
+      <Button
+        type="submit"
+        text="Creer"
+        :loading="loading"
+        :disabled="disabledSubmitButton"
+      />
     </form>
   </div>
 </template>
@@ -38,8 +43,9 @@ export default {
     Button
   },
   data: () => ({
-    title: '',
     amount: '',
+    loading: false,
+    title: '',
     errors: {
       amount: '',
       title: '',
@@ -66,6 +72,7 @@ export default {
   methods: {
     async handleSubmit(e) {
       e.preventDefault()
+      this.loading = true
       const data = {
         name: this.title,
         amount: parseFloat(this.amount),
@@ -84,6 +91,7 @@ export default {
           params: { id: this.$route.params.id }
         })
       } catch (e) {
+        this.loading = false
         this.errors.general =
           "Une erreur s'est produite, veuillez recharger la page"
       }
