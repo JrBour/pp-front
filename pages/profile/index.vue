@@ -12,10 +12,27 @@
       </h1>
       <p class="profile__phone">{{ user.phone }}</p>
       <div class="profile__actions">
-        <button>Mes evenements</button>
-        <button>Editer mon profil</button>
-        <button>Donnees</button>
-        <button @click="disconnect">Deconnexion</button>
+        <ProfileButton
+          text="Mes evenements"
+          icon="blue-calendar"
+          @handle-click="$router.push('/profile/events')"
+        />
+        <ProfileButton
+          text="Editer mon profil"
+          icon="blue-pencil"
+          @handle-click="$router.push('/profile/edit')"
+        />
+        <ProfileButton
+          text="Donnees"
+          icon="data"
+          @handle-click="$router.push('/profile/data')"
+        />
+        <ProfileButton
+          text="Deconnexion"
+          icon="logout"
+          :display-arrow-icon="false"
+          @handle-click="disconnect"
+        />
       </div>
     </div>
   </div>
@@ -23,12 +40,14 @@
 <script>
 import Cookies from 'js-cookie'
 import Loader from '~/components/loader'
+import ProfileButton from '~/components/profileButton'
 import axiosHelper from '~/lib/axiosHelper'
 import parseJwt from '~/utils/token'
 
 export default {
   components: {
-    Loader
+    Loader,
+    ProfileButton
   },
   data: () => ({
     error: '',
@@ -69,11 +88,11 @@ img {
   border-radius: 50%;
   width: 6em;
   height: 6em;
-  margin: 15vh auto 2vh auto;
+  margin: 10vh auto 2vh auto;
 }
 h1 {
   padding: 0;
-  padding-bottom: 1em;
+  padding-bottom: 0.5em;
   text-align: center;
   font-weight: 500;
   font-size: 2em;
@@ -82,8 +101,9 @@ h1 {
   }
 }
 .profile__phone {
+  font-weight: 400;
   text-align: center;
-  margin-bottom: 10vh;
+  margin-bottom: 7vh;
 }
 .profile__loader {
   display: flex;
@@ -94,8 +114,5 @@ h1 {
 .profile__actions {
   display: flex;
   flex-direction: column;
-  & button {
-    margin-bottom: 1vh;
-  }
 }
 </style>
