@@ -5,7 +5,11 @@
       <Loader height="100px" />
     </div>
     <div v-else-if="user !== null">
-      <img :src="profilePicture" alt="" />
+      <div
+        class="profile__picture"
+        :style="{ 'background-image': `url(${profilePicture})` }"
+      />
+      <!-- <img :src="profilePicture" alt="" /> -->
       <h1>
         {{ user.givenName }} <br />
         <span>{{ user.lastName }}</span>
@@ -14,7 +18,7 @@
       <div class="profile__actions">
         <ProfileButton
           text="Changer de mot de passe"
-          icon="blue-calendar"
+          icon="lock"
           @handle-click="$router.push('/profile/password')"
         />
         <ProfileButton
@@ -58,7 +62,7 @@ export default {
   computed: {
     profilePicture() {
       return this.user.image
-        ? `${this.baseUrl}media/${this.user.image.filePath}`
+        ? `${this.baseUrl}/media/${this.user.image.filePath}`
         : require('~/static/img/icons/default-user.svg')
     }
   },
@@ -82,11 +86,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-img {
+.profile__picture {
   display: block;
   border-radius: 50%;
   width: 6em;
   height: 6em;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   margin: 10vh auto 2vh auto;
 }
 h1 {

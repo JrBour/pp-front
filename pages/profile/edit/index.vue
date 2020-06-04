@@ -15,8 +15,10 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 import UserForm from '~/components/userForm'
 import axiosHelper from '~/lib/axiosHelper'
+import parseToken from '~/utils/token'
 
 export default {
   components: {
@@ -25,15 +27,23 @@ export default {
   data: () => ({
     user: null,
     loading: false,
-    baseUrl: process.env.BASE_URL,
+    baseUrl: process.env.NUXT_ENV_API_URL,
     error: ''
   }),
   middleware: 'authenticated',
-  mounted() {
-    const user = this.$store.state.user
-    user.image =
-      user.image !== null ? `${this.baseUrl}/media/${user.image}` : null
-    this.user = user
+  async mounted() {
+    try {
+      const user = await axiosHelper({
+        url: `api/users/${parseToken(Cookies.get('token')).user.id}`
+      })
+      user.data.image =
+        user.data.image !== null
+          ? `${this.baseUrl}/media/${user.data.image.filePath}`
+          : null
+      this.user = user.data
+    } catch (e) {
+      this.error = 'Une erreur est survenue, veuillez reessayer plus tard'
+    }
   },
   methods: {
     async submitForm(user) {

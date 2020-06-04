@@ -6,20 +6,19 @@
       name="profile"
       @change="processFile($event)"
     />
-    <div class="register__profile">
+    <div
+      class="register__profile"
+      :style="{ width: image !== '' ? '85%' : '65%' }"
+    >
       <p>Photo <br />de profil</p>
-      <label
-        v-if="image === '' && displayInputFile"
-        class="register__profile_add"
-        for="profile"
-      >
+      <label v-if="image === ''" class="register__profile_add" for="profile">
         +
       </label>
       <div v-else class="register__profile_pictureAdd">
-        <img :src="image" />
+        <div class="image" :style="{ backgroundImage: `url(${image})` }" />
         <div class="register__profile_action">
           <label class="register__profile_pencil" for="profile"
-            ><img src="img/icons/pencil.svg" alt="pencil"
+            ><img :src="require('~/static/img/icons/pencil.svg')" alt="pencil"
           /></label>
           <button class="register__button_remove" @click="removeProfilePicture">
             x
@@ -66,6 +65,7 @@
     />
     <Password
       v-if="!edit"
+      name="password"
       :on-change="handleChangeField"
       :error="errors.password"
     />
@@ -151,6 +151,7 @@ export default {
       this.firstname = val.givenName
       this.lastname = val.lastName
       this.phone = val.phone
+      this.image = val.image
     }
   },
   methods: {
@@ -207,6 +208,8 @@ export default {
   }
 }
 .register__profile_action {
+  display: flex;
+  flex-direction: column;
   margin-left: 2vw;
 }
 .register__button_remove {
@@ -225,12 +228,14 @@ input[type='file'] {
   display: flex;
   align-items: center;
   height: 75px;
-  width: 75px;
   margin: 3.5vh auto;
-  & > img {
+  & > .image {
     border-radius: 50%;
     height: 75px;
     width: 75px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
   }
 }
 .register__profile_add {

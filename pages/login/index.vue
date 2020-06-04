@@ -10,7 +10,11 @@
         :error="errors.email"
         :on-change="handleChangeField"
       />
-      <Password :on-change="handleChangeField" :error="errors.password" />
+      <Password
+        name="password"
+        :on-change="handleChangeField"
+        :error="errors.password"
+      />
       <p v-if="errors.general" class="error">{{ errors.general }}</p>
       <Button
         type="submit"

@@ -2,13 +2,14 @@
   <div class="input__wrapper">
     <div class="input__container">
       <input
-        id="password"
+        :id="name"
         v-model="inputValue"
+        :name="name"
         :type="type"
         :class="{ inputError: error !== '' }"
       />
-      <label for="password" :class="{ active: inputValue.length > 0 }"
-        >Mot de passe <span>*</span></label
+      <label :for="name" :class="{ active: inputValue.length > 0 }"
+        >{{ label }} <span>*</span></label
       >
       <img
         :src="
@@ -31,9 +32,17 @@ export default {
       type: Function,
       required: true
     },
-    error: {
+    name: {
       type: String,
       required: true
+    },
+    label: {
+      type: String,
+      default: 'Mot de passe'
+    },
+    error: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -44,7 +53,7 @@ export default {
   },
   watch: {
     inputValue(value) {
-      this.onChange('password', value)
+      this.onChange(this.name, value)
     }
   },
   methods: {
