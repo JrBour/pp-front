@@ -46,6 +46,9 @@ export default {
     email: '',
     password: '',
     loading: false,
+    baseUrl: process.env.NUXT_ENV_API_URL,
+    clientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID,
+    clientSecret: process.env.NUXT_ENV_GOOGLE_CLIENT_SECRET,
     errors: {
       email: '',
       password: '',
@@ -73,6 +76,7 @@ export default {
     $route(to, from) {
       if (from.hash) {
         const hashes = from.hash.split('&')
+        console.log(from.hash)
         Cookies.set('access_token', hashes[1].split('=')[1])
       }
     }
@@ -80,6 +84,30 @@ export default {
   async beforeCreate() {
     if (Cookies.get('access_token')) {
       try {
+        await axiosHelper({
+          baseURL: 'https://www.googleapis.com/',
+          url: `oauth2/v1/tokeninfo?access_token=${Cookies.get(
+            'access_token'
+          )}`,
+          headers: {
+            Authorization: `Bearer ${Cookies.get('access_token')}`
+          }
+        })
+
+        const test = await axiosHelper({
+          baseURL: 'https://oauth2.googleapis.com/',
+          url: `token?client_id=${
+            this.clientId
+          }&grant_type=authorization_code&client_secret=${
+            this.secret
+          }&code=${Cookies.get('access_token')}&redirect_url=${
+            this.baseUrl
+          }/login`,
+          headers: {
+            Authorization: `Bearer ${Cookies.get('access_token')}`
+          }
+        })
+        console.log(test)
         const calendars = await axiosHelper({
           baseURL: 'https://www.googleapis.com/',
           url: 'calendar/v3/users/me/calendarList',
@@ -152,7 +180,7 @@ export default {
 <style lang="css" scoped>
 .login__form {
   position: relative;
-  margin-top: 50vh;
+  margin-top: 45vh;
 }
 .login__link {
   text-align: center;

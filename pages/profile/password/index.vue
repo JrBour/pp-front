@@ -81,7 +81,7 @@ export default {
       this.loading = true
 
       try {
-        const response = await axiosHelper({
+        await axiosHelper({
           url: 'login',
           method: 'post',
           data: {
@@ -89,7 +89,6 @@ export default {
             password: this.oldPassword
           }
         })
-        console.log(response)
       } catch (e) {
         this.loading = false
         this.errors.general =

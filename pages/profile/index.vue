@@ -7,9 +7,8 @@
     <div v-else-if="user !== null">
       <div
         class="profile__picture"
-        :style="{ 'background-image': `url(${profilePicture})` }"
+        :style="{ backgroundImage: `url(${profilePicture})` }"
       />
-      <!-- <img :src="profilePicture" alt="" /> -->
       <h1>
         {{ user.givenName }} <br />
         <span>{{ user.lastName }}</span>
