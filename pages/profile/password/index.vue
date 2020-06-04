@@ -18,8 +18,10 @@
       <Password
         label="Confirmer mot de passe"
         name="confirmNewPassword"
+        :error="errors.confirmNewPassword"
         :on-change="handleChangeField"
       />
+      <p v-if="errors.general" class="error">{{ errors.general }}</p>
       <Button
         type="submit"
         text="Editer"
@@ -43,9 +45,14 @@ export default {
   },
   middleware: 'authenticated',
   data: () => ({
+    loading: false,
     oldPassword: '',
     newPassword: '',
-    confirmNewPassword: ''
+    confirmNewPassword: '',
+    errors: {
+      general: '',
+      confirmNewPassword: ''
+    }
   }),
   computed: {
     disabledSubmitButton() {
@@ -60,8 +67,18 @@ export default {
     }
   },
   methods: {
+    handleChangeField(name, value) {
+      this[name] = value
+    },
     async submitPassword(e) {
       e.preventDefault()
+
+      if (this.confirmNewPassword !== this.newPassword) {
+        this.errors.confirmNewPassword =
+          'Les mots de passe ne correspondent pas'
+        return
+      }
+      this.loading = true
 
       try {
         const response = await axiosHelper({
@@ -74,8 +91,10 @@ export default {
         })
         console.log(response)
       } catch (e) {
-        this.error =
+        this.loading = false
+        this.errors.general =
           "L'ancien mot de passe n'est pas correct, veuillez reessayer"
+        return
       }
 
       try {
@@ -87,8 +106,13 @@ export default {
           }
         })
       } catch (e) {
-        this.error = 'Une erreur est survenue, veuillez reessayer plus tard'
+        this.loading = false
+        this.errors.general =
+          'Une erreur est survenue, veuillez reessayer plus tard'
+        return
       }
+      this.loading = false
+      this.$router.push('/profile')
     }
   }
 }
