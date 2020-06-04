@@ -1,19 +1,19 @@
 <template>
   <div>
     <h1>Inscription</h1>
-    <RegisterForm :loading="loading" @submit-form="submitForm" />
+    <UserForm :loading="loading" @submit-form="submitForm" />
     <p class="register__link"><n-link to="/login">Deja inscrit ?</n-link></p>
   </div>
 </template>
 
 <script>
 import Cookies from 'js-cookie'
-import RegisterForm from '~/components/registerForm'
+import UserForm from '~/components/userForm'
 import axiosHelper from '~/lib/axiosHelper'
 
 export default {
   components: {
-    RegisterForm
+    UserForm
   },
   data: () => ({
     loading: false

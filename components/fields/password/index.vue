@@ -11,7 +11,11 @@
         >Mot de passe <span>*</span></label
       >
       <img
-        :src="`img/icons/eye${type === 'text' ? '-close' : ''}.svg`"
+        :src="
+          require(`~/static/img/icons/eye${
+            type === 'text' ? '-close' : ''
+          }.svg`)
+        "
         alt="Eye icon"
         @click="changeType"
       />

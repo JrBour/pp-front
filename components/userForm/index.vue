@@ -33,6 +33,7 @@
       type="text"
       text="Prenom"
       name="firstname"
+      :default-value="firstname"
       :error="errors.firstname"
       :on-change="handleChangeField"
     />
@@ -41,6 +42,7 @@
       type="text"
       text="Nom"
       name="lastname"
+      :default-value="lastname"
       :error="errors.lastname"
       :on-change="handleChangeField"
     />
@@ -49,6 +51,7 @@
       type="tel"
       text="Telephone"
       name="phone"
+      :default-value="phone"
       :error="errors.phone"
       :on-change="handleChangeField"
     />
@@ -57,14 +60,19 @@
       type="email"
       text="Email"
       name="email"
+      :default-value="email"
       :error="errors.email"
       :on-change="handleChangeField"
     />
-    <Password :on-change="handleChangeField" :error="errors.password" />
+    <Password
+      v-if="!edit"
+      :on-change="handleChangeField"
+      :error="errors.password"
+    />
     <p v-if="errors.general" class="error">{{ errors.general }}</p>
     <Button
       type="submit"
-      text="S'inscrire"
+      :text="edit ? 'Editer' : 'S\'inscrire'"
       :loading="loading"
       :disabled="disabledSubmitButton"
     />
@@ -86,6 +94,14 @@ export default {
     loading: {
       type: Boolean,
       required: true
+    },
+    edit: {
+      type: Boolean,
+      default: false
+    },
+    user: {
+      type: Object,
+      default: null
     }
   },
   data: () => ({
@@ -113,7 +129,7 @@ export default {
         this.firstname.length === 0 ||
         this.lastname.length === 0 ||
         this.email.length === 0 ||
-        this.password.length === 0 ||
+        (!this.edit && this.password.length === 0) ||
         this.phone.length === 0
       ) {
         return true
@@ -127,6 +143,14 @@ export default {
         return true
       }
       return false
+    }
+  },
+  watch: {
+    user(val) {
+      this.email = val.email
+      this.firstname = val.givenName
+      this.lastname = val.lastName
+      this.phone = val.phone
     }
   },
   methods: {

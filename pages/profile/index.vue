@@ -13,9 +13,9 @@
       <p class="profile__phone">{{ user.phone }}</p>
       <div class="profile__actions">
         <ProfileButton
-          text="Mes evenements"
+          text="Changer de mot de passe"
           icon="blue-calendar"
-          @handle-click="$router.push('/profile/events')"
+          @handle-click="$router.push('/profile/password')"
         />
         <ProfileButton
           text="Editer mon profil"
@@ -62,15 +62,14 @@ export default {
         : require('~/static/img/icons/default-user.svg')
     }
   },
-  async mounted() {
-    const token = Cookies.get('token')
+  async beforeMount() {
     try {
       const user = await axiosHelper({
-        url: `api/users/${parseJwt(token).user.id}`
+        url: `api/users/${parseJwt(Cookies.get('token')).user.id}`
       })
       this.user = user.data
     } catch (e) {
-      this.error = "Une erreur s'est produite, veuillez rechargez la page"
+      this.error = 'Une erreur est survenue, veuillez reessayer plus tard'
     }
   },
   methods: {
