@@ -107,7 +107,7 @@ export default {
       } catch (e) {
         this.loading = false
         this.errors.general =
-          'Une erreur est survenue, veuillez reessayer plus tard'
+          'Une erreur est survenue, veuillez réessayer plus tard'
         return
       }
       this.loading = false

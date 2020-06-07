@@ -173,7 +173,7 @@ export default {
         } catch (e) {
           this.loading = false
           this.errors.general =
-            'Une erreur est survenue, veuillez reessayer plus tard'
+            'Une erreur est survenue, veuillez réessayer plus tard'
         }
         this.loading = false
         this.participants = response.data
@@ -187,7 +187,7 @@ export default {
         } catch (e) {
           this.loading = false
           this.errors.general =
-            'Une erreur est survenue, veuillez reessayer plus tard'
+            'Une erreur est survenue, veuillez réessayer plus tard'
         }
         this.loading = false
         this.participants = response.data

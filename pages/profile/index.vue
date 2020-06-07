@@ -72,7 +72,7 @@ export default {
       })
       this.user = user.data
     } catch (e) {
-      this.error = 'Une erreur est survenue, veuillez reessayer plus tard'
+      this.error = 'Une erreur est survenue, veuillez réessayer plus tard'
     }
   },
   methods: {
