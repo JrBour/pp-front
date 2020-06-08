@@ -50,7 +50,7 @@ export default {
       } catch (e) {
         this.loading = false
         this.generalError =
-          "Une erreur s'est produite, veuillez reessayer ulterieurement"
+          "Une erreur s'est produite, veuillez réessayer ultérieurement"
       }
     },
     async createAgendaEvent(calendarId, event) {
@@ -102,7 +102,7 @@ export default {
         } catch (e) {
           this.loading = false
           this.generalError =
-            "Une erreur s'est produite, veuillez reessayer ulterieurement"
+            "Une erreur s'est produite, veuillez réessayer ultérieurement"
         }
       }
       const data = {
@@ -127,7 +127,7 @@ export default {
       } catch (e) {
         this.loading = false
         this.generalError =
-          "Une erreur s'est produite, veuillez reessayer ulterieurement"
+          "Une erreur s'est produite, veuillez réessayer ultérieurement"
       }
 
       const userEvents = this.$store.state.participants.map(
@@ -167,7 +167,7 @@ export default {
       } catch (e) {
         this.loading = false
         this.generalError =
-          "Une erreur s'est produite, veuillez reessayer ulterieurement"
+          "Une erreur s'est produite, veuillez réessayer ultérieurement"
       }
     }
   }

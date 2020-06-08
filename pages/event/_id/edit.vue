@@ -63,7 +63,7 @@ export default {
         } catch (e) {
           this.loading = false
           this.generalError =
-            "Une erreur s'est produite, veuillez reessayer ulterieurement"
+            "Une erreur s'est produite, veuillez réessayer ultérieurement"
         }
       }
 
@@ -92,7 +92,7 @@ export default {
       } catch (e) {
         this.loading = false
         this.generalError =
-          "Une erreur s'est produite, veuillez reessayer ulterieurement"
+          "Une erreur s'est produite, veuillez réessayer ultérieurement"
       }
 
       const participants = this.$store.state.participants
