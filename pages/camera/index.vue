@@ -112,7 +112,7 @@ export default {
           })
           this.$store.commit('addEventOccuring', event.data)
         } catch(e){
-          this.error = 'Une erreur est survenu, veuillez reessayer plus tard'
+          this.error = 'Une erreur est survenue, veuillez réessayer plus tard'
         }
       }
       this.loadApi = false
@@ -162,7 +162,7 @@ export default {
         })
 
       } catch(e) {
-        this.error = "Une erreur est survenur, veuillez reesayer plus tard";
+        this.error = "Une erreur est survenue, veuillez réessayer plus tard";
       } finally {
         this.loading = false;
       }
@@ -174,7 +174,7 @@ export default {
       )
     },
     onError(error) {
-      console.log('On Error Event', error)
+      this.error = 'Une erreur est survenue, veuillez réessayer plus tard'
     },
     onCameras(cameras) {
       this.devices = cameras

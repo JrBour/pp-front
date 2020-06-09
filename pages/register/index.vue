@@ -40,7 +40,7 @@ export default {
         } catch (e) {
           this.loading = false
           this.errors.general =
-            'Une erreur est survenue, veuillez reesayer plus tard'
+            'Une erreur est survenue, veuillez réessayer plus tard'
         }
       }
 
@@ -60,7 +60,7 @@ export default {
       } catch (e) {
         this.loading = false
         this.errors.general =
-          'Une erreur est survenue, veuillez reesayer plus tard'
+          'Une erreur est survenue, veuillez réessayer plus tard'
       }
       this.$router.push('login')
     }
