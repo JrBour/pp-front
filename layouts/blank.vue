@@ -12,9 +12,6 @@ export default {
   components: {
     Loader
   },
-  data: () => ({
-    error: ''
-  }),
   head() {
     return {
       bodyAttrs: {

@@ -31,10 +31,11 @@ export default {
       }
     }
   },
-  // eslint-disable-next-line nuxt/require-func-head
-  head: {
-    bodyAttrs: {
-      class: 'noBorder'
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'noBorder'
+      }
     }
   }
 }
