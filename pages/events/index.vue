@@ -15,7 +15,12 @@
         <Loader height="100px" />
       </div>
       <div v-else class="events__list">
-        <Event v-for="event in events" :key="event.id" :event="event" />
+        <Event
+          v-for="event in events"
+          :key="event.id"
+          :event="event"
+          @remove-event="removeEvent"
+        />
       </div>
     </div>
     <button class="events__button_add" @click="addEvent">
@@ -80,47 +85,66 @@ export default {
       })
     })
 
-    this.loading = true
-    try {
-      this.userId = currentUser.id
-      this.date = new Date()
-      const currentMonth = this.date.getMonth() + 1
-      this.month = currentMonth.length === 1 ? `0${currentMonth}` : currentMonth
+    // Get currentUser.id
 
-      const eventsFromUserEvents = await axiosHelper({
-        url: `api/events?userEvents.user.id=${
-          this.userId
-        }&userEvents.status=accept&startAt[after]=${this.date.getFullYear()}-${
-          this.month
-        }-${this.date.getDate()}`
-      })
-
-      const eventsFromAuthor = await axiosHelper({
-        url: `api/events?author.id=${
-          this.userId
-        }&startAt[after]=${this.date.getFullYear()}-${
-          this.month
-        }-${this.date.getDate()}`
-      })
-      this.events = this.handleEvent(eventsFromAuthor, eventsFromUserEvents)
-      this.$store.commit('addEvents', this.events)
-
-      const currentDate = Date.now()
-      const eventOccuring = this.events.find(({ startAt, endAt }) => {
-        return (
-          new Date(startAt).getTime() < currentDate &&
-          new Date(endAt).getTime() > currentDate
-        )
-      })
-      if (eventOccuring) {
-        this.$store.commit('addEventOccuring', eventOccuring)
-      }
-    } catch (e) {
-      this.error = e
-    }
-    this.loading = false
+    await this.getEvents(currentUser)
   },
   methods: {
+    async getEvents(currentUser) {
+      this.loading = true
+      try {
+        this.userId = currentUser.id
+        this.date = new Date()
+        const currentMonth = this.date.getMonth() + 1
+        this.month =
+          currentMonth.length === 1 ? `0${currentMonth}` : currentMonth
+
+        const eventsFromUserEvents = await axiosHelper({
+          url: `api/events?userEvents.user.id=${
+            this.userId
+          }&userEvents.status=accept&startAt[after]=${this.date.getFullYear()}-${
+            this.month
+          }-${this.date.getDate()}`
+        })
+
+        const eventsFromAuthor = await axiosHelper({
+          url: `api/events?author.id=${
+            this.userId
+          }&startAt[after]=${this.date.getFullYear()}-${
+            this.month
+          }-${this.date.getDate()}`
+        })
+        this.events = this.handleEvent(eventsFromAuthor, eventsFromUserEvents)
+        this.$store.commit('addEvents', this.events)
+
+        const currentDate = Date.now()
+        const eventOccuring = this.events.find(({ startAt, endAt }) => {
+          return (
+            new Date(startAt).getTime() < currentDate &&
+            new Date(endAt).getTime() > currentDate
+          )
+        })
+        if (eventOccuring) {
+          this.$store.commit('addEventOccuring', eventOccuring)
+        }
+      } catch (e) {
+        this.error = e
+      }
+      this.loading = false
+    },
+    async removeEvent(eventId) {
+      try {
+        await axiosHelper({
+          url: `api/events/${eventId}`,
+          method: 'DELETE'
+        })
+        const currentUser = parseToken(Cookies.get('token')).user
+        await this.getEvents(currentUser)
+      } catch (e) {
+        this.error =
+          "Une erreur est survenue lors de la supression de l'evenement, veuillez reessayer"
+      }
+    },
     addEvent() {
       this.$store.commit('resetEvents')
       this.$store.commit('resetParticipants')

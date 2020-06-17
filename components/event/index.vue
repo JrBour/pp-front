@@ -16,7 +16,7 @@
         <p>{{ address }}</p>
       </div>
       <div>
-        <div v-if="showSettings">
+        <div v-if="showSettings" class="event__nav">
           <a @click="$router.push(`event/${event.id}/edit`)">Editer</a>
           <a @click="removeEvent">Supprimer</a>
         </div>
@@ -140,7 +140,21 @@ export default {
   padding: 2px 10px;
   font-weight: 500;
 }
+.event__nav {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  right: -20px;
+  top: 35px;
+  background: white;
+  font-size: 0.9em;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
 .event__wrapper {
+  position: relative;
   width: 100%;
   background: #ffffff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);

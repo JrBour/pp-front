@@ -239,7 +239,7 @@ export default {
         this.cover = new File([this.cover], this.image)
         this.image = val.image
           ? typeof val.image === 'object'
-            ? `${this.baseUrl}media/${val.image.filePath}`
+            ? `${this.baseUrl}/media/${val.image.filePath}`
             : val.image
           : null
       }
