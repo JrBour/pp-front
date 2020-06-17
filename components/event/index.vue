@@ -91,7 +91,17 @@ export default {
       const start = new Date(this.event.startAt)
       const end = new Date(this.event.endAt)
 
-      return `${start.getHours()}h${start.getMinutes()} - ${end.getHours()}h${end.getMinutes()}`
+      const hourEnd =
+        end.getHours() < 10 ? `0${end.getHours()}` : end.getHours()
+      const minuteEnd =
+        end.getMinutes() < 10 ? `0${end.getMinutes()}` : end.getMinutes()
+
+      const hourStart =
+        start.getHours() < 10 ? `0${start.getHours()}` : start.getHours()
+      const minuteStart =
+        start.getMinutes() < 10 ? `0${start.getMinutes()}` : start.getMinutes()
+
+      return `${hourStart}h${minuteStart} - ${hourEnd}h${minuteEnd}`
     },
     start() {
       return new Date(this.event.startAt)

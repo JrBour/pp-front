@@ -2,12 +2,19 @@
   <div>
     <div v-if="!loadApi">
       <img
+        class="back"
         :src="require('~/static/img/icons/back-white.svg')"
         alt="Back"
         @click="$router.back()"
       />
       <p v-if="error">{{ error }}</p>
       <client-only>
+        <img
+          class="changeCamera"
+          :src="require('~/static/img/icons/camera-change.svg')"
+          alt="change camera"
+          @click="changeCamera"
+        />
         <vue-web-cam
           ref="webcam"
           :device-id="deviceId"
@@ -118,6 +125,13 @@ export default {
       this.loadApi = false
   },
   methods: {
+    changeCamera(){
+      const [first, second] = this.devices
+      if (second) {
+        this.camera = this.camera === first.deviceId ? second.deviceId : first.deviceId 
+        this.deviceId = this.camera === first.deviceId ? second.deviceId : first.deviceId
+      }
+    },
     handleEvent(eventsFromAuthor, eventsFromUserEvents) {
       let events = []
       const eventFromAuthorId = eventsFromAuthor.data.map(({ id }) => id)
@@ -212,12 +226,19 @@ export default {
   right: 0;
   height: 100vh;
 }
-img {
+.back {
   position: absolute;
   top: 20px;
   left: 20px;
   z-index: 103;
   height: 20px;
+}
+.changeCamera {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 103;
+  height: 25px;
 }
 .image {
   background-repeat: no-repeat;

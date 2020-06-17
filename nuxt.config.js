@@ -67,7 +67,10 @@ export default {
   },
 
   pwa: {
-    name: 'Plevent',
+    manifest: {
+      name: 'Plevent',
+      lang: 'fr'
+    },
     workbox: {
       dev: false,
       offlineStrategy: 'StaleWhileRevalidate'
