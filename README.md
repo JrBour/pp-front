@@ -1,6 +1,6 @@
-# front
+# Plevent
 
-> My world-class Nuxt.js project
+> Plevent is an application to plan events and invite your friends to it.
 
 ## Build Setup
 
@@ -19,4 +19,3 @@ $ yarn start
 $ yarn generate
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).

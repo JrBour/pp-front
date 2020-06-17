@@ -1,8 +1,8 @@
 {
-  "name": "front",
+  "name": "plevent",
   "version": "1.0.0",
-  "description": "My world-class Nuxt.js project",
-  "author": "Bourel",
+  "description": "Plevent is an application to plan events and invite your friends to it.",
+  "author": "JrBour",
   "private": true,
   "scripts": {
     "dev": "nuxt",
