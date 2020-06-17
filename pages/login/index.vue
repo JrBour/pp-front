@@ -78,13 +78,12 @@ export default {
     $route(to, from) {
       if (from.hash) {
         const hashes = from.hash.split('&')
-        console.log(from.hash)
         Cookies.set('access_token', hashes[1].split('=')[1])
       }
     }
   },
   beforeMount() {
-    if (!Cookies.get('access_token') && this.env === 'production') {
+    if (Cookies.get('access_token') === null && this.env === 'production') {
       this.oauthSignIn()
     }
   },
