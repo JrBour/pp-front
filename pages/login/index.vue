@@ -47,7 +47,7 @@ export default {
     email: '',
     password: '',
     loading: false,
-    baseUrl: process.env.NUXT_ENV_API_URL,
+    baseUrl: process.env.BASE_URL,
     clientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID,
     clientSecret: process.env.NUXT_ENV_GOOGLE_CLIENT_SECRET,
     env: process.env.NODE_ENV,
