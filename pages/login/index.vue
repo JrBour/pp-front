@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Connexion</h1>
+    <img :src="require('~/static/img/icons/logo.svg')" alt="Logo" />
     <form class="login__form" @submit="submitForm">
       <Input
         id="mail"
@@ -49,6 +50,7 @@ export default {
     baseUrl: process.env.NUXT_ENV_API_URL,
     clientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID,
     clientSecret: process.env.NUXT_ENV_GOOGLE_CLIENT_SECRET,
+    env: process.env.NODE_ENV,
     errors: {
       email: '',
       password: '',
@@ -81,6 +83,11 @@ export default {
       }
     }
   },
+  beforeMount() {
+    if (!Cookies.get('access_token') && this.env === 'production') {
+      this.oauthSignIn()
+    }
+  },
   async beforeCreate() {
     if (Cookies.get('access_token')) {
       try {
@@ -94,7 +101,7 @@ export default {
           }
         })
 
-        const test = await axiosHelper({
+        await axiosHelper({
           baseURL: 'https://oauth2.googleapis.com/',
           url: `token?client_id=${
             this.clientId
@@ -107,7 +114,7 @@ export default {
             Authorization: `Bearer ${Cookies.get('access_token')}`
           }
         })
-        console.log(test)
+
         const calendars = await axiosHelper({
           baseURL: 'https://www.googleapis.com/',
           url: 'calendar/v3/users/me/calendarList',
@@ -121,11 +128,44 @@ export default {
         this.error = 'Une erreur est survenue'
       }
     }
+
     if (Cookies.get('token') !== '') {
       this.$router.push('events')
     }
   },
   methods: {
+    oauthSignIn() {
+      // Google's OAuth 2.0 endpoint for requesting an access token
+      const oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth'
+
+      // Create <form> element to submit parameters to OAuth 2.0 endpoint.
+      const form = document.createElement('form')
+      form.setAttribute('method', 'GET') // Send as a GET request.
+      form.setAttribute('action', oauth2Endpoint)
+
+      // Parameters to pass to OAuth 2.0 endpoint.
+      const params = {
+        client_id: this.clientId,
+        redirect_uri: `${this.baseUrl}/login`,
+        response_type: 'token',
+        scope: 'https://www.googleapis.com/auth/calendar',
+        include_granted_scopes: 'true',
+        state: 'pass-through value'
+      }
+
+      // Add form parameters as hidden input values.
+      for (const p in params) {
+        const input = document.createElement('input')
+        input.setAttribute('type', 'hidden')
+        input.setAttribute('name', p)
+        input.setAttribute('value', params[p])
+        form.appendChild(input)
+      }
+
+      // Add form to page and submit it to open the OAuth 2.0 endpoint.
+      document.body.appendChild(form)
+      form.submit()
+    },
     handleChangeField(name, value) {
       this[name] = value
       this.errors[name] = validateLoginField(name, value)
@@ -180,7 +220,13 @@ export default {
 <style lang="css" scoped>
 .login__form {
   position: relative;
-  margin-top: 45vh;
+  margin-top: 11vh;
+}
+img {
+  width: 55%;
+  margin: auto;
+  display: block;
+  margin-top: 20vh;
 }
 .login__link {
   text-align: center;

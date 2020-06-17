@@ -9,7 +9,7 @@ export default {
     baseUrl: process.env.BASE_URL
   }),
   beforeMount() {
-    this.oauthSignIn()
+    this.$router.push('/login')
   },
   methods: {
     oauthSignIn() {
