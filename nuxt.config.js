@@ -67,8 +67,8 @@ export default {
   },
 
   pwa: {
+    name: 'Plevent',
     workbox: {
-      name: 'Plevent',
       dev: false,
       offlineStrategy: 'StaleWhileRevalidate'
     }
