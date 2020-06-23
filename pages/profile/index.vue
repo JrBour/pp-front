@@ -25,11 +25,11 @@
           icon="blue-pencil"
           @handle-click="$router.push('/profile/edit')"
         />
-        <!-- <ProfileButton
+        <ProfileButton
           text="Donnees"
           icon="data"
           @handle-click="$router.push('/profile/data')"
-        /> -->
+        />
         <ProfileButton
           text="Deconnexion"
           icon="logout"
