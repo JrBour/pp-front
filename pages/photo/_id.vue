@@ -1,6 +1,14 @@
 <template>
   <div>
-    <img v-if="image !== null" :src="image" alt="" />
+    <div v-if="image !== null">
+      <img
+        class="back"
+        :src="require('~/static/img/icons/back-white.svg')"
+        alt="Back"
+        @click="$router.back()"
+      />
+      <img :src="image" alt="" />
+    </div>
     <p v-else-if="error !== null" class="error">{{ error }}</p>
     <Loader v-else />
   </div>
