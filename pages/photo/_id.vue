@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="picture__wrapper">
     <div v-if="image !== null">
       <img
         class="back"
@@ -7,10 +7,10 @@
         alt="Back"
         @click="$router.back()"
       />
-      <img :src="image" alt="" />
+      <img :src="image.filepath" alt="" />
     </div>
     <p v-else-if="error !== null" class="error">{{ error }}</p>
-    <Loader v-else />
+    <Loader v-else height="140px" />
   </div>
 </template>
 <script>
@@ -39,3 +39,10 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.picture__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
