@@ -41,17 +41,6 @@ export default {
 }
 </script>
 <style>
-.container {
-  background-image: url('/img/icons/bg-template.svg');
-  background-position: top left;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-color: rgba(248, 248, 248, 0.6);
-  min-height: 100vh;
-  width: 100%;
-  overflow: scroll;
-}
-
 .noBorder h1 {
   padding: 9vh 1vw 0 8vw;
   font-size: 2.5em;
