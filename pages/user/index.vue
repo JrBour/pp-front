@@ -1,16 +1,24 @@
 <template>
   <div>
-    <h1>{{ user.name }}</h1>
-    <Button text="Envoyer une demande d'ami" />
+    <p v-if="error !== null">{{ error }}</p>
+    <div v-else-if="user === null">
+      <Loader height="100px" />
+    </div>
+    <div v-else>
+      <h1>{{ user.name }}</h1>
+      <Button text="Envoyer une demande d'ami" />
+    </div>
   </div>
 </template>
 <script>
 import axiosHelper from '~/lib/axiosHelper'
 import Button from '~/components/button'
+import Loader from '~/components/loader'
 
 export default {
   components: {
-    Button
+    Button,
+    Loader
   },
   data: () => ({
     user: null
