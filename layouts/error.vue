@@ -1,19 +1,46 @@
 <template>
-  <div class="container">
+  <div class="container__error">
     <h1 v-if="error.statusCode === 404">Page not found</h1>
     <h1 v-else>An error occurred</h1>
-    <nuxt-link to="/">Home page</nuxt-link>
+    <Button text="Home page" @handle-click="$router.push('events')" />
   </div>
 </template>
 
 <script>
+import Button from '~/components/button'
+
 export default {
+  components: {
+    Button
+  },
   props: {
     error: {
       type: Object,
       required: true
     }
   },
-  layout: 'blog'
+  layout: 'noBorder',
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'errorLayout'
+      }
+    }
+  }
 }
 </script>
+<style>
+.errorLayout .container {
+  display: flex;
+  justify-content: center;
+}
+.errorLayout h1 {
+  text-align: center;
+}
+.container__error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+</style>
