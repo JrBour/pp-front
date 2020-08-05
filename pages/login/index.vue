@@ -192,8 +192,8 @@ export default {
       } catch (e) {
         this.loading = false
         if (e.response.status === 401) {
-          this.errors.general =
-            "L'email et le mot de passe ne correspondent pas"
+          return (this.errors.general =
+            "L'email et le mot de passe ne correspondent pas")
         }
       }
 

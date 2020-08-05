@@ -1,7 +1,7 @@
 <template>
   <div>
     <p v-if="error !== null">{{ error }}</p>
-    <div v-else-if="user === null">
+    <div v-else-if="user === null" class="loader__wrapper">
       <Loader height="100px" />
     </div>
     <div v-else>
@@ -20,17 +20,18 @@ export default {
     Button,
     Loader
   },
-  data: () => ({
-    user: null
-  }),
-  async beforeMounted() {
+  async fetch() {
     try {
       await axiosHelper({
-        url: 'user'
+        url: `user/${this.$route.params.id}`
       })
     } catch (e) {
       this.error = 'Une erreur est survenue, veuillez reessayer plus tard'
     }
-  }
+  },
+  data: () => ({
+    user: null,
+    error: null
+  })
 }
 </script>
