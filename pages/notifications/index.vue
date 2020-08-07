@@ -34,11 +34,7 @@ export default {
     Loader,
     Notification
   },
-  data: () => ({
-    error: ''
-  }),
-  middleware: 'authenticated',
-  async mounted() {
+  async fetch() {
     const token = Cookies.get('token')
     if (this.$store.state.notifications === null) {
       try {
@@ -76,6 +72,10 @@ export default {
       }
     }
   },
+  data: () => ({
+    error: ''
+  }),
+  middleware: 'authenticated',
   methods: {
     async submitResponse(status, eventId) {
       const userEvent = this.$store.state.notifications.find(

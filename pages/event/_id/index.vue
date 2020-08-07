@@ -161,6 +161,27 @@ export default {
     Modal,
     User
   },
+  async fetch() {
+    const id = this.$router.history.current.params.id
+
+    if (this.$route.params.id !== this.$store.state.event?.id) {
+      this.loading = true
+      try {
+        const event = await axiosHelper({
+          url: `api/events/${id}`
+        })
+        this.event = event.data
+        const participants = event.data.userEvents.map(({ user }) => user)
+        this.$store.commit('addEvent', this.event)
+        this.$store.commit('addParticipants', participants)
+      } catch (e) {
+        this.errors.general = "Une erreur s'est produite"
+      }
+      this.loading = false
+    } else {
+      this.event = this.$store.state.event
+    }
+  },
   data: () => ({
     event: null,
     expenseId: null,
@@ -240,27 +261,6 @@ export default {
         .map(({ user }) => user)
         .filter((userEvent, index) => index <= 10)
       return [...participants, this.event.author]
-    }
-  },
-  async mounted() {
-    const id = this.$router.history.current.params.id
-
-    if (this.$route.params.id !== this.$store.state.event?.id) {
-      this.loading = true
-      try {
-        const event = await axiosHelper({
-          url: `api/events/${id}`
-        })
-        this.event = event.data
-        const participants = event.data.userEvents.map(({ user }) => user)
-        this.$store.commit('addEvent', this.event)
-        this.$store.commit('addParticipants', participants)
-      } catch (e) {
-        this.errors.general = "Une erreur s'est produite"
-      }
-      this.loading = false
-    } else {
-      this.event = this.$store.state.event
     }
   },
   methods: {

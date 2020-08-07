@@ -24,14 +24,7 @@ export default {
   components: {
     UserForm
   },
-  data: () => ({
-    user: null,
-    loading: false,
-    baseUrl: process.env.NUXT_ENV_API_URL,
-    error: ''
-  }),
-  middleware: 'authenticated',
-  async mounted() {
+  async fetch() {
     try {
       const user = await axiosHelper({
         url: `api/users/${parseToken(Cookies.get('token')).user.id}`
@@ -45,6 +38,13 @@ export default {
       this.error = 'Une erreur est survenue, veuillez réessayer plus tard'
     }
   },
+  data: () => ({
+    user: null,
+    loading: false,
+    baseUrl: process.env.NUXT_ENV_API_URL,
+    error: ''
+  }),
+  middleware: 'authenticated',
   methods: {
     async submitForm(user) {
       this.loading = true

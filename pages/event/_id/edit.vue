@@ -18,14 +18,7 @@ export default {
   components: {
     EventForm
   },
-  data: () => ({
-    event: null,
-    error: '',
-    loading: false,
-    loadingEvent: false,
-    generalError: ''
-  }),
-  async mounted() {
+  async fetch() {
     if (parseInt(this.$route.params.id, 10) !== this.$store.state.event?.id) {
       try {
         const event = await axiosHelper({
@@ -42,6 +35,13 @@ export default {
       this.event = this.$store.state.event
     }
   },
+  data: () => ({
+    event: null,
+    error: '',
+    loading: false,
+    loadingEvent: false,
+    generalError: ''
+  }),
   methods: {
     async submitEvent(event) {
       this.loading = true

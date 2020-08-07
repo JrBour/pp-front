@@ -43,18 +43,7 @@ export default {
     SegmentedControl
   },
   middleware: 'authenticated',
-  data: () => ({
-    events: null,
-    date: null,
-    month: null,
-    status: 'Prochains',
-    loading: false,
-    userId: null,
-    error: '',
-    env: process.env.NODE_ENV
-  }),
-
-  async mounted() {
+  async fetch() {
     const currentUser = parseToken(Cookies.get('token')).user
     if (this.$store.state.event !== null) {
       this.$store.commit('resetEvent')
@@ -89,6 +78,16 @@ export default {
 
     await this.getEvents(currentUser)
   },
+  data: () => ({
+    events: null,
+    date: null,
+    month: null,
+    status: 'Prochains',
+    loading: false,
+    userId: null,
+    error: '',
+    env: process.env.NODE_ENV
+  }),
   methods: {
     async getEvents(currentUser) {
       this.loading = true

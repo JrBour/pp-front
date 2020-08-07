@@ -14,7 +14,7 @@ export default {
   components: {
     Navbar
   },
-  async mounted() {
+  async fetch() {
     if (Cookies.get('token')) {
       const token = Cookies.get('token')
 
