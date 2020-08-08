@@ -22,9 +22,10 @@ export default {
   },
   async fetch() {
     try {
-      await axiosHelper({
+      const data = await axiosHelper({
         url: `user/${this.$route.params.id}`
       })
+      this.user = data.data
     } catch (e) {
       this.error = 'Une erreur est survenue, veuillez reessayer plus tard'
     }
