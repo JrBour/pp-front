@@ -5,6 +5,10 @@
       <Loader height="100px" />
     </div>
     <div v-else>
+      <div
+        class="profile__picture"
+        :style="{ backgroundImage: `url(${profilePicture})` }"
+      />
       <h1>{{ user.name }}</h1>
       <Button text="Envoyer une demande d'ami" />
     </div>
