@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Connexion</h1>
     <img :src="require('~/static/img/icons/logo.svg')" alt="Logo" />
     <form class="login__form" @submit="submitForm">
       <Input
