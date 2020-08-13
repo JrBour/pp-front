@@ -1,9 +1,8 @@
 <template>
   <div :class="[small ? 'user__small' : 'user']">
     <div :class="[small ? 'user__wrapper_small' : 'user__wrapper']">
-      <img
-        :src="imageUrl"
-        alt=""
+      <div
+        :style="{ backgroundImage: `url(${imageUrl})` }"
         :class="[small ? 'user__image_small' : 'user__image']"
       />
       <button v-if="displayFullName && isEditable" @click="removeParticipant">

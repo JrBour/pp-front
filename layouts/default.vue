@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="container__wrapper">
-      <nuxt />
+      <nuxt keep-alive />
     </div>
     <Navbar v-if="$store.state.jwt !== null" />
   </div>

@@ -161,30 +161,73 @@ export default {
     Modal,
     User
   },
-  async fetch() {
-    const id = this.$router.history.current.params.id
+  // async fetch() {
+  //   const id = this.$router.history.current.params.id
 
-    if (this.$route.params.id !== this.$store.state.event?.id) {
-      this.loading = true
+  //   if (this.$route.params.id !== this.$store.state.event?.id) {
+  //     this.loading = true
+  //     try {
+  //       const event = await axiosHelper({
+  //         url: `api/events/${id}`
+  //       })
+  //       this.event = event.data
+  //       const participants = event.data.userEvents.map(({ user }) => user)
+  //       this.$store.commit('addEvent', this.event)
+  //       this.$store.commit('addParticipants', participants)
+  //     } catch (e) {
+  //       console.log(e)
+  //       this.errors.general = "Une erreur s'est produite"
+  //     }
+  //     this.loading = false
+  //   } else {
+  //     this.event = this.$store.state.event
+  //   }
+  // },
+  async asyncData({ req, params, store }) {
+    const id = params.id
+    if (id !== store.state.event?.id) {
       try {
+        const cookie = process.server
+          ? req.headers.cookie
+              .split(';')
+              .find((header) => header.includes('token'))
+              .split('=')[1]
+          : Cookies.get('token')
+
         const event = await axiosHelper({
-          url: `api/events/${id}`
+          url: `api/events/${id}`,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${cookie}`
+          }
         })
-        this.event = event.data
+
         const participants = event.data.userEvents.map(({ user }) => user)
-        this.$store.commit('addEvent', this.event)
-        this.$store.commit('addParticipants', participants)
+        store.commit('addEvent', event.data)
+        store.commit('addParticipants', participants)
+
+        return {
+          currentUserId: parseJwt(cookie).id,
+          event: event.data
+        }
       } catch (e) {
-        this.errors.general = "Une erreur s'est produite"
+        console.log(e)
+        return {
+          errors: {
+            general: "Une erreur s'est produite"
+          }
+        }
       }
-      this.loading = false
     } else {
-      this.event = this.$store.state.event
+      return {
+        event: store.state.event
+      }
     }
   },
   data: () => ({
     event: null,
     expenseId: null,
+    currentUserId: null,
     displayModalExpense: false,
     displayModal: false,
     baseUrl: process.env.NUXT_ENV_API_URL,
@@ -225,26 +268,23 @@ export default {
     },
     canRemoveExpense() {
       return (userId) => {
-        const token = Cookies.get('token')
         return (
-          parseJwt(token).id === this.event.author.id ||
-          parseJwt(token).id === userId
+          this.currentUserId === this.event.author.id ||
+          this.currentUserId === userId
         )
       }
     },
     removeParticipant() {
       return (userId) => {
-        const token = Cookies.get('token')
         return (
-          parseJwt(token).id === this.event.author.id &&
+          this.currentUserId === this.event.author.id &&
           this.event.author.id !== userId
         )
       }
     },
     displayInvitation() {
-      const token = Cookies.get('token')
       const invitation = this.event.userEvents.find(
-        ({ user }) => user.id === parseJwt(token).id
+        ({ user }) => user.id === this.currentUserId
       )
       if (invitation === undefined) {
         return false
@@ -253,8 +293,7 @@ export default {
       return invitation.status === 'waiting'
     },
     showActionButton() {
-      const token = Cookies.get('token')
-      return parseJwt(token).user.id === this.event.author.id
+      return this.currentUserId === this.event.author.id
     },
     participants() {
       const participants = this.event.userEvents

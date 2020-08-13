@@ -1,7 +1,7 @@
 <template>
   <div class="blank__wrapper">
     <Loader height="140px" />
-    <nuxt />
+    <nuxt keep-alive />
   </div>
 </template>
 
