@@ -161,28 +161,6 @@ export default {
     Modal,
     User
   },
-  // async fetch() {
-  //   const id = this.$router.history.current.params.id
-
-  //   if (this.$route.params.id !== this.$store.state.event?.id) {
-  //     this.loading = true
-  //     try {
-  //       const event = await axiosHelper({
-  //         url: `api/events/${id}`
-  //       })
-  //       this.event = event.data
-  //       const participants = event.data.userEvents.map(({ user }) => user)
-  //       this.$store.commit('addEvent', this.event)
-  //       this.$store.commit('addParticipants', participants)
-  //     } catch (e) {
-  //       console.log(e)
-  //       this.errors.general = "Une erreur s'est produite"
-  //     }
-  //     this.loading = false
-  //   } else {
-  //     this.event = this.$store.state.event
-  //   }
-  // },
   async asyncData({ req, params, store }) {
     const id = params.id
     if (id !== store.state.event?.id) {
@@ -211,7 +189,6 @@ export default {
           event: event.data
         }
       } catch (e) {
-        console.log(e)
         return {
           errors: {
             general: "Une erreur s'est produite"
