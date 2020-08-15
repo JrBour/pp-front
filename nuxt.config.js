@@ -3,6 +3,7 @@ export default {
   env: {
     API_URL: process.env.API_URL || 'http://localhost/'
   },
+  telemetry: false,
   /*
    ** Headers of the page
    */
