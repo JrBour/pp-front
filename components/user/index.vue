@@ -2,8 +2,13 @@
   <div :class="[small ? 'user__small' : 'user']">
     <div :class="[small ? 'user__wrapper_small' : 'user__wrapper']">
       <div
-        :style="{ backgroundImage: `url(${imageUrl})` }"
         :class="[small ? 'user__image_small' : 'user__image']"
+        :style="{
+          backgroundImage: `url('${imageUrl}')`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }"
       />
       <button v-if="displayFullName && isEditable" @click="removeParticipant">
         <p>x</p>
