@@ -1,7 +1,14 @@
 <template>
   <div class="participant">
     <div class="participant__wrapper">
-      <img :src="imageUrl" />
+      <div
+        :style="{
+          backgroundImage: `url('${imageUrl}')`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }"
+      />
       <p>{{ user.givenName }} {{ user.lastName }}</p>
     </div>
     <button
@@ -66,7 +73,7 @@ export default {
 p {
   margin-left: 10px;
 }
-img {
+.participant__wrapper > div {
   border-radius: 50%;
   height: 2.5em;
   width: 2.5em;
