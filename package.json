@@ -23,7 +23,8 @@
     "nuxt": "^2.0.0",
     "sass-loader": "^8.0.2",
     "vue-google-oauth2": "^1.5.4",
-    "vue-web-cam": "^1.9.0"
+    "vue-web-cam": "^1.9.0",
+    "webdriverio": "^6.5.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",
