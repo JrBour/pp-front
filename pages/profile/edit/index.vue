@@ -16,14 +16,10 @@
 
 <script>
 import Cookies from 'js-cookie'
-import UserForm from '~/components/userForm'
 import axiosHelper from '~/lib/axiosHelper'
 import parseToken from '~/utils/token'
 
 export default {
-  components: {
-    UserForm
-  },
   async fetch() {
     try {
       const user = await axiosHelper({

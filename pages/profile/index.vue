@@ -42,16 +42,10 @@
 </template>
 <script>
 import Cookies from 'js-cookie'
-import Loader from '~/components/loader'
-import ProfileButton from '~/components/profileButton'
 import axiosHelper from '~/lib/axiosHelper'
 import parseJwt from '~/utils/token'
 
 export default {
-  components: {
-    Loader,
-    ProfileButton
-  },
   data: () => ({
     error: '',
     user: null,

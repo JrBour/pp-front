@@ -33,16 +33,10 @@
 </template>
 <script>
 import Cookies from 'js-cookie'
-import Password from '~/components/fields/password'
-import Button from '~/components/button'
 import axiosHelper from '~/lib/axiosHelper'
 import parseToken from '~/utils/token'
 
 export default {
-  components: {
-    Button,
-    Password
-  },
   middleware: 'authenticated',
   data: () => ({
     loading: false,
