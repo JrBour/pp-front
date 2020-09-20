@@ -30,18 +30,10 @@
 <script>
 import Cookies from 'js-cookie'
 import validateLoginField from '~/lib/validatorLogin'
-import Button from '~/components/button'
-import Input from '~/components/fields/input'
-import Password from '~/components/fields/password'
 import axiosHelper from '~/lib/axiosHelper'
 import parseToken from '~/utils/token'
 
 export default {
-  components: {
-    Input,
-    Password,
-    Button
-  },
   data: () => ({
     email: '',
     password: '',

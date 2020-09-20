@@ -23,13 +23,9 @@
 <script>
 import Cookies from 'js-cookie'
 import parseJwt from '~/utils/token'
-import User from '~/components/user'
 import axiosHelper from '~/lib/axiosHelper'
 
 export default {
-  components: {
-    User
-  },
   data: () => ({
     event: null,
     error: null

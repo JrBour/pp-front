@@ -142,25 +142,11 @@
 <script>
 import Cookies from 'js-cookie'
 import axiosHelper from '~/lib/axiosHelper'
-import AddButton from '~/components/addButton'
-import Loader from '~/components/loader'
-import Modal from '~/components/modal'
-import User from '~/components/user'
-import Button from '~/components/button'
-import Expense from '~/components/expense'
 import { days, months } from '~/constants/date'
 import parseJwt from '~/utils/token'
 
 export default {
   layout: 'noBorder',
-  components: {
-    AddButton,
-    Button,
-    Expense,
-    Loader,
-    Modal,
-    User
-  },
   async asyncData({ req, params, store }) {
     const id = params.id
     if (id !== store.state.event?.id) {

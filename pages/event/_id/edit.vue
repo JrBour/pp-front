@@ -11,13 +11,9 @@
   </div>
 </template>
 <script>
-import EventForm from '~/components/eventForm'
 import axiosHelper from '~/lib/axiosHelper'
 
 export default {
-  components: {
-    EventForm
-  },
   async fetch() {
     if (parseInt(this.$route.params.id, 10) !== this.$store.state.event?.id) {
       try {

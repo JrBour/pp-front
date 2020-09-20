@@ -14,13 +14,9 @@
   </div>
 </template>
 <script>
-import Loader from '~/components/loader'
 import axiosHelper from '~/lib/axiosHelper'
 
 export default {
-  components: {
-    Loader
-  },
   data: () => ({
     image: null,
     error: null

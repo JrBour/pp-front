@@ -8,14 +8,10 @@
 </template>
 <script>
 import Cookies from 'js-cookie'
-import EventForm from '~/components/eventForm'
 import axiosHelper from '~/lib/axiosHelper'
 import parseToken from '~/utils/token'
 
 export default {
-  components: {
-    EventForm
-  },
   data: () => ({
     generalError: '',
     event: null,

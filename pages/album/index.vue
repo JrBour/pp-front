@@ -25,14 +25,7 @@
   </div>
 </template>
 <script>
-import Album from '~/components/album'
-import Loader from '~/components/loader'
-
 export default {
-  components: {
-    Album,
-    Loader
-  },
   mounted() {
     this.$store.dispatch('addAlbums')
   },

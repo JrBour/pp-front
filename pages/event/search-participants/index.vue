@@ -62,22 +62,10 @@
 </template>
 <script>
 import Cookies from 'js-cookie'
-import Input from '~/components/fields/input'
-import Loader from '~/components/loader'
-import User from '~/components/user'
-import Participant from '~/components/participant'
-import SegmentedControl from '~/components/segmentedControl'
 import axiosHelper from '~/lib/axiosHelper'
 import parseToken from '~/utils/token'
 
 export default {
-  components: {
-    User,
-    Input,
-    Loader,
-    Participant,
-    SegmentedControl
-  },
   data: () => ({
     search: '',
     loading: false,

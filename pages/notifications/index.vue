@@ -24,16 +24,10 @@
 </template>
 <script>
 import Cookies from 'js-cookie'
-import Notification from '~/components/notification'
-import Loader from '~/components/loader'
 import axiosHelper from '~/lib/axiosHelper'
 import parseToken from '~/utils/token'
 
 export default {
-  components: {
-    Loader,
-    Notification
-  },
   async fetch() {
     const token = Cookies.get('token')
     if (this.$store.state.notifications === null) {

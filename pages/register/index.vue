@@ -8,13 +8,9 @@
 
 <script>
 import Cookies from 'js-cookie'
-import UserForm from '~/components/userForm'
 import axiosHelper from '~/lib/axiosHelper'
 
 export default {
-  components: {
-    UserForm
-  },
   data: () => ({
     loading: false
   }),

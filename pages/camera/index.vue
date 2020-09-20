@@ -32,14 +32,10 @@
 
 <script>
 import Cookies from 'js-cookie'
-import Loader from '~/components/loader'
 import axiosHelper from '~/lib/axiosHelper'
 import parseToken from '~/utils/token'
 
 export default {
-  components: {
-    Loader
-  },
   data: () => ({
     error: '',
     events: null,

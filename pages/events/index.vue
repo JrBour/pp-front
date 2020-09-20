@@ -30,18 +30,10 @@
 </template>
 <script>
 import Cookies from 'js-cookie'
-import Event from '~/components/event'
-import Loader from '~/components/loader'
-import SegmentedControl from '~/components/segmentedControl'
 import axiosHelper from '~/lib/axiosHelper'
 import parseToken from '~/utils/token'
 
 export default {
-  components: {
-    Event,
-    Loader,
-    SegmentedControl
-  },
   middleware: 'authenticated',
   async fetch() {
     const currentUser = parseToken(Cookies.get('token')).user

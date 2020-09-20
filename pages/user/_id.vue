@@ -17,14 +17,8 @@
 </template>
 <script>
 import axiosHelper from '~/lib/axiosHelper'
-import Button from '~/components/button'
-import Loader from '~/components/loader'
 
 export default {
-  components: {
-    Button,
-    Loader
-  },
   async fetch() {
     try {
       const data = await axiosHelper({

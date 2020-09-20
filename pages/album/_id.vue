@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div v-if="loading" class="loader__wrapper">
-      <Loader height="100px" />
-    </div>
-    <div v-else-if="loading && error">
+    <div v-if="loading && error">
       <p>{{ error }}</p>
+    </div>
+    <div v-else-if="loading" class="loader__wrapper">
+      <Loader height="100px" />
     </div>
     <div v-else>
       <h1>{{ title }}</h1>
@@ -19,16 +19,10 @@
   </div>
 </template>
 <script>
-import Picture from '~/components/picture'
-import Loader from '~/components/loader'
 // import Cookies from 'js-cookie'
 import axiosHelper from '~/lib/axiosHelper'
 
 export default {
-  components: {
-    Loader,
-    Picture
-  },
   data: () => ({
     error: '',
     title: null,

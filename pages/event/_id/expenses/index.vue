@@ -29,18 +29,10 @@
 </template>
 <script>
 import Cookies from 'js-cookie'
-import Expense from '~/components/expense'
-import Loader from '~/components/loader'
-import Modal from '~/components/modal'
 import axiosHelper from '~/lib/axiosHelper'
 import parseJwt from '~/utils/token'
 
 export default {
-  components: {
-    Modal,
-    Loader,
-    Expense
-  },
   data: () => ({
     displayModal: false,
     error: '',

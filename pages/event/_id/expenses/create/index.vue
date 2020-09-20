@@ -33,15 +33,9 @@
 import Cookies from 'js-cookie'
 import { validateExpenseField } from './validator'
 import parseJwt from '~/utils/token'
-import Input from '~/components/fields/input'
-import Button from '~/components/button'
 import axiosHelper from '~/lib/axiosHelper'
 
 export default {
-  components: {
-    Input,
-    Button
-  },
   data: () => ({
     amount: '',
     loading: false,
