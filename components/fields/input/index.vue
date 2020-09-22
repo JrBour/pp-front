@@ -1,27 +1,34 @@
 <template>
   <div class="input__wrapper">
     <div class="input__container">
-      <input
-        :id="id"
-        v-model="inputValue"
-        :name="name"
-        :type="type"
-        :step="step"
-        :class="{ inputError: error !== '' }"
-      />
-      <label
-        :for="id"
-        :class="{ active: inputValue.length > 0, reduce: small }"
-      >
-        {{ text }} <span v-if="required">*</span>
-      </label>
+      <ValidationProvider :rules="rules">
+        <input
+          :id="id"
+          v-model="inputValue"
+          :name="name"
+          :type="type"
+          :step="step"
+          :class="{ inputError: error !== '' }"
+        />
+        <label
+          :for="id"
+          :class="{ active: inputValue.length > 0, reduce: small }"
+        >
+          {{ text }} <span v-if="required">*</span>
+        </label>
+      </ValidationProvider>
     </div>
     <p>{{ error }}</p>
   </div>
 </template>
 
 <script>
+import { ValidationProvider } from 'vee-validate'
+
 export default {
+  components: {
+    ValidationProvider
+  },
   props: {
     step: {
       type: String,
@@ -58,6 +65,10 @@ export default {
     onChange: {
       type: Function,
       required: true
+    },
+    rules: {
+      type: String,
+      default: ''
     },
     defaultValue: {
       type: String,

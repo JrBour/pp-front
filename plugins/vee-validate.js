@@ -12,7 +12,7 @@ extend('min', {
     return value.length >= args.length
   },
   params: ['length'],
-  message: 'Ce champs doit contenir au moins {length} caracteres'
+  message: 'Ce champ doit contenir au moins {length} caracteres'
 })
 
 extend('max', {
