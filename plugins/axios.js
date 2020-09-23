@@ -2,6 +2,21 @@ import Cookies from 'js-cookie'
 import Vue from 'vue'
 import axios from 'axios'
 
+export default ({ $axios, env }, inject) => {
+  const cookie = Cookies.get('token')
+  const api = $axios.create({
+    baseURL: env.NUXT_ENV_API_URL,
+    headers: {
+      common: {
+        'Content-Type': 'application/json',
+        Authorization: cookie ? `Bearer ${cookie}` : null
+      }
+    }
+  })
+
+  inject('axios', api)
+}
+
 axios.interceptors.response.use(
   (response) => {
     // Do something before request is sent
