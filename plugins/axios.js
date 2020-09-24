@@ -5,7 +5,7 @@ import axios from 'axios'
 export default ({ $axios, env }, inject) => {
   const cookie = Cookies.get('token')
   const api = $axios.create({
-    baseURL: env.NUXT_ENV_API_URL,
+    baseURL: env.TEST_API,
     headers: {
       common: {
         'Content-Type': 'application/json',

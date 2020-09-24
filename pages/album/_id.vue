@@ -23,6 +23,15 @@
 import axiosHelper from '~/lib/axiosHelper'
 
 export default {
+  async asyncData({ $axios, $router }) {
+    const album = await $axios.get(
+      `api/albums/${$router.history.current.params.id}`
+    )
+    return {
+      album: album.data,
+      title: album.event.name
+    }
+  },
   data: () => ({
     error: '',
     title: null,
