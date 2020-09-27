@@ -19,7 +19,6 @@
   </div>
 </template>
 <script>
-// import Cookies from 'js-cookie'
 import axiosHelper from '~/lib/axiosHelper'
 
 export default {
@@ -38,21 +37,21 @@ export default {
     loading: false,
     album: null
   }),
-  middleware: 'authenticated',
-  async beforeMount() {
-    this.loading = true
-    const id = this.$router.history.current.params.id
-    try {
-      const album = await axiosHelper({
-        url: `api/albums/${id}`
-      })
-      this.album = album.data
-      this.title = this.album.event.name
-    } catch (e) {
-      this.error = 'Une erreur est survenue, veuillez recharger la page'
-    }
-    this.loading = false
-  }
+  middleware: 'authenticated'
+  // async beforeMount() {
+  //   this.loading = true
+  //   const id = this.$router.history.current.params.id
+  //   try {
+  //     const album = await axiosHelper({
+  //       url: `api/albums/${id}`
+  //     })
+  //     this.album = album.data
+  //     this.title = this.album.event.name
+  //   } catch (e) {
+  //     this.error = 'Une erreur est survenue, veuillez recharger la page'
+  //   }
+  //   this.loading = false
+  // }
 }
 </script>
 <style lang="scss" scoped>

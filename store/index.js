@@ -16,6 +16,14 @@ export const state = () => ({
 })
 
 export const actions = {
+  async addNotifications({ commit }) {
+    const notifications = await this.$axios.get(
+      `api/user_events?user.id=${
+        parseToken(Cookies.get('token')).user.id
+      }&status=waiting`
+    )
+    commit('addNotifications', notifications.data)
+  },
   async addAlbums({ commit }) {
     const userId = parseToken(Cookies.get('token')).user.id
     const albumsByParticipant = await axiosHelper({
