@@ -88,5 +88,9 @@ export default {
 
   build: {
     extend(config, ctx) {}
+  },
+  filenames: {
+    app: ({ isDev }) => (isDev ? '[name].[hash].js' : '[chunkhash].js'),
+    chunk: ({ isDev }) => (isDev ? '[name].[hash].js' : '[chunkhash].js')
   }
 }

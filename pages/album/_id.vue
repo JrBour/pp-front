@@ -19,8 +19,6 @@
   </div>
 </template>
 <script>
-import axiosHelper from '~/lib/axiosHelper'
-
 export default {
   async asyncData({ $axios, $router }) {
     const album = await $axios.get(
