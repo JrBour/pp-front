@@ -1,5 +1,5 @@
 <template>
-  <form @submit="submitForm">
+  <ValidationObserver tag="form" @submit="submitForm">
     <input
       id="profile"
       type="file"
@@ -31,6 +31,7 @@
       id="firstName"
       type="text"
       text="Prenom"
+      rules="required"
       name="firstname"
       :default-value="firstname"
       :error="errors.firstname"
@@ -76,9 +77,10 @@
       :loading="loading"
       :disabled="disabledSubmitButton"
     />
-  </form>
+  </ValidationObserver>
 </template>
 <script>
+import { ValidationObserver } from 'vee-validate'
 import Button from '~/components/button'
 import Input from '~/components/fields/input'
 import Password from '~/components/fields/password'
@@ -88,7 +90,8 @@ export default {
   components: {
     Password,
     Input,
-    Button
+    Button,
+    ValidationObserver
   },
   props: {
     loading: {

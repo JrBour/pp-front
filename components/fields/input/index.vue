@@ -1,7 +1,7 @@
 <template>
   <div class="input__wrapper">
-    <div class="input__container">
-      <ValidationProvider :rules="rules">
+    <ValidationProvider :rules="rules" tag="div" v-slot="{ errors }">
+      <div class="input__container">
         <input
           :id="id"
           v-model="inputValue"
@@ -16,9 +16,9 @@
         >
           {{ text }} <span v-if="required">*</span>
         </label>
-      </ValidationProvider>
-    </div>
-    <p>{{ error }}</p>
+      </div>
+      <p>{{ errors[0] }}</p>
+    </ValidationProvider>
   </div>
 </template>
 

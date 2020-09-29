@@ -36,6 +36,7 @@ export default {
    */
   plugins: [
     '~/plugins/axios',
+    '~/plugins/vee-validate',
     { src: '~/plugins/vue-google-oauth2.js', ssr: false },
     { src: '~/plugins/webcam', mode: 'client', ssr: false }
   ],
@@ -55,7 +56,7 @@ export default {
     '@nuxtjs/pwa',
     'vue-web-cam/nuxt'
   ],
-
+  components: true,
   oneSignal: {
     init: {
       appId:
@@ -87,7 +88,7 @@ export default {
    */
 
   build: {
-    extend(config, ctx) {}
+    transpile: ['vee-validate/dist/rules']
   },
   filenames: {
     app: ({ isDev }) => (isDev ? '[name].[hash].js' : '[chunkhash].js'),
