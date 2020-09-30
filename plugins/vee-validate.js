@@ -1,9 +1,14 @@
 import { extend } from 'vee-validate'
-import { required, email, max, min } from 'vee-validate/dist/rules'
+import { required, email, max, min, numeric } from 'vee-validate/dist/rules'
 
 extend('required', {
   ...required,
   message: 'Ce champ est requis'
+})
+
+extend('numeric', {
+  ...numeric,
+  message: 'Veuillez saisir des chiffres'
 })
 
 extend('min', {

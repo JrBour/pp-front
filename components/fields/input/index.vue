@@ -1,25 +1,28 @@
 <template>
-  <div class="input__wrapper">
-    <ValidationProvider :rules="rules" tag="div" v-slot="{ errors }">
-      <div class="input__container">
-        <input
-          :id="id"
-          v-model="inputValue"
-          :name="name"
-          :type="type"
-          :step="step"
-          :class="{ inputError: error !== '' }"
-        />
-        <label
-          :for="id"
-          :class="{ active: inputValue.length > 0, reduce: small }"
-        >
-          {{ text }} <span v-if="required">*</span>
-        </label>
-      </div>
-      <p>{{ errors[0] }}</p>
-    </ValidationProvider>
-  </div>
+  <ValidationProvider
+    v-slot="{ errors }"
+    class="input__wrapper"
+    :rules="rules"
+    tag="div"
+  >
+    <div class="input__container">
+      <input
+        :id="id"
+        v-model="inputValue"
+        :name="name"
+        :type="type"
+        :step="step"
+        :class="{ inputError: errors[0] }"
+      />
+      <label
+        :for="id"
+        :class="{ active: inputValue.length > 0, reduce: small }"
+      >
+        {{ text }} <span v-if="required">*</span>
+      </label>
+    </div>
+    <p>{{ errors[0] }}</p>
+  </ValidationProvider>
 </template>
 
 <script>
