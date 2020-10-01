@@ -34,7 +34,6 @@
       rules="required"
       name="firstname"
       :default-value="firstname"
-      :error="errors.firstname"
       :on-change="handleChangeField"
     />
     <Input
@@ -44,7 +43,6 @@
       name="lastname"
       rules="required"
       :default-value="lastname"
-      :error="errors.lastname"
       :on-change="handleChangeField"
     />
     <Input
@@ -54,7 +52,6 @@
       name="phone"
       rules="required|numeric"
       :default-value="phone"
-      :error="errors.phone"
       :on-change="handleChangeField"
     />
     <Input
@@ -62,15 +59,15 @@
       type="email"
       text="Email"
       name="email"
+      rules="required|email|min:8"
       :default-value="email"
-      :error="errors.email"
       :on-change="handleChangeField"
     />
     <Password
       v-if="!edit"
       name="password"
       :on-change="handleChangeField"
-      :error="errors.password"
+      rules="required"
     />
     <p v-if="errors.general" class="error">{{ errors.general }}</p>
     <Button
