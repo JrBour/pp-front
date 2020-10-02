@@ -80,16 +80,9 @@
 </template>
 <script>
 import { ValidationObserver } from 'vee-validate'
-import Button from '~/components/button'
-import Input from '~/components/fields/input'
-import Password from '~/components/fields/password'
-import validateRegisterField from '~/lib/validatorRegister'
 
 export default {
   components: {
-    Password,
-    Input,
-    Button,
     ValidationObserver
   },
   props: {
@@ -165,7 +158,6 @@ export default {
     },
     handleChangeField(name, value) {
       this[name] = value
-      this.errors[name] = validateRegisterField(name, value)
     },
     processFile(event) {
       const extensionsAllowed = ['jpg', 'jpeg', 'png']
