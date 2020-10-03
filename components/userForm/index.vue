@@ -1,5 +1,5 @@
 <template>
-  <ValidationObserver tag="form" @submit="submitForm">
+  <ValidationObserver tag="form" @submit.prevent="submitForm">
     <input
       id="profile"
       type="file"
@@ -174,7 +174,6 @@ export default {
       }
     },
     submitForm(e) {
-      e.preventDefault()
       const user = {
         email: this.email,
         firstname: this.firstname,

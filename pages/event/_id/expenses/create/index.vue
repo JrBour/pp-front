@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Nouvelle<br />depense</h1>
-    <form @submit="handleSubmit">
+    <form @submit.prevent="handleSubmit">
       <Input
         id="title"
         type="text"
@@ -65,7 +65,6 @@ export default {
   },
   methods: {
     async handleSubmit(e) {
-      e.preventDefault()
       this.loading = true
       const data = {
         name: this.title,

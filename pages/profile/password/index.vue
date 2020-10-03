@@ -4,7 +4,7 @@
       Editer <br />
       mot de passe
     </h1>
-    <form @submit="submitPassword">
+    <form @submit.prevent="submitPassword">
       <Password
         label="Ancien mot de passe"
         name="oldPassword"
@@ -65,8 +65,6 @@ export default {
       this[name] = value
     },
     async submitPassword(e) {
-      e.preventDefault()
-
       if (this.confirmNewPassword !== this.newPassword) {
         this.errors.confirmNewPassword =
           'Les mots de passe ne correspondent pas'

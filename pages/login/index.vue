@@ -1,7 +1,7 @@
 <template>
   <div>
     <img :src="require('~/static/img/icons/logo.svg')" alt="Logo" />
-    <form class="login__form" @submit="submitForm">
+    <form class="login__form" @submit.prevent="submitForm">
       <Input
         id="mail"
         type="text"
@@ -161,7 +161,6 @@ export default {
       this.errors[name] = validateLoginField(name, value)
     },
     async submitForm(e) {
-      e.preventDefault()
       this.loading = true
 
       try {

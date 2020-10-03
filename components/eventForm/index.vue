@@ -1,5 +1,5 @@
 <template>
-  <form class="event__wrapper" @submit="submitEvent">
+  <form class="event__wrapper" @submit.prevent="submitEvent">
     <h1>Nouvel <br />évènement</h1>
     <div class="events__cover">
       <h2>Image de couverture</h2>
@@ -283,8 +283,6 @@ export default {
       this.$router.push({ name: 'event-search-participants' })
     },
     submitEvent(e) {
-      e.preventDefault()
-
       const token = Cookies.get('token')
       const event = {
         name: this.name,
