@@ -23,7 +23,7 @@
       :default-value="name"
       text="Nom"
       name="name"
-      :error="errors.name"
+      rules="required"
       :on-change="handleChangeField"
     />
     <Input
@@ -31,7 +31,7 @@
       text="Description"
       name="description"
       :default-value="description"
-      :error="errors.description"
+      rules="required|max:255"
       :on-change="handleChangeField"
     />
     <h2>Lieu</h2>
@@ -48,7 +48,7 @@
       text="Code postal"
       name="zipcode"
       :default-value="zipcode"
-      :error="errors.zipcode"
+      rules="required"
       :on-change="handleChangeField"
     />
     <Input
