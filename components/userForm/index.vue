@@ -31,7 +31,7 @@
       id="firstName"
       type="text"
       text="Prenom"
-      rules="required"
+      rules="required|alpha"
       name="firstname"
       :default-value="firstname"
       :on-change="handleChangeField"
@@ -41,7 +41,7 @@
       type="text"
       text="Nom"
       name="lastname"
-      rules="required"
+      rules="required|alpha"
       :default-value="lastname"
       :on-change="handleChangeField"
     />

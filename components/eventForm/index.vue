@@ -38,9 +38,8 @@
     <Input
       id="address"
       text="Adresse"
-      name="address"
+      name="address|max:255"
       :default-value="address"
-      :error="errors.address"
       :on-change="handleChangeField"
     />
     <Input
@@ -48,7 +47,7 @@
       text="Code postal"
       name="zipcode"
       :default-value="zipcode"
-      rules="required"
+      rules="required|max:5"
       :on-change="handleChangeField"
     />
     <Input
