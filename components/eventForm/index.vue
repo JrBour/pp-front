@@ -47,15 +47,15 @@
       text="Code postal"
       name="zipcode"
       :default-value="zipcode"
-      rules="required|max:5"
+      rules="required|max:5|numeric"
       :on-change="handleChangeField"
     />
     <Input
       id="city"
       text="Ville"
       name="city"
+      rules="required|max:255"
       :default-value="city"
-      :error="errors.city"
       :on-change="handleChangeField"
     />
     <h2>Date</h2>
@@ -127,19 +127,9 @@
 <script>
 import Cookies from 'js-cookie'
 import { validateEventFields } from './validator'
-import Button from '~/components/button'
-import User from '~/components/user'
-import Input from '~/components/fields/input'
-import Datetime from '~/components/fields/datetime'
 import parseJwt from '~/utils/token'
 
 export default {
-  components: {
-    Input,
-    User,
-    Button,
-    Datetime
-  },
   props: {
     loading: {
       type: Boolean,
