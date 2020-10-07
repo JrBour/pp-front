@@ -50,7 +50,7 @@
       type="tel"
       text="Telephone"
       name="phone"
-      rules="required|numeric"
+      rules="required|numeric|min:8"
       :default-value="phone"
       :on-change="handleChangeField"
     />
@@ -59,7 +59,7 @@
       type="email"
       text="Email"
       name="email"
-      rules="required|email|min:8"
+      rules="required|email"
       :default-value="email"
       :on-change="handleChangeField"
     />
