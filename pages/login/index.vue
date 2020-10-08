@@ -1,7 +1,11 @@
 <template>
   <div>
     <img :src="require('~/static/img/icons/logo.svg')" alt="Logo" />
-    <form class="login__form" @submit.prevent="submitForm">
+    <ValidationObserver
+      tag="form"
+      class="login__form"
+      @submit.prevent="submitForm"
+    >
       <Input
         id="mail"
         type="text"
@@ -22,18 +26,21 @@
         :loading="loading"
         :disabled="disabledSubmitButton"
       />
-    </form>
+    </ValidationObserver>
     <p class="login__link"><n-link to="/register">Inscription</n-link></p>
   </div>
 </template>
 
 <script>
 import Cookies from 'js-cookie'
-import validateLoginField from '~/lib/validatorLogin'
+import { ValidationObserver } from 'vee-validate'
 import axiosHelper from '~/lib/axiosHelper'
 import parseToken from '~/utils/token'
 
 export default {
+  components: {
+    ValidationObserver
+  },
   data: () => ({
     email: '',
     password: '',
@@ -158,7 +165,6 @@ export default {
     },
     handleChangeField(name, value) {
       this[name] = value
-      this.errors[name] = validateLoginField(name, value)
     },
     async submitForm(e) {
       this.loading = true
