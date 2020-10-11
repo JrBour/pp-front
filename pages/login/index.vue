@@ -7,19 +7,18 @@
       @submit.prevent="submitForm"
     >
       <Input
-        id="mail"
         type="text"
         text="Email"
         name="email"
-        :error="errors.email"
+        rules="email"
         :on-change="handleChangeField"
       />
       <Password
         name="password"
         :on-change="handleChangeField"
-        :error="errors.password"
+        rules="required"
       />
-      <p v-if="errors.general" class="error">{{ errors.general }}</p>
+      <p v-if="error" class="error">{{ error }}</p>
       <Button
         type="submit"
         text="Se connecter"
@@ -49,11 +48,7 @@ export default {
     clientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID,
     clientSecret: process.env.NUXT_ENV_GOOGLE_CLIENT_SECRET,
     env: process.env.NODE_ENV,
-    errors: {
-      email: '',
-      password: '',
-      general: ''
-    }
+    error: ''
   }),
   computed: {
     disabledSubmitButton() {
@@ -188,7 +183,7 @@ export default {
       } catch (e) {
         this.loading = false
         if (e.response.status === 401) {
-          return (this.errors.general =
+          return (this.error =
             "L'email et le mot de passe ne correspondent pas")
         }
       }

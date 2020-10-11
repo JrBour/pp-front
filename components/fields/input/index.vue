@@ -7,7 +7,7 @@
   >
     <div class="input__container">
       <input
-        :id="id"
+        :id="name"
         v-model="inputValue"
         :name="name"
         :type="type"
