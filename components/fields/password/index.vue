@@ -1,12 +1,17 @@
 <template>
   <div class="input__wrapper">
-    <div class="input__container">
+    <ValidationProvider
+      v-slot="{ errors }"
+      :rules="rules"
+      tag="div"
+      class="input__container"
+    >
       <input
         :id="name"
         v-model="inputValue"
         :name="name"
         :type="type"
-        :class="{ inputError: error !== '' }"
+        :class="{ inputError: errors[0] !== undefined }"
       />
       <label :for="name" :class="{ active: inputValue.length > 0 }"
         >{{ label }} <span>*</span></label
@@ -20,14 +25,23 @@
         alt="Eye icon"
         @click="changeType"
       />
-    </div>
-    <p>{{ error }}</p>
+      <p v-if="errors[0]">{{ errors[0] }}</p>
+    </ValidationProvider>
   </div>
 </template>
 
 <script>
+import { ValidationProvider } from 'vee-validate'
+
 export default {
+  components: {
+    ValidationProvider
+  },
   props: {
+    rules: {
+      type: String,
+      required: true
+    },
     onChange: {
       type: Function,
       required: true
@@ -39,10 +53,6 @@ export default {
     label: {
       type: String,
       default: 'Mot de passe'
-    },
-    error: {
-      type: String,
-      default: ''
     }
   },
   data() {
