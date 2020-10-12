@@ -2,7 +2,7 @@
   <div>
     <h1>Nouvelle<br />depense</h1>
     <form @submit.prevent="handleSubmit">
-      <Input
+      <BaseInput
         id="title"
         type="text"
         text="Titre"
@@ -10,7 +10,7 @@
         :error="errors.title"
         :on-change="handleChangeField"
       />
-      <Input
+      <BaseInput
         id="amount"
         type="number"
         text="Montant"

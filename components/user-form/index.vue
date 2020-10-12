@@ -27,7 +27,7 @@
       </div>
     </div>
     <p v-if="errors.picture" class="error">{{ errors.picture }}</p>
-    <Input
+    <BaseInput
       id="firstName"
       type="text"
       text="Prenom"
@@ -36,7 +36,7 @@
       :default-value="firstname"
       :on-change="handleChangeField"
     />
-    <Input
+    <BaseInput
       id="name"
       type="text"
       text="Nom"
@@ -45,7 +45,7 @@
       :default-value="lastname"
       :on-change="handleChangeField"
     />
-    <Input
+    <BaseInput
       id="phone"
       type="tel"
       text="Telephone"
@@ -54,7 +54,7 @@
       :default-value="phone"
       :on-change="handleChangeField"
     />
-    <Input
+    <BaseInput
       id="email"
       type="email"
       text="Email"

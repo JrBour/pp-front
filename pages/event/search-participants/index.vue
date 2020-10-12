@@ -11,7 +11,7 @@
       @get-segment="changeStatus"
     />
     <div v-if="status === 'Recherche'">
-      <Input
+      <BaseInput
         id="search"
         type="search"
         text="Rechercher par prenom et nom"

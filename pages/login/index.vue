@@ -6,7 +6,7 @@
       class="login__form"
       @submit.prevent="submitForm"
     >
-      <Input
+      <BaseInput
         type="text"
         text="Email"
         name="email"

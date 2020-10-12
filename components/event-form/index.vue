@@ -18,7 +18,7 @@
       <button @click="removeCoverPicture">x</button>
     </div>
     <p v-if="errors.picture" class="error">{{ errors.picture }}</p>
-    <Input
+    <BaseInput
       id="name"
       :default-value="name"
       text="Nom"
@@ -26,7 +26,7 @@
       rules="required"
       :on-change="handleChangeField"
     />
-    <Input
+    <BaseInput
       id="description"
       text="Description"
       name="description"
@@ -35,14 +35,14 @@
       :on-change="handleChangeField"
     />
     <h2>Lieu</h2>
-    <Input
+    <BaseInput
       id="address"
       text="Adresse"
       name="address|max:255"
       :default-value="address"
       :on-change="handleChangeField"
     />
-    <Input
+    <BaseInput
       id="zipcode"
       text="Code postal"
       name="zipcode"
@@ -50,7 +50,7 @@
       rules="required|max:5|numeric"
       :on-change="handleChangeField"
     />
-    <Input
+    <BaseInput
       id="city"
       text="Ville"
       name="city"
