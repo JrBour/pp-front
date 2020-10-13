@@ -10,8 +10,8 @@
         :style="{ backgroundImage: `url(${profilePicture})` }"
       />
       <h1>{{ user.name }}</h1>
-      <Button text="Envoyer une demande d'ami" />
-      <Button text="Supprimer" />
+      <BaseButton text="Envoyer une demande d'ami" />
+      <BaseButton text="Supprimer" />
     </div>
   </div>
 </template>

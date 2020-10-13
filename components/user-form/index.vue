@@ -70,7 +70,7 @@
       rules="required"
     />
     <p v-if="errors.general" class="error">{{ errors.general }}</p>
-    <Button
+    <BaseButton
       type="submit"
       :text="edit ? 'Editer' : 'S\'inscrire'"
       :loading="loading"

@@ -22,7 +22,7 @@
         :on-change="handleChangeField"
       />
       <p v-if="errors.general" class="error">{{ errors.general }}</p>
-      <Button
+      <BaseButton
         type="submit"
         text="Editer"
         :loading="loading"

@@ -89,7 +89,7 @@
         :user="participant"
       />
     </div>
-    <Button
+    <BaseButton
       text="Ajouter des participants"
       :small="true"
       @handle-click="addParticipants"
@@ -116,7 +116,7 @@
       </div>
     </div>
     <p v-if="generalError">{{ generalError }}</p>
-    <Button
+    <BaseButton
       text="Valider"
       type="submit"
       :loading="loading"

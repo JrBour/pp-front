@@ -19,7 +19,7 @@
         rules="required"
       />
       <p v-if="error" class="error">{{ error }}</p>
-      <Button
+      <BaseButton
         type="submit"
         text="Se connecter"
         :loading="loading"

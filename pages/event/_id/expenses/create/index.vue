@@ -20,7 +20,7 @@
         :on-change="handleChangeField"
       />
       <p v-if="errors.general">{{ errors.general }}</p>
-      <Button
+      <BaseButton
         type="submit"
         text="Creer"
         :loading="loading"

@@ -101,7 +101,7 @@
             :is-editable="removeParticipant(participant.id)"
           />
         </div>
-        <Button
+        <BaseButton
           text="Voir tous les participants"
           :small="true"
           @handle-click="
@@ -130,7 +130,7 @@
             @remove-expense="removeExpense"
           />
         </div>
-        <Button
+        <BaseButton
           text="Voir toutes les depenses"
           :small="true"
           @handle-click="$router.push(`/event/${$route.params.id}/expenses`)"

@@ -2,7 +2,7 @@
   <div class="container__error">
     <h1 v-if="error.statusCode === 404">Page not found</h1>
     <h1 v-else>An error occurred</h1>
-    <Button text="Home page" @handle-click="$router.push('events')" />
+    <BaseButton text="Home page" @handle-click="$router.push('events')" />
   </div>
 </template>
 
