@@ -15,7 +15,7 @@
         :class="{ inputError: errors[0] }"
       />
       <label
-        :for="id"
+        :for="name"
         :class="{ active: inputValue.length > 0, reduce: small }"
       >
         {{ text }} <span v-if="required">*</span>
@@ -38,10 +38,6 @@ export default {
       default: 'any'
     },
     text: {
-      type: String,
-      required: true
-    },
-    id: {
       type: String,
       required: true
     },
