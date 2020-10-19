@@ -19,7 +19,7 @@ module.exports = {
   transformIgnorePatterns: [
     '<rootDir>/node_modules/(?!vee-validate/dist/rules)'
   ],
-  setupFilesAfterEnv: ['./jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/test/unit/jest.setup.js'],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/test/unit/setup.js'
