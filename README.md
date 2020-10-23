@@ -25,5 +25,8 @@ $ yarn generate
 
 * [axios](https://github.com/axios/axios)
 * [js-cookie](https://github.com/js-cookie/js-cookie)
+* [vee-validate](https://github.com/logaretm/vee-validate)
 * [vue-google-auth2](https://github.com/guruahn/vue-google-oauth2)
 * [vue-web-cam](https://github.com/VinceG/vue-web-cam)
+* [WebDriverIO](https://webdriver.io/)
+  
