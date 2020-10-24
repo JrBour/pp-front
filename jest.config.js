@@ -1,6 +1,6 @@
 module.exports = {
   // tell Jest to handle `*.vue` files
-  moduleFileExtensions: ['js', 'vue'],
+  moduleFileExtensions: ['js', 'json', 'vue'],
   watchman: false,
   moduleNameMapper: {
     '^~/(.*)$': '<rootDir>/$1',
@@ -16,18 +16,15 @@ module.exports = {
       'jest-transform-stub',
     'vee-validate/dist/rules': '<rootDir>/node_modules/babel-jest'
   },
-  transformIgnorePatterns: [
-    '<rootDir>/node_modules/(?!vee-validate/dist/rules)'
-  ],
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
-    '<rootDir>/jest.setup.js'
+    '<rootDir>/test/',
+    '<rootDir>/components/__tests__/setup.js',
   ],
   snapshotSerializers: ['<rootDir>/node_modules/jest-serializer-vue'],
   collectCoverage: true,
   collectCoverageFrom: [
     '<rootDir>/components/**/*.vue',
-    '<rootDir>/store/**/*.js'
+    '<rootDir>/pages/*.vue'
   ]
 }
