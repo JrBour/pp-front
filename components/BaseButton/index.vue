@@ -12,12 +12,7 @@
 </template>
 
 <script>
-import Loader from '~/components/loader'
-
 export default {
-  components: {
-    Loader
-  },
   props: {
     loading: {
       type: Boolean,
