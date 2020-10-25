@@ -7,12 +7,7 @@
 </template>
 
 <script>
-import Button from '~/components/button'
-
 export default {
-  components: {
-    Button
-  },
   props: {
     error: {
       type: Object,

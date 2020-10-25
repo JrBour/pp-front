@@ -6,12 +6,7 @@
 </template>
 
 <script>
-import Loader from '~/components/loader'
-
 export default {
-  components: {
-    Loader
-  },
   head() {
     return {
       bodyAttrs: {

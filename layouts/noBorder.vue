@@ -6,14 +6,10 @@
 </template>
 <script>
 import Cookies from 'js-cookie'
-import Navbar from '~/components/navbar'
 import axiosHelper from '~/lib/axiosHelper'
 import parseToken from '~/utils/token'
 
 export default {
-  components: {
-    Navbar
-  },
   async fetch() {
     if (Cookies.get('token')) {
       const token = Cookies.get('token')

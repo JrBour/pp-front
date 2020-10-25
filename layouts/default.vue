@@ -8,14 +8,10 @@
 </template>
 <script>
 import Cookies from 'js-cookie'
-import Navbar from '~/components/navbar'
 import axiosHelper from '~/lib/axiosHelper'
 import parseToken from '~/utils/token'
 
 export default {
-  components: {
-    Navbar
-  },
   data: () => ({
     isGapiLoaded: false,
     error: '',

@@ -48,13 +48,8 @@
 </template>
 <script>
 import { shortDays, shortMonths } from '~/constants/date'
-import User from '~/components/user'
-
 export default {
   name: 'Event',
-  components: {
-    User
-  },
   props: {
     event: {
       type: Object,
