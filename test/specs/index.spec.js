@@ -1,4 +1,4 @@
-import Page from '../pageObjects/main.page'
+const Page = require('../pageObjects/main.page')
 
 describe('Example test', () => {
   it('should open correct app', () => {

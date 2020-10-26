@@ -4,4 +4,4 @@ class Page {
   }
 }
 
-export default new Page()
+module.exports = new Page()

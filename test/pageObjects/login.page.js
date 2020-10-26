@@ -1,4 +1,4 @@
-import Page from './main.page'
+const Page = require('./main.page')
 
 class LoginPage extends Page {
   get mail() {
@@ -10,4 +10,4 @@ class LoginPage extends Page {
   }
 }
 
-export default new LoginPage()
+module.exports = new LoginPage()
