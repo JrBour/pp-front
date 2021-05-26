@@ -19,7 +19,7 @@ module.exports = {
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/test/',
-    '<rootDir>/components/__tests__/setup.js',
+    '<rootDir>/components/__tests__/setup.js'
   ],
   snapshotSerializers: ['<rootDir>/node_modules/jest-serializer-vue'],
   collectCoverage: true,
