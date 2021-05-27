@@ -19,7 +19,6 @@ export default ({ $axios, env }, inject) => {
 
 axios.interceptors.response.use(
   (response) => {
-    // Do something before request is sent
     return response
   },
   function(error) {
