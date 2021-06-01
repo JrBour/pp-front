@@ -1,4 +1,5 @@
 module.exports = {
+  preset: '@nuxt/test-utils',
   moduleFileExtensions: ['js', 'json', 'vue'],
   watchman: false,
   moduleNameMapper: {
@@ -9,10 +10,8 @@ module.exports = {
   transform: {
     '^.+\\.js$': 'babel-jest',
     '.*\\.(vue)$': 'vue-jest',
-    '.+\\.(css|styl|less|sass|scss|png|svg|jpg|ttf|woff|woff2)$':
-      'jest-transform-stub',
-    'vee-validate/dist/rules': 'babel-jest'
   },
+  testEnvironment: "jsdom",
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/test/',
