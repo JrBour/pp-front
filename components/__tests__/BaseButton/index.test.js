@@ -15,28 +15,13 @@ describe('BaseButton', () => {
     })
   })
 
-  // describe('methods', () => {
-  //   it('should emit the method on-click', async () => {
-  //     const button = wrapper.find('button')
-  //     await button.trigger('click')
-  //     expect(wrapper.emitted('on-click')).toBeTruthy()
-  //   })
-  //   it('should change the return of the computed method for button with primary theme', () => {
-  //     wrapper.setData({ hover: true })
-  //     expect(wrapper.vm.colorArrow).toBe('blue')
-  //     wrapper.setData({ hover: false })
-  //     expect(wrapper.vm.colorArrow).toBe('white')
-  //     wrapper.setProps({ disabled: true })
-  //     expect(wrapper.vm.colorArrow).toBe('gray')
-  //   })
-  //   it('should change the return of the computed method for button with secondary theme', () => {
-  //     wrapper.setProps({ theme: 'secondary' })
-  //     wrapper.setData({ hover: true })
-  //     expect(wrapper.vm.colorArrow).toBe('white')
-  //     wrapper.setData({ hover: false })
-  //     expect(wrapper.vm.colorArrow).toBe('blue')
-  //   })
-  // })
+  describe('methods', () => {
+    it('should emit the method handle-click', async () => {
+      const button = wrapper.find('button')
+      await button.trigger('click')
+      expect(wrapper.emitted('handle-click')).toBeTruthy()
+    })
+  })
 
   describe('snapshot', () => {
     it('renders properly', () => {
