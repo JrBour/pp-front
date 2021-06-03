@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BaseInput snapshot renders properly 1`] = `
+<div class="input__wrapper">
+  <div class="input__container"><input id="name" name="name" step="any" type="text" class=""> <label for="name" class="">
+      Field <span>*</span></label></div>
+  <p></p>
+</div>
+`;
