@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils'
 import Loader from '@/components/Loader'
 
-describe('BaseInput', () => {
+describe('Loader', () => {
   let wrapper
   beforeEach(() => {
     wrapper = shallowMount(Loader, {

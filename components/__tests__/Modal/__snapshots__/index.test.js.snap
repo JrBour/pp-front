@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal snapshot renders properly 1`] = `
+<div class="modal__background">
+  <div class="modal__wrapper">
+    <p>Lorem ipsum</p>
+    <div class="modal__action"><button class="modal__action_cancel">Annuler</button> <button class="modal__action_confirm">
+        Confirmer
+      </button></div>
+  </div>
+</div>
+`;
