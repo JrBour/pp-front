@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Datetime snapshot renders properly 1`] = `
+<div class="input__wrapper">
+  <div class="input__container"><input id="id" name="name" type="text" class=""> <label for="id" class="">
+      Lorem ipsum <span>*</span></label></div>
+  <p></p>
+</div>
+`;
