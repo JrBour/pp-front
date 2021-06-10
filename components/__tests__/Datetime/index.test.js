@@ -3,6 +3,7 @@ import Datetime from '@/components/Datetime'
 
 describe('Datetime', () => {
   let wrapper
+  const mockOnChange = jest.fn()
   beforeEach(() => {
     wrapper = shallowMount(Datetime, {
       propsData: {
@@ -10,8 +11,18 @@ describe('Datetime', () => {
         id: 'id',
         name: 'name',
         error: '',
-        onChange: jest.fn(),
+        onChange: mockOnChange,
+        defaultValue: '12/12/2020'
       },
+    })
+  })
+
+  describe('watcher', () => {
+    it('should call onChange method when we edit value', async () => {
+      await wrapper.setData({
+        inputValue: '22/12/12'
+      })
+      expect(mockOnChange.mock.calls.length).toBe(1)
     })
   })
 
