@@ -10,6 +10,8 @@ module.exports = {
   transform: {
     '^.+\\.js$': 'babel-jest',
     '.*\\.(vue)$': 'vue-jest',
+    '.+\\.(css|styl|less|sass|scss|png|svg|jpg|ttf|woff|woff2)$':
+      'jest-transform-stub',
   },
   testEnvironment: "jsdom",
   testPathIgnorePatterns: [

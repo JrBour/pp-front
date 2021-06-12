@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProfileButton snapshot renders properly 1`] = `
+<button><img src="" alt="lock" class="profile__icon">
+  <div class="profile__button_title">
+    <p>Edit password</p>
+  </div> <img src="" alt="Red arrow">
+</button>
+`;

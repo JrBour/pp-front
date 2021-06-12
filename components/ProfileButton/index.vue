@@ -31,6 +31,7 @@ export default {
       default: true
     }
   },
+  data: () => ({}),
   methods: {
     handleClick() {
       this.$emit('handle-click')
