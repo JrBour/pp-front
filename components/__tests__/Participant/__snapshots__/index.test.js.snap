@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Participant snapshot renders properly 1`] = `
+<div class="participant">
+  <div class="participant__wrapper">
+    <div style="background-image: url(); background-repeat: no-repeat; background-size: cover; background-position: center;"></div>
+    <p>John Doe</p>
+  </div>
+  <!---->
+</div>
+`;
