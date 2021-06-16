@@ -47,7 +47,7 @@ export default {
   methods: {
     addParticipant() {
       if (!this.$store.state.participants.includes(this.user)) {
-        this.$emit('add-partcipant', this.user)
+        this.$emit('add-participant', this.user)
       }
     }
   }

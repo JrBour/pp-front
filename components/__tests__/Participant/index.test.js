@@ -14,7 +14,7 @@ describe('Participant', () => {
     state = {
       participants: [
         {
-          id: '1'
+          id: '2'
         }
       ]
     }
@@ -30,6 +30,14 @@ describe('Participant', () => {
         },
         displayAddButton: true
       },
+    })
+  })
+
+  describe('methods', () => {
+    it('should emit add-participant method', async () => {
+      const addButton = wrapper.find('button')
+      await addButton.trigger('click')
+      expect(wrapper.emitted('add-participant')).toBeTruthy()
     })
   })
 
