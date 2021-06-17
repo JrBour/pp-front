@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Password snapshot renders properly 1`] = `
+<div class="input__wrapper">
+  <validationprovider-stub vid="" mode="aggressive" rules="required" bails="true" skipifempty="true" debounce="0" tag="div" custommessages="[object Object]" detectinput="true" class="input__container"></validationprovider-stub>
+</div>
+`;
