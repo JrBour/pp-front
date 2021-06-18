@@ -2,6 +2,8 @@
 
 exports[`Password snapshot renders properly 1`] = `
 <div class="input__wrapper">
-  <validationprovider-stub vid="" mode="aggressive" rules="required" bails="true" skipifempty="true" debounce="0" tag="div" custommessages="[object Object]" detectinput="true" class="input__container"></validationprovider-stub>
+  <div class="input__container"><input id="password" name="password" type="password" class=""> <label for="password" class="">Mot de passe <span>*</span></label> <img src="" alt="Eye icon">
+    <!---->
+  </div>
 </div>
 `;
