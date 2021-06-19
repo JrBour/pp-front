@@ -14,11 +14,15 @@ module.exports = {
       'jest-transform-stub',
   },
   testEnvironment: "jsdom",
+  transformIgnorePatterns: [
+    '<rootDir>/node_modules/(?!vee-validate/dist/rules)',
+  ],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/test/',
     '<rootDir>/components/__tests__/setup.js'
   ],
+  setupFilesAfterEnv:['./jest.setup.js'],
   snapshotSerializers: ['jest-serializer-vue'],
   collectCoverage: true,
   collectCoverageFrom: [

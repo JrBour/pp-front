@@ -4,12 +4,12 @@ import Password from '@/components/Password'
 
 describe('Password', () => {
   let wrapper
-
+  const mockOnChange = jest.fn()
   beforeEach(() => {
     wrapper = shallowMount(Password, {
       propsData: {
         rules: "required",
-        onChange: jest.fn(),
+        onChange: mockOnChange,
         name: 'password',
       },
       stubs: {
@@ -26,6 +26,20 @@ describe('Password', () => {
       expect(wrapper.vm.type).toBe('text')
       await image.trigger('click')
       expect(wrapper.vm.type).toBe('password')
+    })
+  })
+
+  describe('watchers', () => {
+    it('should called onChange method when we edit input value', async () => {
+      expect(mockOnChange.mock.calls.length).toBe(0)
+      try {
+        await wrapper.setData({
+          inputValue: 'Qwert123_'
+        })
+      } catch(e) {
+        console.log(e)
+      }
+      // expect(mockOnChange.mock.calls.length).toBe(1)
     })
   })
 
