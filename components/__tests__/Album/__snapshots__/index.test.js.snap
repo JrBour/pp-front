@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Participant snapshot renders properly 1`] = `
+<div class="album">
+  <div class="album__cover" style="background-image: url(undefined/media/media.jpg);"></div>
+  <p class="album__title">Media</p>
+  <p class="album__numberOfPictures">
+    2 photos
+  </p>
+</div>
+`;
