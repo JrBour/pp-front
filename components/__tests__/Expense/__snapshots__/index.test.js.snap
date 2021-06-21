@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Expense snapshot renders properly 1`] = `
+<div class="expense__wrapper"><button>
+    <p>x</p>
+  </button>
+  <div class="expense__date">
+    <p class="expense__date_day">Ven</p>
+    <p class="expense__date_date">3</p>
+    <p class="expense__date_month">Dec</p>
+  </div>
+  <div class="expense__separator"></div>
+  <div class="expense__informations_wrapper">
+    <div class="expense__informations">
+      <h3>Name</h3>
+      <p>John Doe</p>
+    </div>
+    <div class="expense__amount">
+      <p>12.12 €</p>
+    </div>
+  </div>
+</div>
+`;
