@@ -21,6 +21,14 @@ describe('Expense', () => {
     })
   })
 
+  describe('methods', () => {
+    it('should emit remove-expense method when we click on button to remove expense', async () => {
+      const button = wrapper.find('button');
+      await button.trigger('click');
+      expect(wrapper.emitted('remove-expense')).toBeTruthy()
+    })
+  })
+
   describe('snapshot', () => {
     it('renders properly', () => {
       expect(wrapper.html()).toMatchSnapshot()
