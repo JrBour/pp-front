@@ -12,7 +12,7 @@ exports[`Notification snapshot renders properly 1`] = `
   <div class="notifications__separator"></div>
   <div class="notifications__informations">
     <h2>
-      Event name
+      Event name Lore...
     </h2>
     <p>12 rue du gnou - Paris</p>
   </div>
