@@ -28,6 +28,14 @@ describe('Notification', () => {
     })
   })
 
+  describe('computed', () => {
+    it('should display title without three little dots when title length is lower than 18 characters', async () => {
+      expect(wrapper.vm.title).toBe('Event name Lore...')
+      await wrapper.setProps({ event: { name: 'Lorem ipsum' } })
+      expect(wrapper.vm.title).toBe('Lorem ipsum')
+    })
+  })
+
   describe('snapshot', () => {
     it('renders properly', () => {
       expect(wrapper.html()).toMatchSnapshot()
