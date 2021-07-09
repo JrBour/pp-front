@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventForm snapshot renders properly 1`] = `
+<form class="event__wrapper">
+  <h1>Nouvel <br>évènement</h1>
+  <div class="events__cover">
+    <h2>Image de couverture</h2> <input id="cover" type="file" name="cover"> <label for="cover"><img src="" alt="upload"></label>
+  </div>
+  <!---->
+  <!---->
+  <div class="input__wrapper" id="name">
+    <div class="input__container"><input id="name" name="name" step="any" type="text" class=""> <label for="name" class="">
+        Nom <span>*</span></label></div>
+    <p></p>
+  </div>
+  <div class="input__wrapper" id="description">
+    <div class="input__container"><input id="description" name="description" step="any" type="text" class=""> <label for="description" class="">
+        Description <span>*</span></label></div>
+    <p></p>
+  </div>
+  <h2>Lieu</h2>
+  <div class="input__wrapper" id="address">
+    <div class="input__container"><input id="address|max:255" name="address|max:255" step="any" type="text" class=""> <label for="address|max:255" class="">
+        Adresse <span>*</span></label></div>
+    <p></p>
+  </div>
+  <div class="input__wrapper" id="zipcode">
+    <div class="input__container"><input id="zipcode" name="zipcode" step="any" type="text" class=""> <label for="zipcode" class="">
+        Code postal <span>*</span></label></div>
+    <p></p>
+  </div>
+  <div class="input__wrapper" id="city">
+    <div class="input__container"><input id="city" name="city" step="any" type="text" class=""> <label for="city" class="">
+        Ville <span>*</span></label></div>
+    <p></p>
+  </div>
+  <h2>Date</h2>
+  <div class="input__wrapper">
+    <div class="input__container"><input id="start" name="start" type="text" class=""> <label for="start" class="">
+        Début <span>*</span></label></div>
+    <p></p>
+  </div>
+  <div class="input__wrapper">
+    <div class="input__container"><input id="end" name="end" type="text" class=""> <label for="end" class="">
+        Fin <span>*</span></label></div>
+    <p></p>
+  </div>
+  <h2>Participants</h2>
+  <div class="events__participants">
+    <div class="user">
+      <div class="user__wrapper">
+        <div class="user__image" style="background-image: url(); background-repeat: no-repeat; background-size: cover; background-position: center;"></div> <button>
+          <p>x</p>
+        </button>
+      </div>
+      <p><span>John</span> <br>
+        Doe
+      </p>
+    </div>
+  </div> <button type="button" class="reduce" style="padding: 1em 0px;"><span>Ajouter des participants</span></button>
+  <div>
+    <p class="events__expense_question">
+      Souhaitez-vous affichez les depenses des participants ?
+    </p>
+    <div class="events__expense">
+      <div><label for="no" class="events__expense_label">Non
+          <input id="no" type="radio" value="no"> <span></span></label></div>
+      <div><label for="yes" class="events__expense_label">Oui
+          <input id="yes" type="radio" value="yes"> <span></span></label></div>
+    </div>
+  </div>
+  <!----> <button type="submit" disabled="disabled" class="" style="padding: 3px 0px;"><svg id="loader-1" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="50px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+      <path opacity="1" fill="#fff" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+  s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+  c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"></path>
+      <path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+  C22.32,8.481,24.301,9.057,26.013,10.047z">
+        <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 20 20" to="360 20 20" dur=".8s" repeatCount="indefinite"></animateTransform>
+      </path>
+    </svg></button>
+</form>
+`;
