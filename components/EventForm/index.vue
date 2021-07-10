@@ -24,6 +24,7 @@
       text="Nom"
       name="name"
       rules="required"
+      :error="errors.name"
       :on-change="handleChangeField"
     />
     <BaseInput
@@ -31,6 +32,7 @@
       text="Description"
       name="description"
       :default-value="description"
+      :error="errors.description"
       rules="required|max:255"
       :on-change="handleChangeField"
     />
@@ -40,6 +42,7 @@
       text="Adresse"
       name="address|max:255"
       :default-value="address"
+      :error="errors.address"
       :on-change="handleChangeField"
     />
     <BaseInput
@@ -48,6 +51,7 @@
       name="zipcode"
       :default-value="zipcode"
       rules="required|max:5|numeric"
+      :error="errors.zipcode"
       :on-change="handleChangeField"
     />
     <BaseInput
@@ -56,6 +60,7 @@
       name="city"
       rules="required|max:255"
       :default-value="city"
+      :error="errors.city"
       :on-change="handleChangeField"
     />
     <h2>Date</h2>

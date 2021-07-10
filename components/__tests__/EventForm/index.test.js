@@ -46,6 +46,30 @@ describe('EventForm', () => {
     })
   })
 
+  describe('computed', () => {
+    it('should return false to disabledSubmitButton methods', async () => {
+      expect(wrapper.vm.disabledSubmitButton).toBe(true)
+      await wrapper.setData({
+        name: 'Fake name',
+        description: 'Fake description',
+        address: 'New address',
+        zipcode: 'Zipcode',
+        city: 'New city',
+      })
+      expect(wrapper.vm.disabledSubmitButton).toBe(false)
+    })
+
+    it('should return true to disabledSubmitButton methods when error are occured', async () => {
+      expect(wrapper.vm.disabledSubmitButton).toBe(true)
+      await wrapper.setData({
+        errors: {
+          name: 'An error occured'
+        }
+      })
+      expect(wrapper.vm.disabledSubmitButton).toBe(true)
+    })
+  })
+
   describe('snapshot', () => {
     it('renders properly', () => {
       expect(wrapper.html()).toMatchSnapshot()
