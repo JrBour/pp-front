@@ -68,6 +68,15 @@ describe('EventForm', () => {
       })
       expect(wrapper.vm.disabledSubmitButton).toBe(true)
     })
+
+    it('should return an error when end date is lower than start date', async () => {
+      expect(wrapper.vm.errors.end).toBe("")
+      await wrapper.setData({
+        start: '10/12/2020',
+        end: '09/12/2020'
+      })
+      expect(wrapper.vm.errors.end).toBe("La date de fin doit etre superieur a la date de debut de l'evenement")
+    })
   })
 
   describe('snapshot', () => {
