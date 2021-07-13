@@ -47,7 +47,7 @@ describe('EventForm', () => {
   })
 
   describe('computed', () => {
-    it('should return false to disabledSubmitButton methods', async () => {
+    it('should return false to disabledSubmitButton methods and return true if errors happened', async () => {
       expect(wrapper.vm.disabledSubmitButton).toBe(true)
       await wrapper.setData({
         name: 'Fake name',
@@ -57,6 +57,13 @@ describe('EventForm', () => {
         city: 'New city',
       })
       expect(wrapper.vm.disabledSubmitButton).toBe(false)
+
+      await wrapper.setData({
+        errors:{
+          name: 'an error occured'
+        }
+      })
+      expect(wrapper.vm.disabledSubmitButton).toBe(true)
     })
 
     it('should return true to disabledSubmitButton methods when error are occured', async () => {
