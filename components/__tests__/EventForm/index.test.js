@@ -31,6 +31,9 @@ describe('EventForm', () => {
     wrapper = shallowMount(EventForm, {
       store,
       localVue,
+      data: () => ({
+        image: 'https://www.industrialempathy.com/img/remote/ZiClJf-640w.webp'
+      }),
       stubs: {
         Datetime,
         BaseButton,
@@ -83,6 +86,14 @@ describe('EventForm', () => {
         end: '09/12/2020'
       })
       expect(wrapper.vm.errors.end).toBe("La date de fin doit etre superieur a la date de debut de l'evenement")
+    })
+
+    it('should called removePicture methods', async () => {
+      expect(wrapper.vm.image).toBe("https://www.industrialempathy.com/img/remote/ZiClJf-640w.webp")
+      const removePictureButton = wrapper.findAll('button').at(0)
+      await removePictureButton.trigger('click')
+      expect(wrapper.vm.image).toBe("")
+    
     })
   })
 

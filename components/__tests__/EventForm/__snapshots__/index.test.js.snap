@@ -6,7 +6,7 @@ exports[`EventForm snapshot renders properly 1`] = `
   <div class="events__cover">
     <h2>Image de couverture</h2> <input id="cover" type="file" name="cover"> <label for="cover"><img src="" alt="upload"></label>
   </div>
-  <!---->
+  <div class="events__image_wrapper"><img src="https://www.industrialempathy.com/img/remote/ZiClJf-640w.webp" class="events__image_display"> <button>x</button></div>
   <!---->
   <div class="input__wrapper" id="name">
     <div class="input__container"><input id="name" name="name" step="any" type="text" class=""> <label for="name" class="">
