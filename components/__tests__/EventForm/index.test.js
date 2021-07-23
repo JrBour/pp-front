@@ -93,7 +93,21 @@ describe('EventForm', () => {
       const removePictureButton = wrapper.findAll('button').at(0)
       await removePictureButton.trigger('click')
       expect(wrapper.vm.image).toBe("")
-    
+    })
+
+    it('should emit submit-event when form is submitted', async () => {
+      Object.defineProperty(window.document, 'cookie', {
+        writable: true,
+        value: 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJ1c2VyIjp7ImlkIjoiMTIifX0.MuiVqIrA_30LuCVaFAwEfX8Al1zBdFf3ERSzVyGoRZE',
+      });
+
+      await wrapper.setData({
+        start: 'Fri, 23 Jul 2021 16:54:32 GMT',
+        end: 'Fri, 23 Jul 2021 16:54:30 GMT'
+      })
+      const form = wrapper.find('form');
+      await form.trigger('submit')
+      expect(wrapper.emitted('submit-event')).toBeTruthy()
     })
   })
 
