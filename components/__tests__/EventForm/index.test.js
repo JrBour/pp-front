@@ -1,4 +1,5 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
+import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import { ValidationProvider } from 'vee-validate'
 import BaseButton from '@/components/BaseButton'
@@ -10,11 +11,17 @@ import User from '@/components/User'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
+localVue.use(VueRouter)
+const routerPush = jest.fn()
+const router = new VueRouter()
+router.push = routerPush
 
 describe('EventForm', () => {
   let wrapper
+  let mutations
   let store
   let state
+  let addEventMock = jest.fn();
 
   beforeEach(() => {
     state = {
@@ -26,11 +33,18 @@ describe('EventForm', () => {
         }
       ]
     }
-    store = new Vuex.Store({ state })
+
+    mutations = {
+      addEvent: addEventMock
+    }
+
+    
+    store = new Vuex.Store({ state, mutations })
 
     wrapper = shallowMount(EventForm, {
       store,
       localVue,
+      router,
       data: () => ({
         image: 'https://www.industrialempathy.com/img/remote/ZiClJf-640w.webp'
       }),
@@ -108,6 +122,13 @@ describe('EventForm', () => {
       const form = wrapper.find('form');
       await form.trigger('submit')
       expect(wrapper.emitted('submit-event')).toBeTruthy()
+    })
+
+    it('should called addEvent mutations method', async () => {
+      const addParticipantButton = wrapper.findAll('button').at(2)
+      await addParticipantButton.trigger('click')
+      expect(addEventMock.mock.calls.length).toBeTruthy()
+      expect(routerPush.mock.calls.length).toBeTruthy()
     })
   })
 
