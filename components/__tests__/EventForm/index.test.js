@@ -130,6 +130,27 @@ describe('EventForm', () => {
       expect(addEventMock.mock.calls.length).toBeTruthy()
       expect(routerPush.mock.calls.length).toBeTruthy()
     })
+    
+    it('should set value if event object is present', async () => {
+      await wrapper.setProps({
+        event: {
+          cover: 'image name',
+          image: {
+            filePath: 'gg.png'
+          },
+          name: 'Event name',
+          description: 'Lorem ipsum',
+          address: '60 rue de',
+          zipcode: 90900,
+          city: 'Beverly hills',
+          startAt: '2013-07-02T09:00:00',
+          endAt: '2013-07-02T10:00:00',
+          shareFees: true
+        }
+      })
+      expect(wrapper.vm.name).toBe('Event name')
+    })
+
   })
 
   describe('snapshot', () => {
