@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventForm snapshot renders properly 1`] = `
+<div class="event__wrapper">
+  <div class="event__header">
+    <div class="event__date">
+      <p class="event__date_day">Mar</p>
+      <p class="event__date_date">2</p>
+      <p class="event__date_month">Juil</p>
+    </div>
+    <div class="event__separator"></div>
+    <div class="event__information">
+      <h2>
+        Event name
+      </h2>
+      <p>60 rue de - Beverly hills</p>
+    </div>
+    <div>
+      <!----> <img src="">
+    </div>
+  </div>
+  <div class="event__footer">
+    <div class="event__participants">
+      <div class="user__small">
+        <div class="user__wrapper_small">
+          <div class="user__image_small" style="background-image: url(); background-repeat: no-repeat; background-size: cover; background-position: center;"></div>
+          <!---->
+        </div>
+        <!---->
+      </div>
+      <!---->
+    </div>
+    <div class="event__hours">
+      <p>09h00 - 10h00</p>
+    </div>
+  </div>
+</div>
+`;
