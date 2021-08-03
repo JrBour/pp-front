@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import Event from '@/components/Event'
 import User from '@/components/User'
+import { propsWrapperTest, propsWrapper, userEvents } from './constants/props'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -49,32 +50,18 @@ describe('EventForm', () => {
         User,
       },
       propsData: {
-        event: {
-          id: '12',
-          author: {
-            id: 12
-          },
-          cover: 'image name',
-          image: {
-            filePath: 'gg.png'
-          },
-          userEvents: [
-            {
-              user: {
-                id: 12
-              }
-            }
-          ],
-          name: 'Event name',
-          description: 'Lorem ipsum',
-          address: '60 rue de',
-          zipcode: 90900,
-          city: 'Beverly hills',
-          startAt: '2013-07-02T09:00:00',
-          endAt: '2013-07-02T10:00:00',
-          shareFees: true
-        }
+        event: propsWrapper
       }
+    })
+  })
+
+  describe('computed', () => {
+    it('should return participants when userEvents array length is lower than 5', async () => {
+      await wrapper.setProps({
+        event: propsWrapperTest
+      })
+
+      expect(wrapper.vm.participants).toStrictEqual(userEvents)
     })
   })
 

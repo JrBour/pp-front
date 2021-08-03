@@ -20,6 +20,7 @@ module.exports = {
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/test/',
+    '<rootDir>/components/__tests__/Event/constants/props.js',
     '<rootDir>/components/__tests__/setup.js'
   ],
   setupFilesAfterEnv:['./jest.setup.js'],

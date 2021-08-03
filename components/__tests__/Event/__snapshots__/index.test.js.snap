@@ -28,7 +28,30 @@ exports[`EventForm snapshot renders properly 1`] = `
         </div>
         <!---->
       </div>
-      <!---->
+      <div class="user__small">
+        <div class="user__wrapper_small">
+          <div class="user__image_small" style="background-image: url(); background-repeat: no-repeat; background-size: cover; background-position: center;"></div>
+          <!---->
+        </div>
+        <!---->
+      </div>
+      <div class="user__small">
+        <div class="user__wrapper_small">
+          <div class="user__image_small" style="background-image: url(); background-repeat: no-repeat; background-size: cover; background-position: center;"></div>
+          <!---->
+        </div>
+        <!---->
+      </div>
+      <div class="user__small">
+        <div class="user__wrapper_small">
+          <div class="user__image_small" style="background-image: url(); background-repeat: no-repeat; background-size: cover; background-position: center;"></div>
+          <!---->
+        </div>
+        <!---->
+      </div>
+      <div class="participants__remain">
+        <p>2</p>
+      </div>
     </div>
     <div class="event__hours">
       <p>09h00 - 10h00</p>
