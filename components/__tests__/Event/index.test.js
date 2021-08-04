@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import Event from '@/components/Event'
 import User from '@/components/User'
-import { propsWrapperTest, propsWrapper, userEvents } from './constants/props'
+import { propsWrapperParticipantsTest, propsWrapperAddressTest, propsWrapper, userEvents } from './constants/props'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -58,10 +58,16 @@ describe('EventForm', () => {
   describe('computed', () => {
     it('should return participants when userEvents array length is lower than 5', async () => {
       await wrapper.setProps({
-        event: propsWrapperTest
+        event: propsWrapperParticipantsTest
       })
 
       expect(wrapper.vm.participants).toStrictEqual(userEvents)
+    })
+    it('should return address with three little dots when address length is upper than 30 caracters', async () => {
+      await wrapper.setProps({
+        event: propsWrapperAddressTest
+      })
+      expect(wrapper.vm.address).toStrictEqual("60 rue de la petite maison a...")
     })
   })
 
