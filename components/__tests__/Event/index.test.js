@@ -3,7 +3,13 @@ import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import Event from '@/components/Event'
 import User from '@/components/User'
-import { propsWrapperParticipantsTest, propsWrapperAddressTest, propsWrapper, userEvents } from './constants/props'
+import { 
+  propsWrapperParticipantsTest,
+  propsWrapperAddressTest,
+  propsWrapperTitleTest,
+  propsWrapper,
+  userEvents
+} from './constants/props'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -63,11 +69,17 @@ describe('EventForm', () => {
 
       expect(wrapper.vm.participants).toStrictEqual(userEvents)
     })
-    it('should return address with three little dots when address length is upper than 30 caracters', async () => {
+    it('should return address with ellipsis when address length is upper than 30 characters', async () => {
       await wrapper.setProps({
         event: propsWrapperAddressTest
       })
       expect(wrapper.vm.address).toStrictEqual("60 rue de la petite maison a...")
+    })
+    it('should return title with ellipsis when name is upper than 18 characters', async () => {
+      await wrapper.setProps({
+        event: propsWrapperTitleTest
+      })
+      expect(wrapper.vm.title).toStrictEqual("Event name that...")
     })
   })
 

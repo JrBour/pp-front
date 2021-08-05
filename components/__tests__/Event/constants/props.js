@@ -106,6 +106,32 @@ export const propsWrapperAddressTest = {
   shareFees: true
 }
 
+export const propsWrapperTitleTest = {
+  id: '12',
+  author: {
+    id: 12
+  },
+  cover: 'image name',
+  image: {
+    filePath: 'gg.png'
+  },
+  userEvents: [
+    {
+      user: {
+        id: 12
+      }
+    },
+  ],
+  name: 'Event name that contains upper than thirty characters',
+  description: 'Lorem ipsum',
+  address: '60 rue de la petite maison anarchique du 19e siecle',
+  zipcode: 90900,
+  city: 'Beverly hills',
+  startAt: '2013-07-02T09:00:00',
+  endAt: '2013-07-02T10:00:00',
+  shareFees: true
+}
+
 export const userEvents =  [
     {
         id: 12
