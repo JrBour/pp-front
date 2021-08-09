@@ -82,6 +82,20 @@ describe('EventForm', () => {
       expect(wrapper.vm.title).toStrictEqual("Event name that...")
     })
   })
+  describe('methods', () => {
+    it('should edit showSettings data', async () => {
+      const image = wrapper.find('img')
+      await image.trigger('click')
+      expect(wrapper.vm.showSettings).toBeTruthy()
+    })
+    it('should emit remove-event method', async () => {
+      const image = wrapper.find('img')
+      await image.trigger('click')
+      const removeLink = wrapper.findAll('a').at(1)
+      await removeLink.trigger('click')
+      expect(wrapper.emitted('remove-event')).toBeTruthy()
+    })
+  })
 
   describe('snapshot', () => {
     it('renders properly', () => {
