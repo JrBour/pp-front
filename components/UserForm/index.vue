@@ -33,6 +33,7 @@
       text="Prenom"
       rules="required|alpha"
       name="firstname"
+      :error="errors.firstname"
       :default-value="firstname"
       :on-change="handleChangeField"
     />
@@ -42,6 +43,7 @@
       text="Nom"
       name="lastname"
       rules="required|alpha"
+      :error="errors.lastname"
       :default-value="lastname"
       :on-change="handleChangeField"
     />
@@ -51,6 +53,7 @@
       text="Telephone"
       name="phone"
       rules="required|numeric|min:8"
+      :error="errors.phone"
       :default-value="phone"
       :on-change="handleChangeField"
     />
@@ -60,6 +63,7 @@
       text="Email"
       name="email"
       rules="required|email"
+      :error="errors.email"
       :default-value="email"
       :on-change="handleChangeField"
     />
@@ -121,24 +125,24 @@ export default {
   computed: {
     disabledSubmitButton() {
       if (
-        this.firstname.length === 0 ||
-        this.lastname.length === 0 ||
-        this.email.length === 0 ||
-        (!this.edit && this.password.length === 0) ||
-        this.phone.length === 0
-      ) {
-        return true
-      }
-      const errorsToCheck = { ...this.errors }
-      delete errorsToCheck.general
-      const checkError = Object.values(errorsToCheck).some(
-        (value) => value !== ''
-      )
+          this.firstname.length === 0 ||
+          this.lastname.length === 0 ||
+          this.email.length === 0 ||
+          (!this.edit && this.password.length === 0) ||
+          this.phone.length === 0
+        ) {
+          return true
+        }
+        const errorsToCheck = { ...this.errors }
+        delete errorsToCheck.general
+        const checkError = Object.values(errorsToCheck).some(
+          (value) => value !== ''
+        )
       if (checkError) {
         return true
       }
       return false
-    }
+    },
   },
   watch: {
     user(val) {

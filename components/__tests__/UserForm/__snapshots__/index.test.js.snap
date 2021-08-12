@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserForm snapshot renders properly 1`] = `
+<form><input id="profile" type="file" name="profile">
+  <div class="register__profile" style="width: 65%;">
+    <p>Photo <br>de profil</p> <label for="profile" class="register__profile_add">
+      +
+    </label>
+  </div>
+  <!---->
+  <div class="input__wrapper" id="firstName">
+    <div class="input__container"><input id="firstname" name="firstname" step="any" type="text" class=""> <label for="firstname" class="">
+        Prenom <span>*</span></label></div>
+    <p></p>
+  </div>
+  <div class="input__wrapper" id="name">
+    <div class="input__container"><input id="lastname" name="lastname" step="any" type="text" class=""> <label for="lastname" class="">
+        Nom <span>*</span></label></div>
+    <p></p>
+  </div>
+  <div class="input__wrapper" id="phone">
+    <div class="input__container"><input id="phone" name="phone" step="any" type="tel" class=""> <label for="phone" class="">
+        Telephone <span>*</span></label></div>
+    <p></p>
+  </div>
+  <div class="input__wrapper" id="email">
+    <div class="input__container"><input id="email" name="email" step="any" type="email" class=""> <label for="email" class="">
+        Email <span>*</span></label></div>
+    <p></p>
+  </div>
+  <div class="input__wrapper">
+    <div class="input__container"><input id="password" name="password" type="password" class=""> <label for="password" class="">Mot de passe <span>*</span></label> <img src="" alt="Eye icon">
+      <!---->
+    </div>
+  </div>
+  <!----> <button type="submit" disabled="disabled" class="" style="padding: 1em 0px;"><span>S'inscrire</span></button>
+</form>
+`;
