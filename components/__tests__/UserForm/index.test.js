@@ -34,6 +34,35 @@ describe('UserForm', () => {
 
       expect(wrapper.vm.disabledSubmitButton).toBeFalsy()
     })
+    it('should return true when an error is setted', async () => {
+      await wrapper.setData({
+        email: 'johndoe.com',
+        firstname: 'John',
+        lastname: 'Doe',
+        password: 'P4ssword',
+        phone: '0123456789',
+        errors: {
+          email: 'Invalid format'
+        }
+      })
+
+      expect(wrapper.vm.disabledSubmitButton).toBeTruthy()
+    })
+  })
+
+  describe('watch', () => {
+    it('should set value to data when user props is not undefined', async () => {
+      await wrapper.setProps({
+        user: {
+          email: 'john@doe.com',
+          givenName: 'John',
+          lastName: 'Doe',
+          phone: '0123456789',
+          image: null
+        }
+      })
+      expect(wrapper.vm.email).toBe('john@doe.com')
+    })
   })
 
   describe('snapshot', () => {
