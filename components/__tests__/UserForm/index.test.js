@@ -65,6 +65,29 @@ describe('UserForm', () => {
     })
   })
 
+  describe('methods', () => {
+    it('should reset profile picture value when removeProfilePicture methods is called', async () => {
+      await wrapper.setData({
+        profile: 'test',
+        image: 'http://localhost/image.png' 
+      })
+      await wrapper.find('button.register__button_remove').trigger('click')
+      expect(wrapper.vm.profile).toBe('')
+      expect(wrapper.vm.image).toBe('')
+    })
+    it('should submit form', async () => {
+      await wrapper.setData({
+        email: 'john@doe.com',
+        firstname: 'John',
+        lastname: 'Doe',
+        password: 'P4ssword',
+        phone: '0123456789',
+      })
+      await wrapper.find('form').trigger('submit')
+      expect(wrapper.emitted('submit-form')).toBeTruthy()
+    })
+  })
+
   describe('snapshot', () => {
     it('renders properly', () => {
       expect(wrapper.html()).toMatchSnapshot()
