@@ -164,10 +164,10 @@ export default {
       this[name] = value
     },
     processFile(event) {
+      console.log("HELLLo" , event)
       const extensionsAllowed = ['jpg', 'jpeg', 'png']
       const fileName = event.target.files[0].name.split('.')
       const extension = fileName[fileName.length - 1]
-
       if (extensionsAllowed.includes(extension)) {
         this.errors.picture = ''
         this.profile = event.target.files[0]

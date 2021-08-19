@@ -86,6 +86,20 @@ describe('UserForm', () => {
       await wrapper.find('form').trigger('submit')
       expect(wrapper.emitted('submit-form')).toBeTruthy()
     })
+
+    it('should set data when processFile method is called and extension file is correct', async () => {
+      const event = {
+        target: {
+          files: [{
+            name: 'coucou.jpg'
+          }]
+        }
+      }
+      global.URL.createObjectURL = jest.fn();
+      wrapper.vm.processFile(event);
+
+      expect(wrapper.vm.profile.name).toBe('coucou.jpg')
+    })
   })
 
   describe('snapshot', () => {
