@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User snapshot renders properly 1`] = `
+<div class="user">
+  <div class="user__wrapper">
+    <div class="user__image" style="background-image: url(undefined/media/pp.jpg); background-repeat: no-repeat; background-size: cover; background-position: center;"></div> <button>
+      <p>x</p>
+    </button>
+  </div>
+  <p><span>John</span> <br>
+    Doe
+  </p>
+</div>
+`;
