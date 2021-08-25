@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SegmentedControl snapshot renders properly 1`] = `
+<div class="segmented"><button class="active">
+    first
+  </button> <button class="">
+    second
+  </button></div>
+`;
