@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navbar snapshot renders properly 1`] = `
+<nav class="navbar">
+  <ul class="navbar__wrapper">
+    <li><img src="" alt="home"></li>
+    <li><img src="" alt="album"></li>
+    <li><img src="" alt="camera" class="navbar__item_camera"></li>
+    <li>
+      <div class="notification__item"><img src="" alt="notifications" class="navbar__item_bell">
+        <div class="notifications__number">
+          <p>1</p>
+        </div>
+      </div>
+    </li>
+    <li><img src="" alt="profile"></li>
+  </ul>
+</nav>
+`;
